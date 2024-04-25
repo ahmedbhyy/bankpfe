@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "11472571388",
+    "project_id": "bna-bank",
+    "storage_bucket": "bna-bank.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:11472571388:android:2c87683fd5ceb6171e8079",
+        "android_client_info": {
+          "package_name": "com.example.bankpfe"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAADHRSbwFtSh5y01245uN140WihSoHWWA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
