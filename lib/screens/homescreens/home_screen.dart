@@ -147,26 +147,29 @@ class HomeScreen extends StatelessWidget {
             const SizedBox(height: 30.0),
             controller.isloading
                 ? const CommonLoading()
-                : Swiper(
-                    itemCount: controller.usercards.length,
-                    loop: true,
-                    duration: 1200,
-                    itemHeight: 200,
-                    itemWidth: 300,
-                    scrollDirection: Axis.horizontal,
-                    layout: SwiperLayout.STACK,
-                    itemBuilder: (context, index) => CardsHome(
-                      mypage: CardDetails(
-                      
-                       myCard:  controller.usercards[index],
-                       username: controller.username,
+                : controller.usercards.isEmpty
+                    ? Lottie.asset("images/lotties/lottie_empty.json",
+                        height: 100.0)
+                    : Swiper(
+                        itemCount: controller.usercards.length,
+                        loop: true,
+                        duration: 1200,
+                        itemHeight: 200,
+                        itemWidth: 300,
+                        scrollDirection: Axis.horizontal,
+                        layout: SwiperLayout.STACK,
+                        itemBuilder: (context, index) => CardsHome(
+                          mypage: CardDetails(
+                            myCard: controller.usercards[index],
+                            username: controller.username,
+                          ),
+                          cardtype: CardType.credit,
+                          cardholder: controller.username,
+                          cardnumber: controller.usercards[index].cardNumber,
+                          backgroundimage:
+                              controller.usercards[index].background,
+                        ),
                       ),
-                      cardtype: CardType.credit,
-                      cardholder: controller.username,
-                      cardnumber: controller.usercards[index].cardNumber,
-                      backgroundimage: controller.usercards[index].background,
-                    ),
-                  ),
             const SizedBox(height: 30.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),

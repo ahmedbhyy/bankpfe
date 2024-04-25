@@ -131,7 +131,6 @@ class HomeControllerImp extends HomeController {
 
   Future fetchUserData() async {
     try {
-     
       DocumentSnapshot docSnapshot =
           await _firestore.collection('users').doc(_user.uid).get();
       var userData = docSnapshot.data();
@@ -141,7 +140,6 @@ class HomeControllerImp extends HomeController {
           username = userData['name'] ?? "Member";
         }
       }
-     
     } catch (e) {
       return Get.rawSnackbar(
           title: "Error",

@@ -62,8 +62,9 @@ class Donations extends StatelessWidget {
                           child: InkWell(
                             onTap: () {
                               controller.updateColor(index);
+
                               controller.choosecategories(
-                                controller.categoriesdonation[index]["mytitle"],
+                                controller.donationtitle,
                               );
                             },
                             child: Column(
@@ -141,16 +142,15 @@ class Donations extends StatelessWidget {
                           )
                         : GridView.count(
                             shrinkWrap: true,
-                            childAspectRatio: 0.63,
+                            childAspectRatio: 0.61,
                             physics: const NeverScrollableScrollPhysics(),
                             crossAxisCount: 2,
                             children: [
                               ...List.generate(
                                 controller
-                                    .choosecategories(
-                                      controller.donationtitle,
-                                    )
+                                    .choosecategories(controller.donationtitle)
                                     .length,
+                                    
                                 (index) => InkWell(
                                   onTap: () {
                                     Navigator.of(context).push(
@@ -165,17 +165,27 @@ class Donations extends StatelessWidget {
                                     );
                                   },
                                   child: CardDonations(
-                                    myimage: controller
-                                        .donations[index].donationimage,
-                                    mytitle: controller.donations[index].title,
-                                    myamount: controller
-                                        .donations[index].currentamount,
+                                    myimage: controller.choosecategories(
+                                            controller.donationtitle,
+                                          )[index].donationimage,
+                                    mytitle: controller.choosecategories(
+                                            controller.donationtitle,
+                                          )[index].title,
+                                    myamount: controller.choosecategories(
+                                            controller.donationtitle,
+                                          )[index].currentamount,
                                     mydays:
-                                        controller.donations[index].daysleft,
+                                        controller.choosecategories(
+                                            controller.donationtitle,
+                                          )[index].daysleft,
                                     bywho:
-                                        controller.donations[index].orgonizedby,
+                                        controller.choosecategories(
+                                            controller.donationtitle,
+                                          )[index].orgonizedby,
                                     estimateamount:
-                                        controller.donations[index].totalamount,
+                                        controller.choosecategories(
+                                            controller.donationtitle,
+                                          )[index].totalamount,
                                   ),
                                 ),
                               ),

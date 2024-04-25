@@ -142,12 +142,11 @@ class EditProfilImp extends EditProfil {
       String nomuser = username.text;
       String number = phone.text;
       Timestamp birthdaydate = birthday;
-   
+
       await _firestore.collection('users').doc(_user.uid).set({
         'name': nomuser,
         'phone': number,
         'birthdaydate': birthdaydate,
-      
       }, SetOptions(merge: true));
       isloading1 = false;
       Get.rawSnackbar(
@@ -170,7 +169,8 @@ class EditProfilImp extends EditProfil {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('users').doc(_user.uid).get();
       var userData = docSnapshot.data();
-
+      isloading2 = false;
+      update();
       if (docSnapshot.exists) {
         if (userData is Map<String, dynamic>) {
           username.text = userData['name'] ?? "";
@@ -179,20 +179,17 @@ class EditProfilImp extends EditProfil {
           birthday = userData['birthdaydate'] ?? DateTime.timestamp();
         }
       } else {
-        isloading2 = false;
-        update();
+       
         return Get.rawSnackbar(
             title: "Note",
             message: "Please write your informations",
             backgroundColor: Colors.green);
       }
-      isloading2 = false;
-      update();
     } catch (e) {
       return Get.rawSnackbar(
-          title: "Error",
-          message: "Please try again",
-          backgroundColor: Colors.red);
+          title: "Note",
+          message: "Please write your informations",
+          backgroundColor: Colors.green);
     }
   }
 

@@ -104,7 +104,7 @@ class DonationDetailsContainer extends GetView<DonationsDetailsControllerImp> {
                       Text(
                         by,
                         style: const TextStyle(
-                          fontSize: 12.0,
+                          fontSize: 11.0,
                           fontWeight: FontWeight.bold,
                         ),
                       ),

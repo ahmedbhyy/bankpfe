@@ -32,7 +32,7 @@ class CardDonations extends StatelessWidget {
             child: Hero(
               tag: myimage,
               child: CachedNetworkImage(
-              imageUrl :  myimage,
+                imageUrl: myimage,
                 height: 110,
                 width: 250.0,
                 fit: BoxFit.fill,
@@ -76,7 +76,7 @@ class CardDonations extends StatelessWidget {
               child: Text(
                 mytitle,
                 style: GoogleFonts.mulish(
-                  fontSize: 14.0,
+                  fontSize: 12.0,
                   fontWeight: FontWeight.bold,
                   color: const Color.fromARGB(255, 0, 0, 0),
                 ),

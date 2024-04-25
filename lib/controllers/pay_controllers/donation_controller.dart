@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 abstract class DonationController extends GetxController {
   updateColor(int index);
   fetchdonations();
-  choosecategories(String categorie);
+  List<DonationModel> choosecategories(String categorie);
 }
 
 class DonationControllerImp extends DonationController {
@@ -110,7 +110,7 @@ class DonationControllerImp extends DonationController {
       return donations;
     } else {
       List<DonationModel> donationscategories = [];
-      for (var donation in donations) {
+      for (DonationModel donation in donations) {
         if (donation.type == categorie) {
           donationscategories.add(donation);
         }
