@@ -42,7 +42,7 @@ class ProfilControllerImp extends ProfilController {
   ];
   List<String> categoriesprofildescription = [
     "edit your profil",
-    "chnage settings",
+    "change settings",
     "Exchange with us",
     "Find Us or contact us"
   ];

@@ -1,3 +1,4 @@
+import 'package:bankpfe/data/Model/transactionModel.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -39,6 +40,7 @@ class HomeControllerImp extends HomeController {
   List<bool> isSelectedList = [];
 
   List<CardModel> usercards = [];
+  List<TransactionModel> usertranscation = [];
 
   List transactions = [
     {
@@ -164,11 +166,22 @@ class HomeControllerImp extends HomeController {
         for (var doc in notificationsSnapshot.docs) {
           usercards.add(CardModel.fromJson(doc.data() as Map<String, dynamic>));
         }
+
+        QuerySnapshot transactionsnapchot =
+            await docSnapshot.reference.collection('transactions').get();
+
+        usertranscation.clear();
+        for (var doc in transactionsnapchot.docs) {
+          usertranscation.add(
+              TransactionModel.fromJson(doc.data() as Map<String, dynamic>));
+        }
       }
       isloading = false;
 
       update();
     } catch (e) {
+      isloading = false;
+      update();
       return Get.rawSnackbar(
           title: "Error",
           message: "Please try again",

@@ -43,15 +43,16 @@ class CardScreen extends StatelessWidget {
                 ),
               ),
             ),
-            const SizedBox(height: 20.0),
-            ButtonAuth(
-              mytitle: "Add card",
-              myfunction: () {
-                controller.addacard();
-              },
+            controller.isloading ? const CommonLoading() : const SizedBox(),
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20.0),
+              child: ButtonAuth(
+                mytitle: "Add card",
+                myfunction: () {
+                  controller.addacard();
+                },
+              ),
             ),
-            const SizedBox(height: 20.0),
-            controller.isloading ? const CommonLoading() : Container()
           ],
         ),
       ),

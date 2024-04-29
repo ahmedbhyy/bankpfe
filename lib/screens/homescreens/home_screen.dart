@@ -146,7 +146,10 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: 30.0),
             controller.isloading
-                ? const CommonLoading()
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 70),
+                    child: CommonLoading(),
+                  )
                 : controller.usercards.isEmpty
                     ? Lottie.asset("images/lotties/lottie_empty.json",
                         height: 100.0)
@@ -265,32 +268,51 @@ class HomeScreen extends StatelessWidget {
               ),
               child: ListView.builder(
                 shrinkWrap: true,
-                itemCount: controller.transactions.length,
+                itemCount: controller.usertranscation.length,
                 itemBuilder: (context, index) => Column(
                   children: [
                     ListTile(
-                      title: Text(controller.transactions[index]["title"]),
+                      title: Text(controller.usertranscation[index].title),
                       subtitle: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(controller.transactions[index]["date"]),
+                          Text(
+                            controller.usertranscation[index].date
+                                .toDate()
+                                .toString()
+                                .substring(0, 16),
+                            style: const TextStyle(fontSize: 12),
+                          ),
                           Row(
                             children: [
-                              controller.transactions[index]["myicon"],
+                              controller.usertranscation[index].type ==
+                                          "Transfer" ||
+                                      controller.usertranscation[index].type ==
+                                          "Retrait"
+                                  ? const Icon(
+                                      Icons.remove_circle_outline,
+                                      size: 15.0,
+                                      color: Colors.red,
+                                    )
+                                  : const Icon(
+                                      Icons.add_circle_outline,
+                                      size: 15.0,
+                                      color: Colors.green,
+                                    ),
                               const SizedBox(width: 5.0),
                               Text(
-                                "${controller.transactions[index]["amount"]}",
+                                "${controller.usertranscation[index].amount} TND",
                                 style: TextStyle(
-                                  fontSize: 13.0,
+                                  fontSize: 11.0,
                                   fontWeight: FontWeight.bold,
-                                  color: (controller.transactions[index]
-                                                  ["type"] ==
-                                              "Retrait" ||
-                                          controller.transactions[index]
-                                                  ["type"] ==
-                                              "Transfer")
-                                      ? Colors.red
-                                      : Colors.green,
+                                  color:
+                                      (controller.usertranscation[index].type ==
+                                                  "Retrait" ||
+                                              controller.usertranscation[index]
+                                                      .type ==
+                                                  "Transfer")
+                                          ? Colors.red
+                                          : Colors.green,
                                 ),
                               ),
                             ],
@@ -301,10 +323,10 @@ class HomeScreen extends StatelessWidget {
                         Navigator.of(context).push(
                           SlideRight(
                             page: TransactionDetails(
-                              mytitle: controller.transactions[index]["title"],
-                              mylottie: controller.transactions[index]
-                                  ["lottie"],
-                              mytype: controller.transactions[index]["type"],
+                              mytitle: controller.usertranscation[index].title,
+                              mylottie:
+                                  controller.usertranscation[index].lottie,
+                              mytype: controller.usertranscation[index].type,
                             ),
                           ),
                         );
@@ -314,11 +336,11 @@ class HomeScreen extends StatelessWidget {
                         height: 30.0,
                       ),
                       leading: Lottie.asset(
-                        controller.transactions[index]["lottie"],
+                        controller.usertranscation[index].lottie,
                         width: 35.0,
                       ),
                     ),
-                    index < controller.transactions.length - 1
+                    index < controller.usertranscation.length - 1
                         ? const Divider(
                             color: Colors.grey,
                             thickness: 1.0,

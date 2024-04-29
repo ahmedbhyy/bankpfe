@@ -73,6 +73,7 @@ class SignInControllerImp extends SignInController {
       }
     } on FirebaseAuthException catch (e) {
       isloading1 = false;
+      update();
       if (e.code == 'user-not-found') {
         return Get.rawSnackbar(
             title: "user-not-found",
