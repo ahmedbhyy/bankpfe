@@ -49,6 +49,7 @@ class ProfilScreen extends StatelessWidget {
                 Lottie.asset(
                   "images/lotties/lottie_logout.json",
                   height: 50.0,
+                  repeat: false,
                 ),
                 AnimatedTextKit(
                   animatedTexts: [

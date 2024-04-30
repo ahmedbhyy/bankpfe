@@ -219,10 +219,12 @@ class HomeScreen extends StatelessWidget {
                   itemBuilder: (context, index) => InkWell(
                     onTap: () {
                       controller.updateColor(index);
+                      controller.transactioncategorie =
+                          controller.categories[index];
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 400),
-                      width: 70.0,
+                      width: 80.0,
                       margin: const EdgeInsets.all(10.0),
                       alignment: Alignment.center,
                       decoration: BoxDecoration(
@@ -266,91 +268,136 @@ class HomeScreen extends StatelessWidget {
                   topRight: Radius.circular(20.0),
                 ),
               ),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: controller.usertranscation.length,
-                itemBuilder: (context, index) => Column(
-                  children: [
-                    ListTile(
-                      title: Text(controller.usertranscation[index].title),
-                      subtitle: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            controller.usertranscation[index].date
-                                .toDate()
-                                .toString()
-                                .substring(0, 16),
-                            style: const TextStyle(fontSize: 12),
-                          ),
-                          Row(
+              child: controller.isloading
+                  ? const CommonLoading()
+                  : controller
+                          .choosecategories(controller.transactioncategorie)
+                          .isEmpty
+                      ? Lottie.asset(
+                          "images/lotties/lottie_empty.json",
+                          height: 100.0,
+                        )
+                      : ListView.builder(
+                          shrinkWrap: true,
+                          itemCount: controller
+                              .choosecategories(controller.transactioncategorie)
+                              .length,
+                          itemBuilder: (context, index) => Column(
                             children: [
-                              controller.usertranscation[index].type ==
-                                          "Transfer" ||
-                                      controller.usertranscation[index].type ==
-                                          "Retrait"
-                                  ? const Icon(
-                                      Icons.remove_circle_outline,
-                                      size: 15.0,
-                                      color: Colors.red,
-                                    )
-                                  : const Icon(
-                                      Icons.add_circle_outline,
-                                      size: 15.0,
-                                      color: Colors.green,
+                              ListTile(
+                                title: Text(controller
+                                    .choosecategories(
+                                        controller.transactioncategorie)[index]
+                                    .title),
+                                subtitle: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      controller
+                                          .choosecategories(controller
+                                              .transactioncategorie)[index]
+                                          .date
+                                          .toDate()
+                                          .toString()
+                                          .substring(0, 16),
+                                      style: const TextStyle(fontSize: 12),
                                     ),
-                              const SizedBox(width: 5.0),
-                              Text(
-                                "${controller.usertranscation[index].amount} TND",
-                                style: TextStyle(
-                                  fontSize: 11.0,
-                                  fontWeight: FontWeight.bold,
-                                  color:
-                                      (controller.usertranscation[index].type ==
-                                                  "Retrait" ||
-                                              controller.usertranscation[index]
-                                                      .type ==
-                                                  "Transfer")
-                                          ? Colors.red
-                                          : Colors.green,
+                                    Row(
+                                      children: [
+                                        controller
+                                                        .choosecategories(
+                                                            controller
+                                                                .transactioncategorie)[
+                                                            index]
+                                                        .type ==
+                                                    "Transfer" ||
+                                                controller
+                                                        .choosecategories(
+                                                            controller
+                                                                .transactioncategorie)[
+                                                            index]
+                                                        .type ==
+                                                    "Retrait"
+                                            ? const Icon(
+                                                Icons.remove_circle_outline,
+                                                size: 15.0,
+                                                color: Colors.red,
+                                              )
+                                            : const Icon(
+                                                Icons.add_circle_outline,
+                                                size: 15.0,
+                                                color: Colors.green,
+                                              ),
+                                        const SizedBox(width: 5.0),
+                                        Text(
+                                          "${controller.choosecategories(controller.transactioncategorie)[index].amount} TND",
+                                          style: TextStyle(
+                                            fontSize: 11.0,
+                                            fontWeight: FontWeight.bold,
+                                            color: (controller
+                                                            .choosecategories(
+                                                                controller
+                                                                    .transactioncategorie)[
+                                                                index]
+                                                            .type ==
+                                                        "Retrait" ||
+                                                    controller
+                                                            .choosecategories(
+                                                                controller
+                                                                    .transactioncategorie)[
+                                                                index]
+                                                            .type ==
+                                                        "Transfer")
+                                                ? Colors.red
+                                                : Colors.green,
+                                          ),
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
+                                onTap: () {
+                                  Navigator.of(context).push(
+                                    SlideRight(
+                                      page: TransactionDetails(
+                                        mymodel: controller
+                                            .choosecategories(controller
+                                                .transactioncategorie)[index]
+                                            
+                                       
+                                      ),
+                                    ),
+                                  );
+                                },
+                                trailing: Lottie.asset(
+                                  "images/lotties/lottie_arrow.json",
+                                  height: 30.0,
+                                ),
+                                leading: Lottie.asset(
+                                  controller
+                                      .choosecategories(controller
+                                          .transactioncategorie)[index]
+                                      .lottie,
+                                  width: 35.0,
                                 ),
                               ),
+                              index <
+                                      controller
+                                              .choosecategories(controller
+                                                  .transactioncategorie)
+                                              .length -
+                                          1
+                                  ? const Divider(
+                                      color: Colors.grey,
+                                      thickness: 1.0,
+                                      indent: 20.0,
+                                      endIndent: 20.0,
+                                    )
+                                  : Container(),
                             ],
-                          )
-                        ],
-                      ),
-                      onTap: () {
-                        Navigator.of(context).push(
-                          SlideRight(
-                            page: TransactionDetails(
-                              mytitle: controller.usertranscation[index].title,
-                              mylottie:
-                                  controller.usertranscation[index].lottie,
-                              mytype: controller.usertranscation[index].type,
-                            ),
                           ),
-                        );
-                      },
-                      trailing: Lottie.asset(
-                        "images/lotties/lottie_arrow.json",
-                        height: 30.0,
-                      ),
-                      leading: Lottie.asset(
-                        controller.usertranscation[index].lottie,
-                        width: 35.0,
-                      ),
-                    ),
-                    index < controller.usertranscation.length - 1
-                        ? const Divider(
-                            color: Colors.grey,
-                            thickness: 1.0,
-                            indent: 20.0,
-                            endIndent: 20.0,
-                          )
-                        : Container(),
-                  ],
-                ),
-              ),
+                        ),
             )
           ],
         ),

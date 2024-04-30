@@ -1,20 +1,17 @@
 import 'package:bankpfe/controllers/homecontroller/transaction_details_controller.dart';
+import 'package:bankpfe/data/Model/transaction_model.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_container_bills.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../widgets/generalwidgets/common_container_background.dart';
 import '../../widgets/generalwidgets/common_row_appbar.dart';
 
 class TransactionDetails extends StatelessWidget {
-  final String mytype;
-  final String mylottie;
-  final String mytitle;
+  final TransactionModel mymodel;
 
-  const TransactionDetails(
-      {super.key, required this.mytype, required this.mylottie, required this.mytitle});
+  const TransactionDetails({super.key, required this.mymodel});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +23,7 @@ class TransactionDetails extends StatelessWidget {
             padding:
                 const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
             children: [
-              AppBarCommon(title: mytype),
+              const AppBarCommon(title: "Transaction"),
               Image.asset(
                 "images/transfer.png",
               ),
@@ -38,14 +35,15 @@ class TransactionDetails extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            mytitle,
+                            mymodel.title,
                             style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               fontSize: 16.0,
                               color: Color.fromARGB(255, 1, 79, 62),
                             ),
                           ),
-                          Lottie.asset(mylottie, height: 35.0),
+                          Lottie.asset(mymodel.lottie,
+                              height: 35.0, repeat: false),
                         ],
                       ),
                       ...List.generate(
@@ -73,18 +71,18 @@ class TransactionDetails extends StatelessWidget {
                                       ),
                                     ),
                               index == controller.transactioninfo.length - 1
-                                  ? const Text(
-                                      "480.000 TND",
-                                      style: TextStyle(
+                                  ? Text(
+                                      "${mymodel.amount} TND",
+                                      style: const TextStyle(
                                         fontSize: 21.0,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.red,
                                       ),
                                     )
-                                  : const Text(
-                                      "aaa",
-                                      style: TextStyle(
-                                        fontSize: 14.0,
+                                  : Text(
+                                      " ${index == 0 ? mymodel.category : index == 1 ? mymodel.transcationtype : index == 2 ? mymodel.debit : index == 3 ? mymodel.transactionlabel : index == 4 ? mymodel.internal : index == 5 ? mymodel.date.toDate().toString().substring(0, 16) : mymodel.title}",
+                                      style: const TextStyle(
+                                        fontSize: 12.5,
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),

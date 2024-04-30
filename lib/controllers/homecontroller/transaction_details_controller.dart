@@ -9,8 +9,7 @@ class TransactionDetailsControllerImp extends TransactionDetailsController {
     "Debit/Credit",
     "Transaction label",
     "Internal reference",
-    "Booking date",
-    "Value date",
+    "Date",
     "Amount",
   ];
 }

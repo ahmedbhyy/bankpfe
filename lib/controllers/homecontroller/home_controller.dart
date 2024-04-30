@@ -1,4 +1,4 @@
-import 'package:bankpfe/data/Model/transactionModel.dart';
+import 'package:bankpfe/data/Model/transaction_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -11,6 +11,7 @@ abstract class HomeController extends GetxController {
   void updateColor(int index);
   void fetchProfileImage();
   fetchusercard();
+  choosecategories(String categorie);
 }
 
 class HomeControllerImp extends HomeController {
@@ -26,10 +27,10 @@ class HomeControllerImp extends HomeController {
   HomeControllerImp() {
     categories = [
       "All",
+      "Transfer",
       "Added",
-      "Expand",
-      "Send",
-      "Cancel",
+      "Retrait",
+      "Bills",
     ];
     isSelectedList = List<bool>.filled(categories.length, false);
     isSelectedList[0] = true;
@@ -37,61 +38,12 @@ class HomeControllerImp extends HomeController {
 
   List<String> categories = [];
 
+  String transactioncategorie = "All";
+
   List<bool> isSelectedList = [];
 
   List<CardModel> usercards = [];
   List<TransactionModel> usertranscation = [];
-
-  List transactions = [
-    {
-      "title": "Transfer to shiki",
-      "lottie": "images/lotties/lottie_minus.json",
-      "date": "Apr 12,2014",
-      "type": "Transfer",
-      "amount": 320.052,
-      "myicon": const Icon(
-        Icons.remove_circle_outline,
-        size: 15.0,
-        color: Colors.red,
-      ),
-    },
-    {
-      "title": "DAB/AGENCE EL MOUROUJ",
-      "lottie": "images/lotties/lottie_minus.json",
-      "date": "Apr 13,2014",
-      "type": "Retrait",
-      "amount": 200.052,
-      "myicon": const Icon(
-        Icons.remove_circle_outline,
-        size: 15.0,
-        color: Colors.red,
-      ),
-    },
-    {
-      "title": "Virement tunisie autre banque",
-      "lottie": "images/lotties/lottie_added.json",
-      "date": "Apr 14,2014",
-      "type": "Added",
-      "amount": 120.052,
-      "myicon": const Icon(
-        Icons.add_circle_outline,
-        size: 15.0,
-        color: Colors.green,
-      ),
-    },
-    {
-      "title": "Retenue a la source",
-      "lottie": "images/lotties/lottie_minus.json",
-      "date": "Apr 10,2014",
-      "type": "Retrait",
-      "amount": 520.052,
-      "myicon": const Icon(
-        Icons.remove_circle_outline,
-        size: 15.0,
-        color: Colors.red,
-      ),
-    },
-  ];
 
   List<Color> colorizeColors = [
     Colors.purple,
@@ -140,6 +92,7 @@ class HomeControllerImp extends HomeController {
       if (docSnapshot.exists) {
         if (userData is Map<String, dynamic>) {
           username = userData['name'] ?? "Member";
+          update();
         }
       }
     } catch (e) {
@@ -186,6 +139,22 @@ class HomeControllerImp extends HomeController {
           title: "Error",
           message: "Please try again",
           backgroundColor: Colors.red);
+    }
+  }
+
+  @override
+  choosecategories(categorie) {
+    if (categorie == "All") {
+      return usertranscation;
+    } else {
+      List<TransactionModel> transactioncategories = [];
+      for (TransactionModel transaction in usertranscation) {
+        if (transaction.type == categorie) {
+          transactioncategories.add(transaction);
+        }
+      }
+
+      return transactioncategories;
     }
   }
 }

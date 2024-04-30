@@ -1,11 +1,11 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 
 class CardDonations extends StatelessWidget {
   final String myimage;
   final String mytitle;
-
   final double myamount;
   final double estimateamount;
   final int mydays;
@@ -36,6 +36,14 @@ class CardDonations extends StatelessWidget {
                 height: 110,
                 width: 250.0,
                 fit: BoxFit.fill,
+                placeholder: (context, url) => Lottie.asset(
+                  "images/lotties/lottie_loading2.json",
+                  height: 100.0,
+                ),
+                errorWidget: (context, url, error) => const Icon(
+                  Icons.error,
+                  color: Colors.red,
+                ),
               ),
             ),
           ),
