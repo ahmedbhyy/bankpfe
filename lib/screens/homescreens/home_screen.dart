@@ -153,27 +153,58 @@ class HomeScreen extends StatelessWidget {
                 : controller.usercards.isEmpty
                     ? Lottie.asset("images/lotties/lottie_empty.json",
                         height: 100.0)
-                    : Swiper(
-                        itemCount: controller.usercards.length,
-                        loop: true,
-                        duration: 1200,
-                        itemHeight: 200,
-                        itemWidth: 300,
-                        scrollDirection: Axis.horizontal,
-                        layout: SwiperLayout.STACK,
-                        itemBuilder: (context, index) => CardsHome(
-                          mypage: CardDetails(
-                            myCard: controller.usercards[index],
-                            username: controller.username,
+                    : Column(
+                        children: [
+                          Swiper(
+                            itemCount: controller.usercards.length,
+                            loop: true,
+                            duration: 1200,
+                            itemHeight: 200,
+                            itemWidth: 300,
+                            onIndexChanged: (value) {
+                              controller.updateindex(value);
+                            },
+                            scrollDirection: Axis.horizontal,
+                            layout: SwiperLayout.STACK,
+                            itemBuilder: (context, index) => CardsHome(
+                              mypage: CardDetails(
+                                myCard: controller.usercards[index],
+                                username: controller.username,
+                              ),
+                              cardtype: CardType.credit,
+                              cardholder: controller.username,
+                              cardnumber:
+                                  controller.usercards[index].cardNumber,
+                              backgroundimage:
+                                  controller.usercards[index].background,
+                            ),
                           ),
-                          cardtype: CardType.credit,
-                          cardholder: controller.username,
-                          cardnumber: controller.usercards[index].cardNumber,
-                          backgroundimage:
-                              controller.usercards[index].background,
-                        ),
+                          const SizedBox(height: 10.0),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                "Available balance : ",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.mulish(
+                                    fontSize: 15.0,
+                                    color:
+                                        const Color.fromARGB(255, 2, 108, 62)),
+                              ),
+                              Text(
+                                "${controller.usercards[controller.i].balance} TND",
+                                textAlign: TextAlign.center,
+                                style: GoogleFonts.mulish(
+                                  fontSize: 16.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: const Color.fromARGB(255, 67, 56, 56),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
                       ),
-            const SizedBox(height: 30.0),
+            const SizedBox(height: 15.0),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 5.0),
               child: Row(
@@ -361,12 +392,10 @@ class HomeScreen extends StatelessWidget {
                                   Navigator.of(context).push(
                                     SlideRight(
                                       page: TransactionDetails(
-                                        mymodel: controller
-                                            .choosecategories(controller
-                                                .transactioncategorie)[index]
-                                            
-                                       
-                                      ),
+                                          mymodel: controller.choosecategories(
+                                                  controller
+                                                      .transactioncategorie)[
+                                              index]),
                                     ),
                                   );
                                 },

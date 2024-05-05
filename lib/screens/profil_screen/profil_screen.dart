@@ -1,4 +1,3 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:bankpfe/controllers/profil_controllers/profil_controller.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_row_appbar.dart';
 
@@ -51,25 +50,14 @@ class ProfilScreen extends StatelessWidget {
                   height: 50.0,
                   repeat: false,
                 ),
-                AnimatedTextKit(
-                  animatedTexts: [
-                    ColorizeAnimatedText(
-                      'Log Out',
-                      textStyle: GoogleFonts.mulish(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: const Color.fromARGB(255, 1, 100, 78),
-                      ),
-                      colors: [
-                        const Color.fromARGB(255, 42, 90, 43),
-                        Colors.blue
-                      ],
-                    ),
-                  ],
-                  isRepeatingAnimation: true,
-                  totalRepeatCount: 100,
-                  pause: const Duration(milliseconds: 50),
-                ),
+                Text(
+                  'Log Out',
+                  style: GoogleFonts.mulish(
+                    fontSize: 16.0,
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 1, 100, 78),
+                  ),
+                )
               ],
             ),
           )

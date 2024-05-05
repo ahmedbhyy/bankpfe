@@ -11,6 +11,7 @@ abstract class HomeController extends GetxController {
   void updateColor(int index);
   void fetchProfileImage();
   fetchusercard();
+  updateindex(int index);
   choosecategories(String categorie);
 }
 
@@ -56,6 +57,14 @@ class HomeControllerImp extends HomeController {
   void updateColor(index) {
     isSelectedList = List<bool>.filled(categories.length, false);
     isSelectedList[index] = !isSelectedList[index];
+    update();
+  }
+
+  int i = 0;
+
+  @override
+  updateindex(index) {
+    i = index;
     update();
   }
 

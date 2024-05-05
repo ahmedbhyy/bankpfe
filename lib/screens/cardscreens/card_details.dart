@@ -139,82 +139,136 @@ class CardDetails extends StatelessWidget {
                   ),
                   const SizedBox(height: 7.0),
                   GetBuilder<CardsControllerImp>(
-                    builder: (controller) => Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    builder: (controller) => Column(
                       children: [
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Icon(
-                              controller.light0
-                                  ? Icons.lock_open_rounded
-                                  : Icons.lock_outline_sharp,
-                              color: Colors.lightGreen,
-                              size: 25.0,
-                            ),
-                            const SizedBox(width: 12.0),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                            Row(
                               children: [
-                                Text(
-                                  controller.light0
-                                      ? "Card is unlocked"
-                                      : "Card is locked",
-                                  style: const TextStyle(
-                                    fontSize: 18.0,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                Icon(
+                                  controller.favorite
+                                      ? Icons.favorite
+                                      : Icons.cancel,
+                                  color: controller.favorite
+                                      ? Colors.red
+                                      : Colors.grey,
+                                  size: 25.0,
                                 ),
-                                const Text("Tap to lock it")
+                                const SizedBox(width: 12.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      controller.light0
+                                          ? "Favorite Card"
+                                          : "Second Card",
+                                      style: const TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const Text("Tap to rend this card favorite")
+                                  ],
+                                ),
                               ],
+                            ),
+                            Switch(
+                              value: controller.favorite,
+                              activeColor: Colors.green,
+                              onChanged: (bool value) {
+                                controller.updatefavorite(value);
+                              },
                             ),
                           ],
                         ),
-                        Switch(
-                          value: controller.light0,
-                          activeColor: Colors.green,
-                          onChanged: (bool value) {
-                            controller.updatecolor(value);
+                        const SizedBox(height: 6.0),
+                        const Divider(
+                          thickness: 1.0,
+                          color: Colors.grey,
+                          endIndent: 1.0,
+                          indent: 1.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  controller.light0
+                                      ? Icons.lock_open_rounded
+                                      : Icons.lock_outline_sharp,
+                                  color: !controller.light0
+                                      ? Colors.grey
+                                      : Colors.lightGreen,
+                                  size: 25.0,
+                                ),
+                                const SizedBox(width: 12.0),
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      controller.light0
+                                          ? "Card is unlocked"
+                                          : "Card is locked",
+                                      style: const TextStyle(
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                    const Text("Tap to lock it")
+                                  ],
+                                ),
+                              ],
+                            ),
+                            Switch(
+                              value: controller.light0,
+                              activeColor: Colors.green,
+                              onChanged: (bool value) {
+                                controller.updatecolor(value);
+                              },
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 6.0),
+                        const Divider(
+                          thickness: 1.0,
+                          color: Colors.grey,
+                          endIndent: 1.0,
+                          indent: 1.0,
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Navigator.of(context).push(
+                              SlideRight(
+                                page: CardStatic(cardnumber: myCard.cardNumber),
+                              ),
+                            );
                           },
-                        ),
-                      ],
-                    ),
-                  ),
-                  const SizedBox(height: 6.0),
-                  const Divider(
-                    thickness: 1.0,
-                    color: Colors.grey,
-                    endIndent: 1.0,
-                    indent: 1.0,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).push(
-                        SlideRight(
-                          page: CardStatic(cardnumber: myCard.cardNumber),
-                        ),
-                      );
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        const Text(
-                          "Card Analysis",
-                          style: TextStyle(
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                            color: Color.fromARGB(255, 72, 67, 67),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text(
+                                "Card Analysis",
+                                style: TextStyle(
+                                  fontSize: 15.0,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 72, 67, 67),
+                                ),
+                              ),
+                              Lottie.asset(
+                                "images/lotties/lottie_arrow.json",
+                                height: 40.0,
+                              )
+                            ],
                           ),
                         ),
-                        Lottie.asset(
-                          "images/lotties/lottie_arrow.json",
-                          height: 40.0,
-                        )
                       ],
                     ),
                   ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),
