@@ -1,7 +1,6 @@
 import 'package:bankpfe/screens/bnapay/allbills/donations.dart';
-import 'package:bankpfe/screens/bnapay/allbills/electric_bills.dart';
+import 'package:bankpfe/screens/bnapay/allbills/all_bills.dart';
 import 'package:bankpfe/screens/bnapay/allbills/mobile_bills.dart';
-import 'package:bankpfe/screens/bnapay/allbills/water_bills.dart';
 
 import 'package:bankpfe/screens/bnapay/bills/money_transfer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -11,7 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../data/Model/card_model.dart';
-import '../../screens/bnapay/allbills/internet_bills.dart';
 
 abstract class SettingsController extends GetxController {
   fetchusercard();
@@ -20,27 +18,21 @@ abstract class SettingsController extends GetxController {
 class SettingsControllerImp extends SettingsController {
   SettingsControllerImp() {
     pagespay = [
-      const ElectricBills(),
-      const WaterBills(),
-       MobileBills(mycard: usercards,username: username),
-      const InternetBills(),
-      MoneyTransfer(mycardList: usercards ,username: username),
+      AllBills(mycard: usercards),
+      MobileBills(mycard: usercards, username: username),
+      MoneyTransfer(mycardList: usercards, username: username),
       const Donations(),
     ];
   }
   List<String> categories = [
-    "Electric bill",
-    "Water bill",
+    "Pay Bills",
     "Mobile bill",
-    "Internet bill",
     "Send Money",
     "Donations"
   ];
   List<String> imagescateg = [
     "electricity",
-    "water1",
     "mobile1",
-    "internet1",
     "moneytransfer",
     "donate",
   ];

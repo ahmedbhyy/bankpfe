@@ -1,4 +1,4 @@
-import 'package:bankpfe/controllers/pay_controllers/electric_controller.dart';
+import 'package:bankpfe/controllers/pay_controllers/bills_details_controller.dart';
 import 'package:bankpfe/widgets/authwidgets/button_auth.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_container_background.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_row_appbar.dart';
@@ -9,14 +9,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 import '../../../widgets/generalwidgets/common_container_bills.dart';
 
-class ElectricBill extends StatelessWidget {
+class BillsDetails extends StatelessWidget {
   final String title;
   final bool isPayed;
-  const ElectricBill({super.key, required this.title, required this.isPayed});
+  const BillsDetails({super.key, required this.title, required this.isPayed});
 
   @override
   Widget build(BuildContext context) {
-    ElectricControllerImp controller = Get.put(ElectricControllerImp());
+    AllBillsDetailsControllerImp controller = Get.put(AllBillsDetailsControllerImp());
     return Scaffold(
       body: ContainerBackground(
         mywidget: SafeArea(

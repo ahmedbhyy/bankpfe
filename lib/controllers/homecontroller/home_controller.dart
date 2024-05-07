@@ -38,6 +38,7 @@ class HomeControllerImp extends HomeController {
   }
 
   List<String> categories = [];
+  List notificationslist = [];
 
   String transactioncategorie = "All";
 
@@ -136,6 +137,15 @@ class HomeControllerImp extends HomeController {
         for (var doc in transactionsnapchot.docs) {
           usertranscation.add(
               TransactionModel.fromJson(doc.data() as Map<String, dynamic>));
+        }
+        
+         QuerySnapshot notifications =
+            await docSnapshot.reference.collection('notifications').get();
+
+        notificationslist.clear();
+        for (var doc in notifications.docs) {
+          notificationslist.add(
+              doc.data());
         }
       }
       isloading = false;

@@ -22,9 +22,12 @@ class SettingsScreen extends StatelessWidget {
             (index) => ContainerListTile(
               mypage: controller.pagespay[index],
               title: controller.categories[index],
-              mysubtitle: index == 5
+              ispayed: false,
+              mysubtitle: index == controller.categories.length - 1
                   ? "Donate and save lifes with BNA"
-                  : "Pay ${controller.categories[index]} this month",
+                  : index == controller.categories.length - 2
+                      ? "Send money with BNA App"
+                      : "Pay ${controller.categories[index]} for this month",
               myimage: "images/${controller.imagescateg[index]}.png",
             ),
           ),

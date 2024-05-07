@@ -45,6 +45,7 @@ class SignIn extends StatelessWidget {
               GetBuilder<SignInControllerImp>(
                 builder: (controller) => Container(
                   height: MediaQuery.of(context).size.height * 0.9,
+                  padding: const EdgeInsets.all(10),
                   decoration: const BoxDecoration(
                     color: Color.fromARGB(255, 255, 255, 255),
                     borderRadius: BorderRadius.only(
@@ -222,14 +223,7 @@ class SignIn extends StatelessWidget {
                       InkWell(
                         onTap: () async {
                           controller.supportstate
-                              ? await authenticate("Sign In") == true
-                                  ? Get.offAllNamed("/start")
-                                  : Get.rawSnackbar(
-                                      backgroundColor:
-                                          const Color.fromARGB(255, 255, 0, 0),
-                                      title: "Not recognized",
-                                      message: "Please try again !",
-                                    )
+                              ? await authenticate("Sign In")
                               : Get.rawSnackbar(
                                   backgroundColor:
                                       const Color.fromARGB(255, 255, 0, 0),

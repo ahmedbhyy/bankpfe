@@ -2,6 +2,7 @@ import 'package:bankpfe/screens/auth/signup.dart';
 import 'package:bankpfe/slides/slide_right.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
@@ -17,6 +18,9 @@ class SignInControllerImp extends SignInController {
   bool ispasswordhidden = true;
   bool isloading1 = false;
   bool isloading2 = false;
+  bool isloading3 = false;
+
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   TextEditingController emailcontroller = TextEditingController();
   TextEditingController passwordcontroller = TextEditingController();
   GlobalKey<FormState> formStateSignIn = GlobalKey<FormState>();
@@ -61,6 +65,15 @@ class SignInControllerImp extends SignInController {
       update();
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
+      
+      await secureStorage.write(
+        key: "email",
+        value: email,
+      );
+       await secureStorage.write(
+        key: "password",
+        value: password,
+      );
       isloading1 = false;
       update();
       if (credential.user!.emailVerified) {

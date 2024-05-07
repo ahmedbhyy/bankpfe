@@ -40,6 +40,7 @@ class SignUp extends StatelessWidget {
               ),
               Container(
                 height: MediaQuery.of(context).size.height * 0.9,
+                padding: const EdgeInsets.all(10),
                 decoration: const BoxDecoration(
                   color: Color.fromARGB(255, 255, 255, 255),
                   borderRadius: BorderRadius.only(
@@ -129,7 +130,7 @@ class SignUp extends StatelessWidget {
                         duration: const Duration(milliseconds: 800),
                         child: TextFieldAuth(
                           hint: "Email",
-                                readonly: false,
+                          readonly: false,
                           mytype: TextInputType.emailAddress,
                           mycontroller: controller.emailcontroller,
                           myicon: const Icon(
@@ -157,7 +158,7 @@ class SignUp extends StatelessWidget {
                           duration: const Duration(milliseconds: 800),
                           child: TextFieldAuth(
                             hint: "Password",
-                                  readonly: false,
+                            readonly: false,
                             mytype: TextInputType.text,
                             mycontroller: controller.passwordcontroller,
                             mysuffixicon: GestureDetector(
@@ -195,7 +196,7 @@ class SignUp extends StatelessWidget {
                           duration: const Duration(milliseconds: 800),
                           child: TextFieldAuth(
                             hint: "Confirm Password",
-                                  readonly: false,
+                            readonly: false,
                             mytype: TextInputType.text,
                             mycontroller: controller.repasswordcontroller,
                             mysuffixicon: GestureDetector(

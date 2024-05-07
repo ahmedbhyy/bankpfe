@@ -54,7 +54,7 @@ class DonationsDetailsControllerImp extends DonationsDetailsController {
 
   @override
   donateverify(titledonate) async {
-    if (await authenticate("Verification") == true) {
+    if (await authenticate1("Verification") == true) {
       Get.back();
       return Get.rawSnackbar(
           backgroundColor: const Color(0xff00aa86),

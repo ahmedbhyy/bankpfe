@@ -55,6 +55,7 @@ class MobileBills extends StatelessWidget {
                     title: "title",
                   ),
                   title: "new",
+                  ispayed: false,
                   mysubtitle: "mysubtitle",
                   myimage: "images/mobile1.png",
                 ),

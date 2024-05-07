@@ -47,7 +47,7 @@ class EditProfilImp extends EditProfil {
   void onInit() {
     mycontrollers = [username, email];
     _user = _auth.currentUser!;
-    email.text = _user.email!;
+    email.text = _user.email ?? "anonyme@gmail.com";
     fetchUserData();
     fetchProfileImage();
     super.onInit();

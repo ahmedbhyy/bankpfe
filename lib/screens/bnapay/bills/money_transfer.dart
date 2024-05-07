@@ -18,7 +18,8 @@ class MoneyTransfer extends StatelessWidget {
   final String username;
   const MoneyTransfer({
     super.key,
-    required this.mycardList, required this.username,
+    required this.mycardList,
+    required this.username,
   });
 
   @override
@@ -127,28 +128,95 @@ class MoneyTransfer extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10.0),
                     child: Column(
                       children: [
-                        TextFieldAuth(
-                          hint: "Card number",
-                          readonly: false,
-                          mytype: TextInputType.number,
-                          mycontroller: controller.cardnumber,
-                          myicon: const Icon(Icons.card_membership_outlined),
-                          ispass: false,
-                          validator: (val) {
-                            if (val == null || val.isEmpty) {
-                              return "Can't to be empty ";
-                            } else if (val.length != 16) {
-                              return "Can't to be higher than 16 caracter";
-                            }
-                            return null;
-                          },
+                        Row(
+                          children: [
+                            Expanded(
+                              child: TextFieldAuth(
+                                hint: "Card number",
+                                readonly: false,
+                                mytype: TextInputType.number,
+                                mycontroller: controller.cardnumber,
+                                myicon:
+                                    const Icon(Icons.card_membership_outlined),
+                                ispass: false,
+                                validator: (val) {
+                                  if (val == null || val.isEmpty) {
+                                    return "Can't to be empty ";
+                                  } else if (val.length != 16) {
+                                    return "Can't to be higher than 16 caracter";
+                                  }
+                                  return null;
+                                },
+                              ),
+                            ),
+                            PopupMenuButton<SampleItem>(
+                              initialValue: controller.selectedItem,
+                              onSelected: (SampleItem item) {
+                                String cardNumber;
+                                switch (item) {
+                                  case SampleItem.itemone:
+                                    cardNumber = "1234 5678 9012 3456";
+                                    break;
+                                  case SampleItem.itemTwo:
+                                    cardNumber = "9876 5432 1098 7654";
+                                    break;
+                                  case SampleItem.itemThree:
+                                    cardNumber = "2468 1357 8024 6913";
+                                    break;
+                                  default:
+                                    cardNumber = "";
+                                    break;
+                                }
+                                controller.cardnumber.text = cardNumber;
+                              },
+                              itemBuilder: (BuildContext context) =>
+                                  <PopupMenuEntry<SampleItem>>[
+                                const PopupMenuItem<SampleItem>(
+                                  value: SampleItem.itemone,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.person_2_outlined,
+                                        color: Color(0xff00aa86),
+                                      ),
+                                      Text('Slim gharbi'),
+                                    ],
+                                  ),
+                                ),
+                                const PopupMenuItem<SampleItem>(
+                                  value: SampleItem.itemTwo,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.person_2_outlined,
+                                        color: Color(0xff00aa86),
+                                      ),
+                                      Text('Mounir gharbi'),
+                                    ],
+                                  ),
+                                ),
+                                const PopupMenuItem<SampleItem>(
+                                  value: SampleItem.itemThree,
+                                  child: Row(
+                                    children: [
+                                      Icon(
+                                        Icons.person_2_outlined,
+                                        color: Color(0xff00aa86),
+                                      ),
+                                      Text('Ahmed gharbi'),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
                         TextFieldAuth(
                           hint: "Amount",
                           mysuffix: "TND",
                           readonly: false,
                           mytype: TextInputType.number,
-                          mycontroller: controller.cardnumber,
+                          mycontroller: controller.amount,
                           myicon: const Icon(Icons.money),
                           ispass: false,
                           validator: (val) {
@@ -161,7 +229,7 @@ class MoneyTransfer extends StatelessWidget {
                         TextFieldAuth(
                           hint: "Content",
                           readonly: false,
-                          mycontroller: controller.cardnumber,
+                          mycontroller: controller.content,
                           mytype: TextInputType.text,
                           myicon: const Icon(Icons.description_outlined),
                           ispass: false,

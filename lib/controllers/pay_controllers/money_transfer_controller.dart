@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 
 import '../../functions/auth_function.dart';
 
+enum SampleItem { itemone.new(), itemTwo, itemThree }
+
 abstract class MoneyTransferController extends GetxController {
   updateindex(int index);
   updateColor(int index);
@@ -45,11 +47,12 @@ class MoneyTransferControllerImp extends MoneyTransferController {
 
   List choices = [];
 
+  SampleItem? selectedItem;
   List<bool> isSelectedList = [];
 
   int i = 0;
 
-   GlobalKey<FormState> formStatemoneytransfer = GlobalKey<FormState>();
+  GlobalKey<FormState> formStatemoneytransfer = GlobalKey<FormState>();
 
   @override
   updateindex(index) {
@@ -83,11 +86,12 @@ class MoneyTransferControllerImp extends MoneyTransferController {
 
   @override
   verifyuser() async {
-    if (await authenticate("Verification") == true) {
+    if (await authenticate1("Verification") == true) {
       Get.back();
       return Get.rawSnackbar(
           backgroundColor: const Color(0xff00aa86),
-        title: "Success", message: "Transfer successfuly");
+          title: "Success",
+          message: "Transfer successfuly");
     } else {
       Get.rawSnackbar(
           backgroundColor: const Color.fromARGB(255, 255, 0, 0),

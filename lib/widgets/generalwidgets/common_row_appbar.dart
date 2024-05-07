@@ -26,6 +26,7 @@ class AppBarCommon extends StatelessWidget {
               style: GoogleFonts.mulish(
                 fontSize: 24.0,
                 fontWeight: FontWeight.bold,
+                decoration: TextDecoration.none,
                 color: const Color.fromARGB(255, 0, 0, 0),
               ),
             ),

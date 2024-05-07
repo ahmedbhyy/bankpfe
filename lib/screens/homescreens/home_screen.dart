@@ -95,15 +95,16 @@ class HomeScreen extends StatelessWidget {
                         Icons.notifications_active_outlined,
                       ),
                     ),
-                    const Positioned(
+                    Positioned(
                       bottom: 25.0,
                       left: 25.0,
                       child: CircleAvatar(
                         radius: 9.0,
-                        backgroundColor: Color.fromARGB(255, 68, 188, 132),
+                        backgroundColor:
+                            const Color.fromARGB(255, 68, 188, 132),
                         child: Text(
-                          "2",
-                          style: TextStyle(
+                          "${controller.notificationslist.length}",
+                          style: const TextStyle(
                             fontSize: 12.0,
                             color: Colors.white,
                           ),

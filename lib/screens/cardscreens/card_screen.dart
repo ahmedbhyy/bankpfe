@@ -6,6 +6,7 @@ import 'package:bankpfe/widgets/homewidget/cards_home.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:lottie/lottie.dart';
 import 'package:u_credit_card/u_credit_card.dart';
 
 import '../../widgets/generalwidgets/common_loading_progress.dart';
@@ -71,7 +72,12 @@ class CardScreen extends StatelessWidget {
                 ),
               ),
             ),
-            controller.isloading ? const CommonLoading() : const SizedBox(),
+            controller.isloading
+                ? const CommonLoading()
+                : controller.usercards.isEmpty
+                    ? Lottie.asset("images/lotties/lottie_empty.json",
+                        height: 300.0)
+                    : const SizedBox(),
           ],
         ),
       ),

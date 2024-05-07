@@ -22,17 +22,20 @@ class CardStatic extends StatelessWidget {
             ),
             SfCartesianChart(
               primaryXAxis: const CategoryAxis(),
+              primaryYAxis: const NumericAxis(
+                title: AxisTitle(text: "TND"),
+              ),
               title: ChartTitle(text: "N° $cardnumber"),
               series: <LineSeries<SalesData, String>>[
                 LineSeries<SalesData, String>(
                   dataSource: <SalesData>[
-                    SalesData('Mon', 35),
-                    SalesData('Tue', 28),
-                    SalesData('Wed', 34),
-                    SalesData('Thu', 32),
-                    SalesData('Fri', 40),
-                    SalesData('Sat', 40),
-                    SalesData('Sun', 40),
+                    SalesData('Mon', 100),
+                    SalesData('Tue', 150),
+                    SalesData('Wed', 50),
+                    SalesData('Thu', 0),
+                    SalesData('Fri', 250),
+                    SalesData('Sat', 30),
+                    SalesData('Sun', 105),
                   ],
                   xValueMapper: (SalesData sales, _) => sales.day,
                   yValueMapper: (SalesData sales, _) => sales.sales,
@@ -40,6 +43,16 @@ class CardStatic extends StatelessWidget {
                 ),
               ],
             ),
+            const SizedBox(height: 20.0),
+            const Text(
+              "Total of the week : 685 TND",
+              style: TextStyle(
+                  fontSize: 15,
+                  color: Colors.black,
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.none),
+              textAlign: TextAlign.center,
+            )
           ],
         ),
       ),
