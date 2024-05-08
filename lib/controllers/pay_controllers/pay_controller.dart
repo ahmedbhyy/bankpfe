@@ -1,3 +1,4 @@
+import 'package:bankpfe/data/Model/bill_model.dart';
 import 'package:bankpfe/screens/bnapay/allbills/donations.dart';
 import 'package:bankpfe/screens/bnapay/allbills/all_bills.dart';
 import 'package:bankpfe/screens/bnapay/allbills/mobile_bills.dart';
@@ -13,12 +14,13 @@ import '../../data/Model/card_model.dart';
 
 abstract class SettingsController extends GetxController {
   fetchusercard();
+  fetchUserData();
 }
 
 class SettingsControllerImp extends SettingsController {
   SettingsControllerImp() {
     pagespay = [
-      AllBills(mycard: usercards),
+      AllBills(mycard: usercards,mybills: userbills),
       MobileBills(mycard: usercards, username: username),
       MoneyTransfer(mycardList: usercards, username: username),
       const Donations(),
@@ -38,6 +40,7 @@ class SettingsControllerImp extends SettingsController {
   ];
   List<Widget> pagespay = [];
   List<CardModel> usercards = [];
+  List<BillModel> userbills = [];
   String username = "Member";
   bool isloading = false;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -70,11 +73,22 @@ class SettingsControllerImp extends SettingsController {
         for (var doc in notificationsSnapshot.docs) {
           usercards.add(CardModel.fromJson(doc.data() as Map<String, dynamic>));
         }
+
+        QuerySnapshot billsSnapshot =
+            await docSnapshot.reference.collection('bills').get();
+
+        userbills.clear();
+        for (var doc in billsSnapshot.docs) {
+          userbills.add(BillModel.fromJson(doc.data() as Map<String, dynamic>));
+        }
       }
       isloading = false;
 
       update();
     } catch (e) {
+      isloading = false;
+
+      update();
       return Get.rawSnackbar(
           title: "Error",
           message: "Please try again",
@@ -82,6 +96,7 @@ class SettingsControllerImp extends SettingsController {
     }
   }
 
+  @override
   Future fetchUserData() async {
     try {
       DocumentSnapshot docSnapshot =
@@ -91,6 +106,7 @@ class SettingsControllerImp extends SettingsController {
       if (docSnapshot.exists) {
         if (userData is Map<String, dynamic>) {
           username = userData['name'];
+          update();
         }
       }
     } catch (e) {
