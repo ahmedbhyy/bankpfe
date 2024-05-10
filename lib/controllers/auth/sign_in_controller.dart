@@ -70,6 +70,10 @@ class SignInControllerImp extends SignInController {
         key: "email",
         value: email,
       );
+      await secureStorage.write(
+        key: "userid",
+        value: credential.user!.uid,
+      );
        await secureStorage.write(
         key: "password",
         value: password,

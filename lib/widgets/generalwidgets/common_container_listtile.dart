@@ -63,7 +63,12 @@ class ContainerListTile extends StatelessWidget {
                 mysubtitle,
               ),
               trailing: ispayed
-                  ? Container(
+                  ? Lottie.asset(
+                      "images/lotties/lottie_arrow.json",
+                      height: 35.0,
+                      repeat: false,
+                    )
+                  : Container(
                       width: 65.0,
                       height: 30.0,
                       decoration: BoxDecoration(
@@ -81,11 +86,6 @@ class ContainerListTile extends StatelessWidget {
                           ),
                         ),
                       ),
-                    )
-                  : Lottie.asset(
-                      "images/lotties/lottie_arrow.json",
-                      height: 35.0,
-                      repeat: false,
                     ),
             ),
           ),

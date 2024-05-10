@@ -7,6 +7,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 import '../screens/homescreens/notifications.dart';
@@ -17,6 +18,9 @@ abstract class StartController extends GetxController {
 
 class StartControllerImp extends StartController {
   int selectedIndex = 0;
+  String? userid;
+  
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   late User _user;
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -28,8 +32,13 @@ class StartControllerImp extends StartController {
   ];
 
   @override
-  void onInit() {
+  void onInit()async {
     _user = _auth.currentUser!;
+    userid = _user.uid;
+     await secureStorage.write(
+        key: "userid",
+        value: userid,
+      );
     FirebaseMessaging.instance.subscribeToTopic('BNA');
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       Get.to(const Notifications());
@@ -51,6 +60,10 @@ class StartControllerImp extends StartController {
         'token': token,
       },
       SetOptions(merge: true),
+    );
+     await secureStorage.write(
+      key: "usertoken",
+      value: token,
     );
   }
 

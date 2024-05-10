@@ -5,12 +5,13 @@ import 'package:bankpfe/screens/bnapay/allbills/mobile_bills.dart';
 
 import 'package:bankpfe/screens/bnapay/bills/money_transfer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
 import '../../data/Model/card_model.dart';
+import '../../functions/auth_function.dart';
 
 abstract class SettingsController extends GetxController {
   fetchusercard();
@@ -20,7 +21,7 @@ abstract class SettingsController extends GetxController {
 class SettingsControllerImp extends SettingsController {
   SettingsControllerImp() {
     pagespay = [
-      AllBills(mycard: usercards,mybills: userbills),
+      AllBills(mycard: usercards, mybills: userbills),
       MobileBills(mycard: usercards, username: username),
       MoneyTransfer(mycardList: usercards, username: username),
       const Donations(),
@@ -42,17 +43,14 @@ class SettingsControllerImp extends SettingsController {
   List<CardModel> usercards = [];
   List<BillModel> userbills = [];
   String username = "Member";
+  String? userid;
   bool isloading = false;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  late User _user;
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
   @override
-  void onInit() {
-    _user = _auth.currentUser!;
-
+  void onInit() async {
+    userid = await secureStorage.read(key: "userid");
+    update();
     fetchusercard();
     super.onInit();
   }
@@ -63,7 +61,7 @@ class SettingsControllerImp extends SettingsController {
       isloading = true;
       update();
       DocumentSnapshot docSnapshot =
-          await _firestore.collection('users').doc(_user.uid).get();
+          await _firestore.collection('users').doc(userid).get();
 
       if (docSnapshot.exists) {
         QuerySnapshot notificationsSnapshot =
@@ -71,7 +69,10 @@ class SettingsControllerImp extends SettingsController {
 
         usercards.clear();
         for (var doc in notificationsSnapshot.docs) {
-          usercards.add(CardModel.fromJson(doc.data() as Map<String, dynamic>));
+          var carddata = doc.data() as Map<String, dynamic>;
+          carddata['id'] = doc.id;
+
+          usercards.add(CardModel.fromJson(carddata));
         }
 
         QuerySnapshot billsSnapshot =
@@ -79,7 +80,9 @@ class SettingsControllerImp extends SettingsController {
 
         userbills.clear();
         for (var doc in billsSnapshot.docs) {
-          userbills.add(BillModel.fromJson(doc.data() as Map<String, dynamic>));
+          var billData = doc.data() as Map<String, dynamic>;
+          billData['id'] = doc.id;
+          userbills.add(BillModel.fromJson(billData));
         }
       }
       isloading = false;
@@ -100,7 +103,7 @@ class SettingsControllerImp extends SettingsController {
   Future fetchUserData() async {
     try {
       DocumentSnapshot docSnapshot =
-          await _firestore.collection('users').doc(_user.uid).get();
+          await _firestore.collection('users').doc(userid).get();
       var userData = docSnapshot.data();
 
       if (docSnapshot.exists) {

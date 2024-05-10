@@ -33,7 +33,7 @@ class ProfilScreen extends StatelessWidget {
             controller.categoriesprofil.length,
             (index) => ContainerListTile(
               mypage: controller.categoriespages[index],
-              ispayed: false,
+              ispayed: true,
               title: controller.categoriesprofil[index],
               mysubtitle: controller.categoriesprofildescription[index],
               myimage: "images/${controller.categoriesprofilimages[index]}.png",

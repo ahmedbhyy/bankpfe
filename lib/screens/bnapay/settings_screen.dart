@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SettingsScreen extends StatelessWidget {
+
   const SettingsScreen({super.key});
 
   @override
@@ -22,7 +23,7 @@ class SettingsScreen extends StatelessWidget {
             (index) => ContainerListTile(
               mypage: controller.pagespay[index],
               title: controller.categories[index],
-              ispayed: false,
+              ispayed: true,
               mysubtitle: index == controller.categories.length - 1
                   ? "Donate and save lifes with BNA"
                   : index == controller.categories.length - 2

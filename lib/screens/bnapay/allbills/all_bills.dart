@@ -13,7 +13,12 @@ import '../../../widgets/generalwidgets/common_row_appbar.dart';
 class AllBills extends StatelessWidget {
   final List<CardModel> mycard;
   final List<BillModel> mybills;
-  const AllBills({super.key, required this.mycard, required this.mybills});
+
+  const AllBills({
+    super.key,
+    required this.mycard,
+    required this.mybills,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,7 @@ class AllBills extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${mycard[index].balance} TND",
+                          "${mycard[index].balance.toString().substring(0, 6)} TND",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
@@ -65,17 +70,22 @@ class AllBills extends StatelessWidget {
                         itemCount: mybills.length,
                         physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) => ContainerListTile(
-                          mypage: const BillsDetails(
-                            title: "title",
-                            isPayed: true,
+                          mypage: BillsDetails(
+                            mybill: mybills[index],
                           ),
-                          ispayed: true,
+                          ispayed: mybills[index].ispayed,
                           myfunction: () {
-                            controller.paybill();
+                            controller.paybill(
+                              mybills[index].id,
+                              mycard[0].id,
+                              mybills[index].amount,
+                              mycard[0].balance,
+                            );
                           },
-                          title: "new",
-                          mysubtitle: "mysubtitle  (Payed)",
-                          myimage: "images/electricity.png",
+                          title: mybills[index].title,
+                          mysubtitle:
+                              "${mybills[index].date.toDate().toString().substring(0, 10)}  (${mybills[index].amount}) TND (${mybills[index].ispayed ? "Payed" : "Unpayed"})",
+                          myimage: "images/${mybills[index].image}.png",
                         ),
                       ),
               ],

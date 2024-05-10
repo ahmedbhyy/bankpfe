@@ -72,7 +72,7 @@ class PayMobileBill extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Available balance :  ${myCard[controller.z].balance} TND",
+                    "Available balance :  ${myCard[controller.z].balance.toString().substring(0, 6)} TND",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       fontSize: 15.0,

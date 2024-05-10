@@ -73,7 +73,7 @@ class MoneyTransfer extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Available balance :  ${mycardList[controller.i].balance} TND",
+                    "Available balance :  ${mycardList[controller.i].balance.toString().substring(0, 6)} TND",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       fontSize: 15.0,

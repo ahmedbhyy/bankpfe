@@ -193,7 +193,7 @@ class HomeScreen extends StatelessWidget {
                                         const Color.fromARGB(255, 2, 108, 62)),
                               ),
                               Text(
-                                "${controller.usercards[controller.i].balance} TND",
+                                "${controller.usercards[controller.i].balance.toString().substring(0, 6)} TND",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.mulish(
                                   fontSize: 16.0,

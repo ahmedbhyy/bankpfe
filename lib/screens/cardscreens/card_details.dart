@@ -68,7 +68,7 @@ class CardDetails extends StatelessWidget {
             AnimatedTextKit(
               animatedTexts: [
                 ColorizeAnimatedText(
-                  "${myCard.balance} TND",
+                  "${myCard.balance.toString().substring(0, 6)} TND",
                   textStyle: GoogleFonts.mulish(
                     fontSize: 27.0,
                     fontWeight: FontWeight.bold,

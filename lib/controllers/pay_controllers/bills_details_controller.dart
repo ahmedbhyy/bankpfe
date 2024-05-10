@@ -9,15 +9,13 @@ abstract class AllBillsDetailsController extends GetxController {
 
 class AllBillsDetailsControllerImp extends AllBillsDetailsController {
   List<String> userinfo = [
-    "Name",
-    "Card",
-    "Address",
-    "Phone number",
+    "Title",
     "code",
     "Date",
-    "Electric fee",
-    "Tax",
+    "Type",
+    "Adress",
     "Total",
+    
   ];
 
   @override
