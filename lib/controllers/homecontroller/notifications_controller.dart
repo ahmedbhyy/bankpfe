@@ -5,7 +5,8 @@ import 'package:get/get.dart';
 
 abstract class NotificationsController extends GetxController {
   fetchUserDataNotifications();
-  deleteusernotifications(String id ,int index);
+  deleteusernotifications(String id, int index);
+  deleteallnoti();
 }
 
 class NotificationsControllerImp extends NotificationsController {
@@ -57,20 +58,49 @@ class NotificationsControllerImp extends NotificationsController {
   }
 
   @override
-  Future deleteusernotifications( id ,index) async {
+  Future deleteusernotifications(id, index) async {
     try {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(_user.uid)
-          .collection('notifications').doc(id)
-          
+          .collection('notifications')
+          .doc(id)
           .delete();
 
       userData.removeAt(index);
       Get.rawSnackbar(
           title: "Success",
-          message: "You have deleted all the notifications",
+          message: "You have deleted  this notifications",
+          backgroundColor: Colors.green);
+      update();
+    } catch (e) {
+      return Get.rawSnackbar(
+          title: "Error",
+          message: "Please try again",
           backgroundColor: Colors.red);
+    }
+  }
+
+  @override
+  deleteallnoti() async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(_user.uid)
+          .collection('notifications')
+          .get()
+          .then((snapshot) {
+        for (DocumentSnapshot doc in snapshot.docs) {
+          doc.reference.delete();
+        }
+      });
+
+      Get.back();
+      userData.clear();
+      Get.rawSnackbar(
+          title: "Success",
+          message: "You have deleted all the notifications",
+          backgroundColor: Colors.green);
       update();
     } catch (e) {
       return Get.rawSnackbar(

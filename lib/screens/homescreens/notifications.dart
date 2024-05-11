@@ -14,8 +14,18 @@ class Notifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Get.put(NotificationsControllerImp());
+    NotificationsControllerImp mycontroler =
+        Get.put(NotificationsControllerImp());
     return Scaffold(
+      floatingActionButton: mycontroler.userData.isNotEmpty
+          ? FloatingActionButton.extended(
+              onPressed: () {
+                mycontroler.deleteallnoti();
+              },
+              label: const Text("Delete All"),
+              backgroundColor: const Color(0xff00aa86))
+          : Container(),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: ContainerBackground(
         mywidget: SafeArea(
           child: ListView(
@@ -57,10 +67,10 @@ class Notifications extends StatelessWidget {
                                     titleTextStyle: const TextStyle(
                                       fontWeight: FontWeight.bold,
                                       fontSize: 17.0,
-                                      color: Color.fromARGB(255, 94, 161, 216),
+                                      color: Color(0xff00aa86),
                                     ),
-                                    subtitle: Text(controller.userData[index]
-                                        ["description"]),
+                                    subtitle: Text(
+                                        controller.userData[index]["details"]),
                                     onTap: () {
                                       AwesomeDialog(
                                         context: context,

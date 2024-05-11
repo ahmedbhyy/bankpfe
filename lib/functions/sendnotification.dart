@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:bankpfe/functions/auth_function.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 
 Future<void> sendNotification(
@@ -19,6 +21,16 @@ Future<void> sendNotification(
       "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUsv3FUY2F0v-RzXNqV76JTjJf6UaZgpNQYWIA2M20Kg&s",
     },
   };
+    String? userid = await secureStorage.read(key: "userid");
+  DocumentReference userDocRef =
+      FirebaseFirestore.instance.collection('users').doc(userid);
+
+  await userDocRef.collection('notifications').add({
+    'title': title,
+    'details': description,
+    'date': Timestamp.now(),
+    
+  });
 
   var req = http.Request('POST', url);
   req.headers.addAll(headersList);

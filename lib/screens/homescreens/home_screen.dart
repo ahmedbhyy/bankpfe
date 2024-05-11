@@ -223,7 +223,8 @@ class HomeScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         SlideRight(
-                          page: const AllTransactions(),
+                          page:  AllTransactions(mytranscation: controller.usertranscation
+                                  ),
                         ),
                       );
                     },

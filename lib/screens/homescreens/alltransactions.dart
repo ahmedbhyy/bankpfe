@@ -1,12 +1,17 @@
 import 'package:bankpfe/controllers/homecontroller/aaltransaction_controller.dart';
+import 'package:bankpfe/data/Model/transaction_model.dart';
+import 'package:bankpfe/screens/homescreens/transaction_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:lottie/lottie.dart';
 
+import '../../slides/slide_right.dart';
 import '../../widgets/generalwidgets/common_container_background.dart';
 import '../../widgets/generalwidgets/common_row_appbar.dart';
 
 class AllTransactions extends StatelessWidget {
-  const AllTransactions({super.key});
+  final List<TransactionModel> mytranscation;
+  const AllTransactions({super.key, required this.mytranscation});
 
   @override
   Widget build(BuildContext context) {
@@ -40,32 +45,74 @@ class AllTransactions extends StatelessWidget {
                       ),
                       child: ListView.builder(
                         shrinkWrap: true,
-                        itemCount: 10,
+                        itemCount: mytranscation.length,
                         itemBuilder: (context, index) => Column(
                           children: [
                             ListTile(
-                              title: const Text("Donations"),
-                              titleTextStyle: const TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 17.0,
-                                color: Color.fromARGB(255, 94, 161, 216),
+                              title: Text(mytranscation[index].title),
+                              subtitle: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    mytranscation[index]
+                                        .date
+                                        .toDate()
+                                        .toString()
+                                        .substring(0, 16),
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
+                                  Row(
+                                    children: [
+                                      mytranscation[index].type == "Transfer" ||
+                                              mytranscation[index].type ==
+                                                  "Retrait"
+                                          ? const Icon(
+                                              Icons.remove_circle_outline,
+                                              size: 15.0,
+                                              color: Colors.red,
+                                            )
+                                          : const Icon(
+                                              Icons.add_circle_outline,
+                                              size: 15.0,
+                                              color: Colors.green,
+                                            ),
+                                      const SizedBox(width: 5.0),
+                                      Text(
+                                        "${mytranscation[index].amount} TND",
+                                        style: TextStyle(
+                                          fontSize: 11.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: (mytranscation[index].type ==
+                                                      "Retrait" ||
+                                                  mytranscation[index].type ==
+                                                      "Transfer")
+                                              ? Colors.red
+                                              : Colors.green,
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
                               ),
-                              subtitle: const Text("new event is available"),
-                              onTap: () {},
-                              leading: const Icon(
-                                Icons.notifications_active_outlined,
-                                color: Color.fromARGB(255, 13, 135, 94),
+                              onTap: () {
+                                Navigator.of(context).push(
+                                  SlideRight(
+                                    page: TransactionDetails(
+                                        mymodel: mytranscation[index]),
+                                  ),
+                                );
+                              },
+                              trailing: Lottie.asset(
+                                "images/lotties/lottie_arrow.json",
+                                height: 30.0,
                               ),
-                              trailing: const Text(
-                                "Today",
-                                style: TextStyle(
-                                  fontWeight: FontWeight.bold,
-                                  color: Color.fromARGB(118, 0, 0, 0),
-                                  fontSize: 15.0,
-                                ),
+                              leading: Lottie.asset(
+                                mytranscation[index].lottie,
+                                width: 35.0,
                               ),
                             ),
-                            index < 9
+                            index < mytranscation.length - 1
                                 ? const Divider(
                                     color: Colors.grey,
                                     thickness: 1.0,
