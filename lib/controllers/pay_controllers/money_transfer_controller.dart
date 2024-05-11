@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../functions/auth_function.dart';
+import '../../functions/sendnotification.dart';
 
 enum SampleItem { itemone.new(), itemTwo, itemThree }
 
 abstract class MoneyTransferController extends GetxController {
   updateindex(int index);
   updateColor(int index);
-  verifyuser();
+  verifyuser(String amount,String to);
 }
 
 class MoneyTransferControllerImp extends MoneyTransferController {
@@ -85,9 +86,11 @@ class MoneyTransferControllerImp extends MoneyTransferController {
   }
 
   @override
-  verifyuser() async {
+  verifyuser(amount,to) async {
     if (await authenticate1("Verification") == true) {
       Get.back();
+      sendNotification(
+          "BNA Send Money", "You have send $amount TND to $to");
       return Get.rawSnackbar(
           backgroundColor: const Color(0xff00aa86),
           title: "Success",

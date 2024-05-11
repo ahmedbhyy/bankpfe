@@ -1,3 +1,4 @@
+import 'package:bankpfe/functions/sendnotification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -31,7 +32,8 @@ class AllBillsControllerImp extends AllBillsController {
           .update({
         'balance': currentbalance - amount,
       });
-
+      sendNotification("Pay Bills with BNA",
+          "You have pay the bill with amount : $amount TND");
       return Get.rawSnackbar(
           backgroundColor: const Color(0xff00aa86),
           title: "Success",

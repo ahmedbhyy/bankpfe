@@ -142,7 +142,7 @@ class MoneyTransfer extends StatelessWidget {
                                 validator: (val) {
                                   if (val == null || val.isEmpty) {
                                     return "Can't to be empty ";
-                                  } else if (val.length != 16) {
+                                  } else if (val.length != 19) {
                                     return "Can't to be higher than 16 caracter";
                                   }
                                   return null;
@@ -249,7 +249,8 @@ class MoneyTransfer extends StatelessWidget {
                     myfunction: () {
                       if (controller.formStatemoneytransfer.currentState!
                           .validate()) {
-                        controller.verifyuser();
+                        controller.verifyuser(
+                            controller.amount.text, controller.cardnumber.text);
                       }
                     },
                   ),

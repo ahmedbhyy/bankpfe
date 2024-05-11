@@ -2,20 +2,21 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<void> sendNotification(
-    String title, String description, String token) async {
+    String title, String description) async {
   var headersList = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
-    'Authorization': 'key=YOUR_SERVER_KEY_HERE'
+    'Authorization': 'key=AAAAAqvRi_w:APA91bGGxFyUZZhHhQHWMn-Zlh3jo6ZvRzNcifxT369TJLer0QCcQXLQgrgL-rcaCJ04ifnFPTEHi-xmS4daFH0FsOovXGaj5Yz6y1A_lE_Bi5MXT-X3Vh9t9vAqAGjsOjGhCexCD9lm'
   };
 
   var url = Uri.parse('https://fcm.googleapis.com/fcm/send');
 
   var body = {
-    "to": token, 
+    "to": "/topics/BNA", 
     "notification": {
       "title": title,
       "body": description,
+      "image": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUsv3FUY2F0v-RzXNqV76JTjJf6UaZgpNQYWIA2M20Kg&s",
     },
   };
 

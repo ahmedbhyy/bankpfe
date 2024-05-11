@@ -1,3 +1,4 @@
+import 'package:bankpfe/functions/sendnotification.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -6,7 +7,7 @@ import '../../functions/auth_function.dart';
 
 abstract class DonationsDetailsController extends GetxController {
   openmaps(String url);
-  donateverify(String titledonate);
+  donateverify(String titledonate ,String amount);
   changechekcboxcolor(int index);
 }
 
@@ -53,9 +54,10 @@ class DonationsDetailsControllerImp extends DonationsDetailsController {
   }
 
   @override
-  donateverify(titledonate) async {
+  donateverify(titledonate ,amount) async {
     if (await authenticate1("Verification") == true) {
       Get.back();
+      sendNotification("BNA DONATIONS", "You have donate to $titledonate with $amount TND");
       return Get.rawSnackbar(
           backgroundColor: const Color(0xff00aa86),
           title: "Success",

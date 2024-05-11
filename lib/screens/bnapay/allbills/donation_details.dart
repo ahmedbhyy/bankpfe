@@ -109,7 +109,8 @@ class DonationDetails extends StatelessWidget {
                             myfunction: () {
                               if (controller.formStatedonation.currentState!
                                   .validate()) {
-                                controller.donateverify(donationmodel.title);
+                                controller.donateverify(donationmodel.title,
+                                    controller.amount!.text);
                               }
                             },
                           ),
