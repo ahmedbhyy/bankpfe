@@ -19,7 +19,7 @@ abstract class StartController extends GetxController {
 class StartControllerImp extends StartController {
   int selectedIndex = 0;
   String? userid;
-  
+
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   late User _user;
 
@@ -30,15 +30,14 @@ class StartControllerImp extends StartController {
     const SettingsScreen(),
     const ProfilScreen(),
   ];
-
   @override
-  void onInit()async {
+  void onInit() async {
     _user = _auth.currentUser!;
     userid = _user.uid;
-     await secureStorage.write(
-        key: "userid",
-        value: userid,
-      );
+    await secureStorage.write(
+      key: "userid",
+      value: userid,
+    );
     FirebaseMessaging.instance.subscribeToTopic('BNA');
     FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       Get.to(const Notifications());
@@ -61,7 +60,7 @@ class StartControllerImp extends StartController {
       },
       SetOptions(merge: true),
     );
-     await secureStorage.write(
+    await secureStorage.write(
       key: "usertoken",
       value: token,
     );

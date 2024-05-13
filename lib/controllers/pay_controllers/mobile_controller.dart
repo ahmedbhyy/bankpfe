@@ -11,4 +11,13 @@ class MobileControllerImp extends MobileController {
     "Date",
     "Amount",
   ];
+
+  List<String> mobilebill = [
+    "Orange",
+    "Card 1",
+    "90 178 100",
+    "MGIO2540",
+    "Yesterday",
+    "25.0",
+  ];
 }

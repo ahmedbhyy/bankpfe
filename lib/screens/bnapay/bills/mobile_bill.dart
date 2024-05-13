@@ -78,18 +78,18 @@ class MobileBill extends StatelessWidget {
                                       color: Colors.grey,
                                     ),
                                   ),
-                            index == controller.userinfo.length - 1
+                            index == controller.mobilebill.length - 1
                                 ? const Text(
-                                    "480.000 TND",
+                                    "25.0 TND",
                                     style: TextStyle(
                                       fontSize: 21.0,
                                       fontWeight: FontWeight.bold,
                                       color: Colors.red,
                                     ),
                                   )
-                                : const Text(
-                                    "aaa",
-                                    style: TextStyle(
+                                : Text(
+                                    controller.mobilebill[index],
+                                    style: const TextStyle(
                                       fontSize: 16.0,
                                       fontWeight: FontWeight.bold,
                                     ),

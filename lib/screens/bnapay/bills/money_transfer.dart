@@ -73,7 +73,7 @@ class MoneyTransfer extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Available balance :  ${mycardList[controller.i].balance.toString().substring(0, 6)} TND",
+                    "Available balance :  ${mycardList[controller.i].balance} TND",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       fontSize: 15.0,
@@ -248,9 +248,15 @@ class MoneyTransfer extends StatelessWidget {
                     mytitle: "Send",
                     myfunction: () {
                       if (controller.formStatemoneytransfer.currentState!
-                          .validate()) {
+                              .validate() &&
+                          double.parse(controller.amount.text) <
+                              mycardList[0].balance) {
                         controller.verifyuser(
-                            controller.amount.text, controller.cardnumber.text);
+                          double.parse(controller.amount.text),
+                          controller.cardnumber.text,
+                          mycardList[0].id,
+                          mycardList[0].balance,
+                        );
                       }
                     },
                   ),

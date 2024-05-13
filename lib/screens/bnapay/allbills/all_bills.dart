@@ -49,7 +49,7 @@ class AllBills extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${mycard[index].balance.toString().substring(0, 6)} TND",
+                          "${mycard[index].balance} TND",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
@@ -80,6 +80,7 @@ class AllBills extends StatelessWidget {
                               mycard[0].id,
                               mybills[index].amount,
                               mycard[0].balance,
+                              mybills[index].type,
                             );
                           },
                           title: mybills[index].title,

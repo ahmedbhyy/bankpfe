@@ -6,13 +6,14 @@ import 'package:get/get.dart';
 import '../../functions/auth_function.dart';
 
 abstract class AllBillsController extends GetxController {
-  paybill(String billid, String cardid, double amount, double currentbalance);
+  paybill(String billid, String cardid, double amount, double currentbalance,
+      String billtype);
 }
 
 class AllBillsControllerImp extends AllBillsController {
   String? userid;
   @override
-  paybill(billid, cardid, amount, currentbalance) async {
+  paybill(billid, cardid, amount, currentbalance, billtype) async {
     if (await authenticate1("Verification") == true &&
         currentbalance > amount) {
       Get.back();
@@ -32,8 +33,23 @@ class AllBillsControllerImp extends AllBillsController {
           .update({
         'balance': currentbalance - amount,
       });
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid)
+          .collection('transactions')
+          .add({
+        'amount': amount,
+        'category': "Billed transaction",
+        'date': Timestamp.now(),
+        'debit': "Debit",
+        'internal': "FT245056540845646",
+        'lottie': "images/lotties/lottie_minus.json",
+        'title': "Pay $billtype",
+        'transcationtype': "Opération monétiques",
+        'type': "Transfer",
+      });
       sendNotification("Pay Bills with BNA",
-          "You have pay the bill with amount : $amount TND");
+          "You have pay $billtype with amount : $amount TND");
       return Get.rawSnackbar(
           backgroundColor: const Color(0xff00aa86),
           title: "Success",

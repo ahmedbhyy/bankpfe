@@ -21,7 +21,7 @@ class MobileBills extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             SlideRight(
-              page: PayMobileBill(myCard: mycard ,username: username),
+              page: PayMobileBill(myCard: mycard, username: username),
             ),
           );
         },
@@ -48,15 +48,15 @@ class MobileBills extends StatelessWidget {
               const SizedBox(height: 20.0),
               ListView.builder(
                 shrinkWrap: true,
-                itemCount: 2,
+                itemCount: 1,
                 physics: const NeverScrollableScrollPhysics(),
                 itemBuilder: (context, index) => const ContainerListTile(
                   mypage: MobileBill(
-                    title: "title",
+                    title: "Orange Bill",
                   ),
-                  title: "new",
-                  ispayed: false,
-                  mysubtitle: "mysubtitle",
+                  title: "Orange Bill",
+                  ispayed: true,
+                  mysubtitle: "Payed Yesterday",
                   myimage: "images/mobile1.png",
                 ),
               ),

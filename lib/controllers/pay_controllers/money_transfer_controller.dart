@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -9,7 +10,7 @@ enum SampleItem { itemone.new(), itemTwo, itemThree }
 abstract class MoneyTransferController extends GetxController {
   updateindex(int index);
   updateColor(int index);
-  verifyuser(String amount,String to);
+  verifyuser(double amount,String to ,String cardid,double balance);
 }
 
 class MoneyTransferControllerImp extends MoneyTransferController {
@@ -40,6 +41,8 @@ class MoneyTransferControllerImp extends MoneyTransferController {
     isSelectedList = List<bool>.filled(choices.length, false);
     isSelectedList[0] = true;
   }
+
+   String? userid;
   TextEditingController cardnumber = TextEditingController();
 
   TextEditingController amount = TextEditingController();
@@ -86,11 +89,34 @@ class MoneyTransferControllerImp extends MoneyTransferController {
   }
 
   @override
-  verifyuser(amount,to) async {
+  verifyuser(amount,to,cardid,balance) async {
     if (await authenticate1("Verification") == true) {
       Get.back();
       sendNotification(
           "BNA Send Money", "You have send $amount TND to $to");
+          await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid)
+          .collection('cards')
+          .doc(cardid)
+          .update({
+        'balance': balance - amount,
+      });
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid)
+          .collection('transactions')
+          .add({
+        'amount': amount,
+        'category':"Transaction",
+        'date': Timestamp.now(),
+        'debit': "Debit",
+        'internal': "FT245056540845646",
+        'lottie': "images/lotties/lottie_minus.json",
+        'title': "Send Money ($amount TND)",
+        'transcationtype': "Opération monétiques",
+        'type': "Transfer",
+      });
       return Get.rawSnackbar(
           backgroundColor: const Color(0xff00aa86),
           title: "Success",
@@ -101,5 +127,10 @@ class MoneyTransferControllerImp extends MoneyTransferController {
           title: "Error",
           message: "Not recognized");
     }
+  }
+  @override
+  void onInit() async {
+    userid = await secureStorage.read(key: "userid");
+    super.onInit();
   }
 }
