@@ -23,6 +23,7 @@ class NotificationsControllerImp extends NotificationsController {
   void onInit() {
     _user = _auth.currentUser!;
     fetchUserDataNotifications();
+    update();
     super.onInit();
   }
 

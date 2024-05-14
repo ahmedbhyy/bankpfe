@@ -5,12 +5,12 @@ import 'package:get/get.dart';
 import '../../functions/auth_function.dart';
 import '../../functions/sendnotification.dart';
 
-enum SampleItem { itemone.new(), itemTwo, itemThree }
+enum SampleItem { itemone, itemTwo, itemThree, itemFour }
 
 abstract class MoneyTransferController extends GetxController {
   updateindex(int index);
   updateColor(int index);
-  verifyuser(double amount,String to ,String cardid,double balance);
+  verifyuser(double amount, String to, String cardid, double balance);
 }
 
 class MoneyTransferControllerImp extends MoneyTransferController {
@@ -42,44 +42,37 @@ class MoneyTransferControllerImp extends MoneyTransferController {
     isSelectedList[0] = true;
   }
 
-   String? userid;
+  String? userid;
   TextEditingController cardnumber = TextEditingController();
 
   TextEditingController amount = TextEditingController();
 
   TextEditingController content = TextEditingController();
+  TextEditingController cardaddnumber = TextEditingController();
+  TextEditingController cardaddholder = TextEditingController();
 
   List choices = [];
 
   SampleItem? selectedItem;
   List<bool> isSelectedList = [];
 
+  List<String> names = ["Slim Gharbi","Karim Gharbi","Mounir Gharbi"];
+
   int i = 0;
+  List<SampleItem> sampleitemlisty = [
+    SampleItem.itemone,
+    SampleItem.itemTwo,
+    SampleItem.itemThree,
+  ];
 
   GlobalKey<FormState> formStatemoneytransfer = GlobalKey<FormState>();
+  GlobalKey<FormState> formStateaddcard = GlobalKey<FormState>();
 
   @override
   updateindex(index) {
     i = index;
     update();
   }
-
-  List cardsdetails = [
-    {
-      "name1": "bnacard",
-      "amount": 350.000,
-      "holdername": "Ahmed belhajyahia",
-      "cardnumber": "1121090606",
-      "background": "images/background1.jpg",
-    },
-    {
-      "name1": "bnacard2",
-      "amount": 465.252,
-      "holdername": "slim rkik",
-      "cardnumber": "545066504",
-      "background": "images/background2.jpg",
-    }
-  ];
 
   @override
   void updateColor(index) {
@@ -89,12 +82,11 @@ class MoneyTransferControllerImp extends MoneyTransferController {
   }
 
   @override
-  verifyuser(amount,to,cardid,balance) async {
+  verifyuser(amount, to, cardid, balance) async {
     if (await authenticate1("Verification") == true) {
       Get.back();
-      sendNotification(
-          "BNA Send Money", "You have send $amount TND to $to");
-          await FirebaseFirestore.instance
+      sendNotification("BNA Send Money", "You have send $amount TND to $to");
+      await FirebaseFirestore.instance
           .collection('users')
           .doc(userid)
           .collection('cards')
@@ -108,7 +100,7 @@ class MoneyTransferControllerImp extends MoneyTransferController {
           .collection('transactions')
           .add({
         'amount': amount,
-        'category':"Transaction",
+        'category': "Transaction",
         'date': Timestamp.now(),
         'debit': "Debit",
         'internal': "FT245056540845646",
@@ -128,6 +120,7 @@ class MoneyTransferControllerImp extends MoneyTransferController {
           message: "Not recognized");
     }
   }
+
   @override
   void onInit() async {
     userid = await secureStorage.read(key: "userid");

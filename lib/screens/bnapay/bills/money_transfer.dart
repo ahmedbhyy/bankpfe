@@ -48,7 +48,7 @@ class MoneyTransfer extends StatelessWidget {
                   ),
                   const SizedBox(height: 15.0),
                   Swiper(
-                    itemCount: controller.cardsdetails.length,
+                    itemCount: mycardList.length,
                     loop: true,
                     duration: 1200,
                     itemHeight: 200,
@@ -129,11 +129,136 @@ class MoneyTransfer extends StatelessWidget {
                     child: Column(
                       children: [
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Expanded(
                               child: TextFieldAuth(
                                 hint: "Card number",
                                 readonly: false,
+                                mysuffixicon: GestureDetector(
+                                  child:
+                                      const Icon(Icons.person_add_alt_outlined),
+                                  onTap: () {
+                                    Get.dialog(
+                                      Form(
+                                        key: controller.formStateaddcard,
+                                        child: Dialog(
+                                          backgroundColor: Colors.white,
+                                          child: Container(
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(20)),
+                                            child: Column(
+                                              mainAxisSize: MainAxisSize.min,
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                const Center(
+                                                  child: Text(
+                                                    "Add a Card",
+                                                    style: TextStyle(
+                                                      fontSize: 20.0,
+                                                      color: Color(0xff00aa86),
+                                                      fontWeight:
+                                                          FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                const Divider(
+                                                  color: Colors.grey,
+                                                  thickness: 1,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10.0),
+                                                  child: TextFieldAuth(
+                                                    hint: "Card Number",
+                                                    readonly: false,
+                                                    mysuffix: "",
+                                                    mycontroller: controller
+                                                        .cardaddnumber,
+                                                    myicon: const Icon(
+                                                        Icons.numbers,
+                                                        color:
+                                                            Color(0xff00aa86)),
+                                                    ispass: false,
+                                                    validator: (val) {
+                                                      if (val == null ||
+                                                          val.isEmpty) {
+                                                        return "Can't to be empty ";
+                                                      }
+                                                      return null;
+                                                    },
+                                                    mytype:
+                                                        TextInputType.number,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      horizontal: 10.0),
+                                                  child: TextFieldAuth(
+                                                    hint: "Card Holder name",
+                                                    readonly: false,
+                                                    mysuffix: "",
+                                                    mycontroller: controller
+                                                        .cardaddholder,
+                                                    myicon: const Icon(
+                                                        Icons.person_2_outlined,
+                                                        color:
+                                                            Color(0xff00aa86)),
+                                                    ispass: false,
+                                                    validator: (val) {
+                                                      if (val == null ||
+                                                          val.isEmpty) {
+                                                        return "Can't to be empty ";
+                                                      }
+                                                      return null;
+                                                    },
+                                                    mytype: TextInputType.text,
+                                                  ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .symmetric(
+                                                      vertical: 20.0),
+                                                  child: ButtonAuth(
+                                                    mytitle: "Add",
+                                                    myfunction: () {
+                                                      if (controller
+                                                          .formStateaddcard
+                                                          .currentState!
+                                                          .validate()) {
+                                                        Get.back();
+                                                        Get.rawSnackbar(
+                                                            title: "Success",
+                                                            message:
+                                                                "You have added a new Card",
+                                                            backgroundColor:
+                                                                Colors.green);
+                                                        controller.names.add(
+                                                            controller
+                                                                .cardaddholder
+                                                                .text);
+                                                        controller
+                                                            .sampleitemlisty
+                                                            .add(SampleItem
+                                                                .itemFour);
+                                                      }
+                                                    },
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
                                 mytype: TextInputType.number,
                                 mycontroller: controller.cardnumber,
                                 myicon:
@@ -163,6 +288,9 @@ class MoneyTransfer extends StatelessWidget {
                                   case SampleItem.itemThree:
                                     cardNumber = "2468 1357 8024 6913";
                                     break;
+                                  case SampleItem.itemFour:
+                                    cardNumber = "9522 4542 8024 5045";
+                                    break;
                                   default:
                                     cardNumber = "";
                                     break;
@@ -171,40 +299,19 @@ class MoneyTransfer extends StatelessWidget {
                               },
                               itemBuilder: (BuildContext context) =>
                                   <PopupMenuEntry<SampleItem>>[
-                                const PopupMenuItem<SampleItem>(
-                                  value: SampleItem.itemone,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.person_2_outlined,
-                                        color: Color(0xff00aa86),
-                                      ),
-                                      Text('Slim gharbi'),
-                                    ],
-                                  ),
-                                ),
-                                const PopupMenuItem<SampleItem>(
-                                  value: SampleItem.itemTwo,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.person_2_outlined,
-                                        color: Color(0xff00aa86),
-                                      ),
-                                      Text('Mounir gharbi'),
-                                    ],
-                                  ),
-                                ),
-                                const PopupMenuItem<SampleItem>(
-                                  value: SampleItem.itemThree,
-                                  child: Row(
-                                    children: [
-                                      Icon(
-                                        Icons.person_2_outlined,
-                                        color: Color(0xff00aa86),
-                                      ),
-                                      Text('Ahmed gharbi'),
-                                    ],
+                                ...List.generate(
+                                  controller.sampleitemlisty.length,
+                                  (index) => PopupMenuItem<SampleItem>(
+                                    value: controller.sampleitemlisty[index],
+                                    child: Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.person_2_outlined,
+                                          color: Color(0xff00aa86),
+                                        ),
+                                        Text(controller.names[index]),
+                                      ],
+                                    ),
                                   ),
                                 ),
                               ],
@@ -240,25 +347,25 @@ class MoneyTransfer extends StatelessWidget {
                             return null;
                           },
                         ),
+                        const SizedBox(height: 30.0),
+                        ButtonAuth(
+                          mytitle: "Send",
+                          myfunction: () {
+                            if (controller.formStatemoneytransfer.currentState!
+                                    .validate() &&
+                                double.parse(controller.amount.text) <
+                                    mycardList[0].balance) {
+                              controller.verifyuser(
+                                double.parse(controller.amount.text),
+                                controller.cardnumber.text,
+                                mycardList[0].id,
+                                mycardList[0].balance,
+                              );
+                            }
+                          },
+                        ),
                       ],
                     ),
-                  ),
-                  const SizedBox(height: 30.0),
-                  ButtonAuth(
-                    mytitle: "Send",
-                    myfunction: () {
-                      if (controller.formStatemoneytransfer.currentState!
-                              .validate() &&
-                          double.parse(controller.amount.text) <
-                              mycardList[0].balance) {
-                        controller.verifyuser(
-                          double.parse(controller.amount.text),
-                          controller.cardnumber.text,
-                          mycardList[0].id,
-                          mycardList[0].balance,
-                        );
-                      }
-                    },
                   ),
                 ],
               ),
