@@ -244,9 +244,18 @@ class MoneyTransfer extends StatelessWidget {
                                                                 .cardaddholder
                                                                 .text);
                                                         controller
-                                                            .sampleitemlisty
-                                                            .add(SampleItem
-                                                                .itemFour);
+                                                                .sampleitemlisty
+                                                                .contains(
+                                                                    SampleItem
+                                                                        .itemFour)
+                                                            ? controller
+                                                                .sampleitemlisty
+                                                                .add(SampleItem
+                                                                    .itemFive)
+                                                            : controller
+                                                                .sampleitemlisty
+                                                                .add(SampleItem
+                                                                    .itemFour);
                                                       }
                                                     },
                                                   ),
@@ -289,7 +298,7 @@ class MoneyTransfer extends StatelessWidget {
                                     cardNumber = "2468 1357 8024 6913";
                                     break;
                                   case SampleItem.itemFour:
-                                    cardNumber = "9522 4542 8024 5045";
+                                    cardNumber = controller.cardaddnumber.text;
                                     break;
                                   default:
                                     cardNumber = "";

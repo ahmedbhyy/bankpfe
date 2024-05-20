@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../../functions/auth_function.dart';
 import '../../functions/sendnotification.dart';
 
-enum SampleItem { itemone, itemTwo, itemThree, itemFour }
+enum SampleItem { itemone, itemTwo, itemThree, itemFour ,itemFive }
 
 abstract class MoneyTransferController extends GetxController {
   updateindex(int index);
