@@ -73,7 +73,7 @@ class MoneyTransfer extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Available balance :  ${mycardList[controller.i].balance} TND",
+                    "Available balance :  ${mycardList[controller.i].balance.toString().length >= 5 ? mycardList[controller.i].balance.toString().substring(0, 5) : mycardList[controller.i].balance.toString()} TND",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       fontSize: 15.0,
@@ -276,7 +276,7 @@ class MoneyTransfer extends StatelessWidget {
                                 validator: (val) {
                                   if (val == null || val.isEmpty) {
                                     return "Can't to be empty ";
-                                  } else if (val.length != 19) {
+                                  } else if (val.length != 16) {
                                     return "Can't to be higher than 16 caracter";
                                   }
                                   return null;
@@ -301,7 +301,7 @@ class MoneyTransfer extends StatelessWidget {
                                     cardNumber = controller.cardaddnumber.text;
                                     break;
                                   default:
-                                    cardNumber = "";
+                                    cardNumber = "2468 1357 8024 6913";
                                     break;
                                 }
                                 controller.cardnumber.text = cardNumber;

@@ -164,6 +164,8 @@ class HomeScreen extends StatelessWidget {
                             itemWidth: 300,
                             onIndexChanged: (value) {
                               controller.updateindex(value);
+                              controller.choosecategories(
+                                  controller.transactioncategorie);
                             },
                             scrollDirection: Axis.horizontal,
                             layout: SwiperLayout.STACK,
@@ -193,7 +195,7 @@ class HomeScreen extends StatelessWidget {
                                         const Color.fromARGB(255, 2, 108, 62)),
                               ),
                               Text(
-                                "${controller.usercards[controller.i].balance} TND",
+                                "${controller.usercards[controller.i].balance.toString().length >= 5 ? controller.usercards[controller.i].balance.toString().substring(0, 5) : controller.usercards[controller.i].balance.toString()} TND",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.mulish(
                                   fontSize: 16.0,
@@ -223,8 +225,8 @@ class HomeScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         SlideRight(
-                          page:  AllTransactions(mytranscation: controller.usertranscation
-                                  ),
+                          page: AllTransactions(
+                              mytranscation: controller.usertranscation ),
                         ),
                       );
                     },
@@ -254,6 +256,8 @@ class HomeScreen extends StatelessWidget {
                       controller.updateColor(index);
                       controller.transactioncategorie =
                           controller.categories[index];
+                      controller
+                          .choosecategories(controller.transactioncategorie);
                     },
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 400),

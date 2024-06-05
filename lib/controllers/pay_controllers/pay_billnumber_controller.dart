@@ -1,30 +1,58 @@
-import 'package:bankpfe/functions/sendnotification.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../functions/auth_function.dart';
+import '../../functions/sendnotification.dart';
 
-abstract class AllBillsController extends GetxController {
-  paybill(String billid, String cardid, double amount, double currentbalance,
-      String billtype);
+enum SampleItem { itemone, itemTwo, itemThree, itemFour, itemFive }
+
+abstract class PayBillnumberController extends GetxController {
+  updateindexz(int index);
+  paybill( String cardid, double amount, double currentbalance,
+      String billtype ,String billnumber);
 }
 
-class AllBillsControllerImp extends AllBillsController {
+class PayBillnumberControllerImp extends PayBillnumberController {
+  GlobalKey<FormState> formState = GlobalKey<FormState>();
+
+  TextEditingController? billnumber;
+  TextEditingController? billamount;
+  TextEditingController? billtype;
+
+  SampleItem? selectedItem;
+
+  List<SampleItem> sampleitemlisty = [
+    SampleItem.itemone,
+    SampleItem.itemTwo,
+    SampleItem.itemThree,
+  ];
+  List<String> names = ["Water bill", "Electric bill", "Internet bill"];
+  int z = 0;
+  @override
+  updateindexz(index) {
+    z = index;
+    update();
+  }
+
+  
+
+  @override
+  void onInit() async{
+    billamount = TextEditingController();
+    billnumber = TextEditingController();
+    billtype = TextEditingController();
+    userid = await secureStorage.read(key: "userid");
+    super.onInit();
+  }
+  
   String? userid;
   @override
-  paybill(billid, cardid, amount, currentbalance, billtype) async {
+  paybill( cardid, amount, currentbalance, billtype,billnumber) async {
     if (await authenticate1("Verification") == true &&
         currentbalance > amount) {
       Get.back();
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userid)
-          .collection('bills')
-          .doc(billid)
-          .update({
-        'ispayed': true,
-      });
+    
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userid)
@@ -43,7 +71,7 @@ class AllBillsControllerImp extends AllBillsController {
         'category': "Billed transaction",
         'date': Timestamp.now(),
         'debit': "Debit",
-        'internal': "FT245056540845646",
+        'internal': billnumber,
         'lottie': "images/lotties/lottie_minus.json",
         'title': "Pay $billtype",
         'transcationtype': "Opération monétiques",
@@ -63,9 +91,5 @@ class AllBillsControllerImp extends AllBillsController {
     }
   }
 
-  @override
-  void onInit() async {
-    userid = await secureStorage.read(key: "userid");
-    super.onInit();
-  }
+  
 }

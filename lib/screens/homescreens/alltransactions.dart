@@ -4,13 +4,13 @@ import 'package:bankpfe/screens/homescreens/transaction_details.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-
 import '../../slides/slide_right.dart';
 import '../../widgets/generalwidgets/common_container_background.dart';
 import '../../widgets/generalwidgets/common_row_appbar.dart';
 
 class AllTransactions extends StatelessWidget {
   final List<TransactionModel> mytranscation;
+
   const AllTransactions({super.key, required this.mytranscation});
 
   @override

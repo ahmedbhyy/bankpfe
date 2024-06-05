@@ -31,7 +31,6 @@ class HomeControllerImp extends HomeController {
       "Transfer",
       "Added",
       "Retrait",
-      "Bills",
     ];
     isSelectedList = List<bool>.filled(categories.length, false);
     isSelectedList[0] = true;
@@ -127,7 +126,9 @@ class HomeControllerImp extends HomeController {
 
         usercards.clear();
         for (var doc in notificationsSnapshot.docs) {
-          usercards.add(CardModel.fromJson(doc.data() as Map<String, dynamic>));
+          var card = CardModel.fromJson(doc.data() as Map<String, dynamic>);
+          card.id = doc.id;
+          usercards.add(card);
         }
 
         QuerySnapshot transactionsnapchot =
@@ -138,14 +139,13 @@ class HomeControllerImp extends HomeController {
           usertranscation.add(
               TransactionModel.fromJson(doc.data() as Map<String, dynamic>));
         }
-        
-         QuerySnapshot notifications =
+
+        QuerySnapshot notifications =
             await docSnapshot.reference.collection('notifications').get();
 
         notificationslist.clear();
         for (var doc in notifications.docs) {
-          notificationslist.add(
-              doc.data());
+          notificationslist.add(doc.data());
         }
       }
       isloading = false;
@@ -162,13 +162,20 @@ class HomeControllerImp extends HomeController {
   }
 
   @override
-  choosecategories(categorie) {
+  List<TransactionModel> choosecategories(categorie) {
     if (categorie == "All") {
-      return usertranscation;
+      List<TransactionModel> transactioncategories1 = [];
+      for (TransactionModel transaction in usertranscation) {
+        if (transaction.cardid == usercards[i].id) {
+          transactioncategories1.add(transaction);
+        }
+      }
+      return transactioncategories1;
     } else {
       List<TransactionModel> transactioncategories = [];
       for (TransactionModel transaction in usertranscation) {
-        if (transaction.type == categorie) {
+        if (transaction.type == categorie &&
+            transaction.cardid == usercards[i].id) {
           transactioncategories.add(transaction);
         }
       }

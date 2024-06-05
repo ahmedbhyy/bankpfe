@@ -11,4 +11,6 @@ class AllTransactionControllerImp extends AllTransactionController {
     isselected = !isselected;
     update();
   }
+
+  
 }

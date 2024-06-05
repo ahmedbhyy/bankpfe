@@ -100,6 +100,7 @@ class MoneyTransferControllerImp extends MoneyTransferController {
           .collection('transactions')
           .add({
         'amount': amount,
+        'cardid':cardid,
         'category': "Transaction",
         'date': Timestamp.now(),
         'debit': "Debit",

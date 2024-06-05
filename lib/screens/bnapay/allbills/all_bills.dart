@@ -1,29 +1,54 @@
 import 'package:bankpfe/controllers/pay_controllers/all_bills_controller.dart';
 import 'package:bankpfe/data/Model/bill_model.dart';
+import 'package:bankpfe/screens/bnapay/allbills/paybillwithnumber.dart';
 import 'package:bankpfe/screens/bnapay/bills/all_bills_details.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_container_listtile.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 import '../../../data/Model/card_model.dart';
+import '../../../slides/slide_right.dart';
 import '../../../widgets/generalwidgets/common_container_background.dart';
 import '../../../widgets/generalwidgets/common_row_appbar.dart';
 
 class AllBills extends StatelessWidget {
   final List<CardModel> mycard;
   final List<BillModel> mybills;
+  final String username;
 
   const AllBills({
     super.key,
     required this.mycard,
-    required this.mybills,
+    required this.mybills, required this.username,
   });
 
   @override
   Widget build(BuildContext context) {
     Get.put(AllBillsControllerImp());
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).push(
+            SlideRight(
+              page: PayBillwithNumber(myCard: mycard, username: username),
+            ),
+          );
+        },
+        elevation: 6,
+        backgroundColor: const Color(0xff00aa86),
+        child: Text(
+          "Pay",
+          style: GoogleFonts.mulish(
+            fontSize: 20.0,
+            fontStyle: FontStyle.italic,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: ContainerBackground(
         mywidget: SafeArea(
           child: GetBuilder<AllBillsControllerImp>(
@@ -49,7 +74,7 @@ class AllBills extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${mycard[index].balance} TND",
+                          "${mycard[index].balance.toString().length >= 5 ? mycard[index].balance.toString().substring(0, 5) : mycard[index].balance.toString()} TND",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,

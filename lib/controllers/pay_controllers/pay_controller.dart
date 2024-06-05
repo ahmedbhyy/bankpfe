@@ -21,7 +21,7 @@ abstract class SettingsController extends GetxController {
 class SettingsControllerImp extends SettingsController {
   SettingsControllerImp() {
     pagespay = [
-      AllBills(mycard: usercards, mybills: userbills),
+      AllBills(mycard: usercards, mybills: userbills,username: username),
       MobileBills(mycard: usercards, username: username),
       MoneyTransfer(mycardList: usercards, username: username),
       const Donations(),

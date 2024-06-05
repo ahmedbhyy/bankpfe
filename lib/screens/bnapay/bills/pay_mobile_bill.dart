@@ -37,7 +37,7 @@ class PayMobileBill extends StatelessWidget {
                   const AppBarCommon(title: "Pay Your Mobile bill"),
                   const SizedBox(height: 20.0),
                   Text(
-                    "Select a card ",
+                    "Select a card",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       fontSize: 20.0,
@@ -47,7 +47,7 @@ class PayMobileBill extends StatelessWidget {
                   ),
                   const SizedBox(height: 20.0),
                   Swiper(
-                    itemCount: controller.cardsdetails.length,
+                    itemCount: myCard.length,
                     loop: true,
                     duration: 1200,
                     itemHeight: 200,
@@ -72,7 +72,7 @@ class PayMobileBill extends StatelessWidget {
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Available balance :  ${myCard[controller.z].balance} TND",
+                    "Available balance :  ${myCard[controller.z].balance.toString().length >= 5 ? myCard[controller.z].balance.toString().substring(0, 5) : myCard[controller.z].balance.toString()} TND",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       fontSize: 15.0,
@@ -159,7 +159,7 @@ class PayMobileBill extends StatelessWidget {
                               borderRadius: BorderRadius.circular(20.0),
                             ),
                             child: Text(
-                              controller.amounts[index],
+                              "${controller.amounts[index]} TND",
                               style: const TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 14.0,
@@ -175,7 +175,11 @@ class PayMobileBill extends StatelessWidget {
                     mytitle: "Confirm",
                     myfunction: () {
                       if (controller.formState.currentState!.validate()) {
-                        controller.paymobilebill();
+                        controller.paymobilebill(
+                          myCard[controller.z].id,
+                          double.parse(controller.amounts[controller.i]),
+                          myCard[controller.z].balance,
+                        );
                       }
                     },
                   ),

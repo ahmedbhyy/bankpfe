@@ -4,7 +4,7 @@ class CardModel {
   final String cardNumber;
   final double balance;
   final String relatedaccount;
-  final String id;
+   String id;
 
   CardModel({
     required this.background,

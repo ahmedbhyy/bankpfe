@@ -11,7 +11,8 @@ class TransactionModel {
   final String lottie;
   final double amount;
   final Timestamp date;
-  TransactionModel({
+  final String cardid;
+  TransactionModel( {
     required this.title,
     required this.category,
     required this.transcationtype,
@@ -22,6 +23,7 @@ class TransactionModel {
     required this.amount,
     required this.type,
     required this.date,
+    required this.cardid,
   });
 
   factory TransactionModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class TransactionModel {
       debit: json['debit'] ?? "Debit",
       internal: json['internal'] ?? "",
       type: json['type'] ?? '',
+      cardid: json['cardid']??'',
     );
   }
 
@@ -51,6 +54,7 @@ class TransactionModel {
       'transcationtype': transcationtype,
       'internal': internal,
       'debit': debit,
+      'cardid':cardid,
     };
   }
 }

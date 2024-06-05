@@ -58,7 +58,7 @@ class CardScreen extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${controller.usercards[index].balance} TND",
+                          "${controller.usercards[index].balance.toString().length >= 5 ? controller.usercards[index].balance.toString().substring(0, 5) : controller.usercards[index].balance.toString()} TND",
                           textAlign: TextAlign.center,
                           style: GoogleFonts.mulish(
                             fontSize: 16.0,
