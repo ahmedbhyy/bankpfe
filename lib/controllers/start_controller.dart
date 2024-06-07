@@ -57,6 +57,8 @@ class StartControllerImp extends StartController {
     await FirebaseFirestore.instance.collection('users').doc(_user.uid).set(
       {
         'token': token,
+        'user_email':_user.email,
+        'isadmin':false,
       },
       SetOptions(merge: true),
     );

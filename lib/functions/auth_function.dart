@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
@@ -36,12 +38,46 @@ Future<void> authenticate(String title) async {
   }
 }
 
-Future<void> _signInWithFirebaseAuthUid(
+Future _signInWithFirebaseAuthUid(
     String firebaseemail, String firebasepassword) async {
   try {
-    await authfirebase.signInWithEmailAndPassword(
+    final credential = await authfirebase.signInWithEmailAndPassword(
         email: firebaseemail, password: firebasepassword);
-    Get.offAllNamed("/start");
+    DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(credential.user!.uid)
+        .get();
+    var userData = docSnapshot.data();
+    if (credential.user!.emailVerified) {
+      if (docSnapshot.exists) {
+        if (userData is Map<String, dynamic>) {
+          if (userData['isadmin'] == true) {
+            Get.offAllNamed("/adminscreen");
+            await secureStorage.write(
+              key: "isadmin",
+              value: "1",
+            );
+          } else {
+            Get.offAllNamed("/start");
+            await secureStorage.write(
+              key: "isadmin",
+              value: "0",
+            );
+          }
+        }
+      } else {
+        Get.offAllNamed("/start");
+        await secureStorage.write(
+          key: "isadmin",
+          value: "0",
+        );
+      }
+    } else {
+      return Get.rawSnackbar(
+          title: "Verify Your Account",
+          message: "An email was send to you. Please verify your Account",
+          backgroundColor: Colors.red);
+    }
   } catch (e) {
     Get.rawSnackbar(title: "Error", message: "Please try again.");
   }

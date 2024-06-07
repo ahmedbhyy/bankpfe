@@ -137,7 +137,32 @@ class CardDetails extends StatelessWidget {
                     endIndent: 1.0,
                     indent: 1.0,
                   ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "RIB",
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 72, 67, 67),
+                        ),
+                      ),
+                      Text(
+                        myCard.rib,
+                        style: const TextStyle(
+                          fontSize: 13.0,
+                        ),
+                      ),
+                    ],
+                  ),
                   const SizedBox(height: 7.0),
+                  const Divider(
+                    thickness: 1.0,
+                    color: Colors.grey,
+                    endIndent: 1.0,
+                    indent: 1.0,
+                  ),
                   GetBuilder<CardsControllerImp>(
                     builder: (controller) => Column(
                       children: [

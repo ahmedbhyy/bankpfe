@@ -1,5 +1,6 @@
 import 'package:bankpfe/screens/auth/signup.dart';
 import 'package:bankpfe/slides/slide_right.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -65,7 +66,11 @@ class SignInControllerImp extends SignInController {
       update();
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      
+      DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(credential.user!.uid)
+          .get();
+      var userData = docSnapshot.data();
       await secureStorage.write(
         key: "email",
         value: email,
@@ -74,14 +79,38 @@ class SignInControllerImp extends SignInController {
         key: "userid",
         value: credential.user!.uid,
       );
-       await secureStorage.write(
+      await secureStorage.write(
         key: "password",
         value: password,
       );
+
       isloading1 = false;
       update();
       if (credential.user!.emailVerified) {
-        Get.offAllNamed("/start");
+        if (docSnapshot.exists) {
+          if (userData is Map<String, dynamic>) {
+            if (userData['isadmin'] == true) {
+              Get.offAllNamed("/adminscreen");
+              await secureStorage.write(
+                key: "isadmin",
+                value: "1",
+              );
+            } else {
+              Get.offAllNamed("/start");
+              await secureStorage.write(
+                key: "isadmin",
+                value: "0",
+              );
+            }
+          }
+        } else {
+          Get.offAllNamed("/start");
+
+          await secureStorage.write(
+            key: "isadmin",
+            value: "0",
+          );
+        }
       } else {
         return Get.rawSnackbar(
             title: "Verify Your Account",

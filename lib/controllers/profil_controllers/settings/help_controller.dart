@@ -39,6 +39,7 @@ class HelpControllerImp extends HelpController {
         'report': report,
         'useremail': _user.email,
         'userid': _user.uid,
+        'report_date': Timestamp.now(),
       });
       isloading = false;
       Get.back();

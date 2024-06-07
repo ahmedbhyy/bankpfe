@@ -289,19 +289,19 @@ class MoneyTransfer extends StatelessWidget {
                                 String cardNumber;
                                 switch (item) {
                                   case SampleItem.itemone:
-                                    cardNumber = "1234 5678 9012 3456";
+                                    cardNumber = "1234567890123456";
                                     break;
                                   case SampleItem.itemTwo:
-                                    cardNumber = "9876 5432 1098 7654";
+                                    cardNumber = "9876543210987654";
                                     break;
                                   case SampleItem.itemThree:
-                                    cardNumber = "2468 1357 8024 6913";
+                                    cardNumber = "2468135780246913";
                                     break;
                                   case SampleItem.itemFour:
                                     cardNumber = controller.cardaddnumber.text;
                                     break;
                                   default:
-                                    cardNumber = "2468 1357 8024 6913";
+                                    cardNumber = "2468135780246913";
                                     break;
                                 }
                                 controller.cardnumber.text = cardNumber;
@@ -367,8 +367,8 @@ class MoneyTransfer extends StatelessWidget {
                               controller.verifyuser(
                                 double.parse(controller.amount.text),
                                 controller.cardnumber.text,
-                                mycardList[0].id,
-                                mycardList[0].balance,
+                                mycardList[controller.i].id,
+                                mycardList[controller.i].balance,
                               );
                             }
                           },

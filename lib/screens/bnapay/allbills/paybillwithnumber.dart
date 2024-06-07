@@ -181,9 +181,9 @@ class PayBillwithNumber extends StatelessWidget {
                           myfunction: () {
                             if (controller.formState.currentState!.validate()) {
                               controller.paybill(
-                                myCard[0].id,
+                                myCard[controller.z].id,
                                 double.parse(controller.billamount!.text),
-                                myCard[0].balance,
+                                myCard[controller.z].balance,
                                 controller.billtype!.text,
                                 controller.billnumber!.text,
                               );
