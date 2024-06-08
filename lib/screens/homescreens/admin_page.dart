@@ -1,4 +1,5 @@
 import 'package:bankpfe/controllers/homecontroller/admin_page_controller.dart';
+import 'package:bankpfe/screens/adminscreens/admin_donations.dart';
 import 'package:bankpfe/screens/adminscreens/admin_reports.dart';
 import 'package:bankpfe/screens/adminscreens/admin_user_details.dart';
 import 'package:bankpfe/screens/adminscreens/send_notifications.dart';
@@ -27,16 +28,22 @@ class AdminPage extends StatelessWidget {
           return await alertexit();
         },
         child: Scaffold(
-          floatingActionButton: FloatingActionButton(
+          floatingActionButton: FloatingActionButton.extended(
             onPressed: () {
-              Get.to(() => const AdminSendNotifications());
+              Get.to(() => const AdminDonations());
             },
             backgroundColor: const Color.fromARGB(255, 126, 164, 128),
-            child: const Icon(
-              Icons.notifications_active_outlined,
-              color: Colors.white,
+            label: const Text(
+              "Donations",
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+                fontSize: 17.0,
+              ),
             ),
           ),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
           body: Container(
             decoration: const BoxDecoration(
               image: DecorationImage(
@@ -61,14 +68,29 @@ class AdminPage extends StatelessWidget {
                         color: const Color.fromARGB(255, 1, 100, 78),
                       ),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        Get.to(() => const AdminReports());
-                      },
-                      icon: const Icon(
-                        Icons.report_gmailerrorred,
-                        color: Color.fromARGB(255, 104, 132, 105),
-                      ),
+                    Row(
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Get.to(() => const AdminReports());
+                          },
+                          icon: const Icon(
+                            Icons.report_gmailerrorred,
+                            color: Color.fromARGB(255, 104, 132, 105),
+                          ),
+                          iconSize: 28.0,
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            Get.to(() => const AdminSendNotifications());
+                          },
+                          icon: const Icon(
+                            Icons.notifications_active_outlined,
+                            color: Color.fromARGB(255, 104, 132, 105),
+                          ),
+                          iconSize: 28.0,
+                        ),
+                      ],
                     )
                   ],
                 ),

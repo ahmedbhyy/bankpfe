@@ -4,6 +4,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+enum SampleItem { itemone, itemTwo, itemThree }
+
 abstract class AdminAddcardController extends GetxController {
   addacard(String userid, String usertoken);
 }
@@ -15,7 +17,14 @@ class AdminAddcardControllerImp extends AdminAddcardController {
   TextEditingController? rib;
   TextEditingController? balance;
   GlobalKey<FormState> formStatecard = GlobalKey<FormState>();
+  SampleItem? selectedItem;
 
+  List<SampleItem> sampleitemlisty = [
+    SampleItem.itemone,
+    SampleItem.itemTwo,
+  ];
+
+  List<String> names = ["EPARGNE", "INFINITE"];
   @override
   void onInit() {
     cardtype = TextEditingController();
@@ -34,11 +43,13 @@ class AdminAddcardControllerImp extends AdminAddcardController {
           .doc(userid)
           .collection('cards')
           .add({
-        'background': "images/background2.jpg",
+        'background': cardtype!.text == "EPARGNE"
+            ? "images/background2.jpg"
+            : "images/background1.jpg",
         'balance': double.parse(balance!.text),
         'cardnumber': cardnumber!.text,
         'cardtype': cardtype!.text,
-        'name': "bnacard2",
+        'name': cardtype!.text == "EPARGNE" ? "bnacard2" : "bnacard",
         'relatedaccount': relatedaccount!.text,
         'rib': rib!.text,
       });

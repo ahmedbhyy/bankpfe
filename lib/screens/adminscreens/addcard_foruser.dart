@@ -10,7 +10,8 @@ import '../../widgets/generalwidgets/common_appbar.dart';
 class AddaCardForUser extends StatelessWidget {
   final String userid;
   final String usertoken;
-  const AddaCardForUser({super.key, required this.userid, required this.usertoken});
+  const AddaCardForUser(
+      {super.key, required this.userid, required this.usertoken});
 
   @override
   Widget build(BuildContext context) {
@@ -54,19 +55,63 @@ class AddaCardForUser extends StatelessWidget {
                   mytype: TextInputType.text,
                   readonly: false,
                 ),
-                TextFieldAuth(
-                  hint: "Card Type",
-                  mycontroller: controller.cardtype!,
-                  myicon: const Icon(Icons.type_specimen),
-                  ispass: false,
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return "Can't to be empty ";
-                    }
-                    return null;
-                  },
-                  mytype: TextInputType.text,
-                  readonly: false,
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: TextFieldAuth(
+                        hint: "Card Type",
+                        mycontroller: controller.cardtype!,
+                        myicon: const Icon(Icons.type_specimen),
+                        ispass: false,
+                        validator: (val) {
+                          if (val == null || val.isEmpty) {
+                            return "Can't to be empty ";
+                          }
+                          return null;
+                        },
+                        mytype: TextInputType.text,
+                        readonly: true,
+                      ),
+                    ),
+                    PopupMenuButton<SampleItem>(
+                      initialValue: controller.selectedItem,
+                      onSelected: (SampleItem item) {
+                        String cardtype;
+                        switch (item) {
+                          case SampleItem.itemone:
+                            cardtype = "EPARGNE";
+                            break;
+                          case SampleItem.itemTwo:
+                            cardtype = "INFINITE";
+                            break;
+
+                          default:
+                            cardtype = "2468135780246913";
+                            break;
+                        }
+                        controller.cardtype!.text = cardtype;
+                      },
+                      itemBuilder: (BuildContext context) =>
+                          <PopupMenuEntry<SampleItem>>[
+                        ...List.generate(
+                          controller.sampleitemlisty.length,
+                          (index) => PopupMenuItem<SampleItem>(
+                            value: controller.sampleitemlisty[index],
+                            child: Row(
+                              children: [
+                                const Icon(
+                                  Icons.card_membership_rounded,
+                                  color: Color(0xff00aa86),
+                                ),
+                                Text(controller.names[index]),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
                 TextFieldAuth(
                   hint: "Related Account",
@@ -118,7 +163,7 @@ class AddaCardForUser extends StatelessWidget {
                   mytitle: "Add card",
                   myfunction: () {
                     if (controller.formStatecard.currentState!.validate()) {
-                      controller.addacard(userid,usertoken);
+                      controller.addacard(userid, usertoken);
                     }
                   },
                 ),
