@@ -66,7 +66,7 @@ class AdminDonationsAddControllerImp extends AdminDonationsAddController {
         'orgonizedby': orgonizedby!.text,
         'givers': 0,
         'donationimage': donationimage!.text,
-        'daysleft': double.parse(days!.text),
+        'daysleft': int.parse(days!.text),
         'currentamount': 0.0,
       });
       Get.offAll(const AdminPage());

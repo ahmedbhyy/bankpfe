@@ -8,7 +8,7 @@ class CardDonations extends StatelessWidget {
   final String mytitle;
   final double myamount;
   final double estimateamount;
-  final int mydays;
+  final String mydays;
   final String bywho;
   const CardDonations(
       {super.key,

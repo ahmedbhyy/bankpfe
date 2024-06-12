@@ -11,7 +11,7 @@ class DonationModel {
   final int givers;
   final String donationimage;
   final String orgonizedbydescription;
-  final int daysleft;
+  final String daysleft;
   final String donationid;
 
   DonationModel({
@@ -46,7 +46,7 @@ class DonationModel {
       givers: json['givers'] ?? 0,
       type: json['type'] ?? '',
       donationimage: json['donationimage'] ?? '',
-      daysleft: json['daysleft'] ?? 0,
+      daysleft: json['daysleft'].toString() ,
       orgonizedbydescription: json['orgonizedbydescription'] ?? '',
       donationid: json['donation_id'] ?? '',
     );
