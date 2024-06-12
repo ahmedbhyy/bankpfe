@@ -13,6 +13,7 @@ class CardsScreenControllerImp extends CardsScreenController {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   late User _user;
+  String username = "Member";
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   List<CardModel> usercards = [];
@@ -35,7 +36,13 @@ class CardsScreenControllerImp extends CardsScreenController {
       DocumentSnapshot docSnapshot =
           await _firestore.collection('users').doc(_user.uid).get();
 
+      var userData = docSnapshot.data();
+
       if (docSnapshot.exists) {
+        if (userData is Map<String, dynamic>) {
+          username = userData['name'] ?? "Member";
+          update();
+        }
         QuerySnapshot notificationsSnapshot =
             await docSnapshot.reference.collection('cards').get();
 

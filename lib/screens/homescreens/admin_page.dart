@@ -3,6 +3,7 @@ import 'package:bankpfe/screens/adminscreens/admin_donations.dart';
 import 'package:bankpfe/screens/adminscreens/admin_reports.dart';
 import 'package:bankpfe/screens/adminscreens/admin_user_details.dart';
 import 'package:bankpfe/screens/adminscreens/send_notifications.dart';
+import 'package:bankpfe/widgets/authwidgets/button_auth.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_container_bills.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -155,7 +156,16 @@ class AdminPage extends StatelessWidget {
                                 ),
                               ),
                             ],
-                          )
+                          ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                ButtonAuth(
+                  mytitle: "Sign Out",
+                  myfunction: () {
+                    controller.logout();
+                  },
+                )
               ],
             ),
           ),

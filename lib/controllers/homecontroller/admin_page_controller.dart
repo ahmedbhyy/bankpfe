@@ -1,11 +1,13 @@
 import 'package:bankpfe/data/Model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 abstract class AdminPageController extends GetxController {
   fetchdata();
   searchclient(String name);
+  logout();
 }
 
 class AdminPageControllerImp extends AdminPageController {
@@ -59,5 +61,15 @@ class AdminPageControllerImp extends AdminPageController {
     }
     update();
     return result;
+  }
+
+  @override
+  logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Get.offAllNamed("/signin");
+    } catch (e) {
+      return;
+    }
   }
 }

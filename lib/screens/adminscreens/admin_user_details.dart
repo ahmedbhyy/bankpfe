@@ -157,7 +157,20 @@ class AdminUserDetails extends StatelessWidget {
                     )
                   : controller.categoriesname == "Cards"
                       ? controller.usercards.isEmpty
-                          ? Lottie.asset("images/lotties/lottie_empty.json")
+                          ? Column(children: [
+                              Lottie.asset("images/lotties/lottie_empty.json"),
+                              ButtonAuth(
+                                mytitle: "Add a Card",
+                                myfunction: () {
+                                  Get.to(
+                                    () => AddaCardForUser(
+                                      userid: myuser.userid,
+                                      usertoken: myuser.token,
+                                    ),
+                                  );
+                                },
+                              ),
+                            ])
                           : controller.isloading
                               ? Lottie.asset(
                                   "images/lotties/lottie_loading.json",
