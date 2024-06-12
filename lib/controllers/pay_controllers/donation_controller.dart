@@ -99,7 +99,7 @@ class DonationControllerImp extends DonationController {
     } catch (e) {
       return Get.rawSnackbar(
           title: "Error",
-          message: "Please try again",
+          message: "Please try again $e",
           backgroundColor: Colors.red);
     }
   }

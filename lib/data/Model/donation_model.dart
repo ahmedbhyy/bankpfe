@@ -39,8 +39,10 @@ class DonationModel {
       orgonizedby: json['orgonizedby'] ?? '',
       orgonizedbyimage: json['orgonizedbyimage'] ?? '',
       orgonizedbylink: json['orgonizedbylink'] ?? '',
-      currentamount: json['currentamount'] ?? 0.0,
-      totalamount: json['totalamount'] ?? 0.0,
+      currentamount:
+          json['currentamount'] == null ? 0.0 : (json['currentamount'] + 0.0),
+      totalamount:
+          json['totalamount'] == null ? 0.0 : (json['totalamount'] + 0.0),
       givers: json['givers'] ?? 0,
       type: json['type'] ?? '',
       donationimage: json['donationimage'] ?? '',
@@ -65,7 +67,7 @@ class DonationModel {
       'donationimage': donationimage,
       'daysleft': daysleft,
       'orgonizedbydescription': orgonizedbydescription,
-      'donation_id':donationid,
+      'donation_id': donationid,
     };
   }
 }
