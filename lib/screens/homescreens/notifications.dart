@@ -14,30 +14,36 @@ class Notifications extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NotificationsControllerImp mycontroler =
-        Get.put(NotificationsControllerImp());
-    return Scaffold(
-      floatingActionButton: mycontroler.userData.isNotEmpty
-          ? FloatingActionButton.extended(
-              onPressed: () {
-                mycontroler.deleteallnoti();
-              },
-              label: const Text("Delete All"),
-              backgroundColor: const Color(0xff00aa86))
-          : Container(),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: ContainerBackground(
-        mywidget: SafeArea(
-          child: ListView(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
-            children: [
-              const AppBarCommon(title: "Notifications"),
-              Image.asset(
-                "images/notifications.png",
-              ),
-              GetBuilder<NotificationsControllerImp>(
-                builder: (controller) => Container(
+    Get.put(NotificationsControllerImp());
+    return GetBuilder<NotificationsControllerImp>(
+      builder: (controller) => Scaffold(
+        floatingActionButton: controller.userData.isNotEmpty
+            ? FloatingActionButton.extended(
+                onPressed: () {
+                  controller.deleteallnoti();
+                },
+                label: const Text(
+                  "Delete All",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                backgroundColor: const Color(0xff00aa86),
+              )
+            : Container(),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        body: ContainerBackground(
+          mywidget: SafeArea(
+            child: ListView(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),
+              children: [
+                const AppBarCommon(title: "Notifications"),
+                Image.asset(
+                  "images/notifications.png",
+                ),
+                Container(
                   margin: const EdgeInsets.symmetric(horizontal: 8.0),
                   padding: const EdgeInsets.all(5.0),
                   height: MediaQuery.of(context).size.height / 2.0,
@@ -114,8 +120,8 @@ class Notifications extends StatelessWidget {
                               ),
                             ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

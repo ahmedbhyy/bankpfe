@@ -9,6 +9,7 @@ class DonationModel {
   final double totalamount;
   final double currentamount;
   final int givers;
+   String id;
   final String donationimage;
   final String orgonizedbydescription;
   final String daysleft;
@@ -29,6 +30,7 @@ class DonationModel {
     required this.orgonizedbydescription,
     required this.daysleft,
     required this.donationid,
+    required this.id,
   });
 
   factory DonationModel.fromJson(Map<String, dynamic> json) {
@@ -36,6 +38,7 @@ class DonationModel {
       title: json['title'] ?? '',
       place: json['place'] ?? '',
       description: json['description'] ?? '',
+      id: json['id'] ?? "",
       orgonizedby: json['orgonizedby'] ?? '',
       orgonizedbyimage: json['orgonizedbyimage'] ?? '',
       orgonizedbylink: json['orgonizedbylink'] ?? '',
@@ -46,7 +49,7 @@ class DonationModel {
       givers: json['givers'] ?? 0,
       type: json['type'] ?? '',
       donationimage: json['donationimage'] ?? '',
-      daysleft: json['daysleft'].toString() ,
+      daysleft: json['daysleft'].toString(),
       orgonizedbydescription: json['orgonizedbydescription'] ?? '',
       donationid: json['donation_id'] ?? '',
     );
@@ -62,6 +65,7 @@ class DonationModel {
       'orgonizedbylink': orgonizedbylink,
       'currentamount': currentamount,
       'totalamount': totalamount,
+      'id':id,
       'givers': givers,
       'type': type,
       'donationimage': donationimage,

@@ -1,4 +1,5 @@
 import 'package:bankpfe/controllers/pay_controllers/donation_controller.dart';
+import 'package:bankpfe/data/Model/card_model.dart';
 import 'package:bankpfe/screens/bnapay/allbills/donation_details.dart';
 import 'package:bankpfe/slides/slide_right.dart';
 import 'package:bankpfe/widgets/donations/card_donations.dart';
@@ -14,7 +15,10 @@ import '../../../widgets/generalwidgets/common_container_background.dart';
 import '../../../widgets/generalwidgets/common_row_appbar.dart';
 
 class Donations extends StatelessWidget {
-  const Donations({super.key});
+  final List<CardModel> mycardList;
+  final String username;
+
+  const Donations({super.key, required this.mycardList, required this.username});
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +154,6 @@ class Donations extends StatelessWidget {
                                 controller
                                     .choosecategories(controller.donationtitle)
                                     .length,
-                                    
                                 (index) => InkWell(
                                   onTap: () {
                                     Navigator.of(context).push(
@@ -160,32 +163,43 @@ class Donations extends StatelessWidget {
                                               controller.choosecategories(
                                             controller.donationtitle,
                                           )[index],
+                                          mycardList: mycardList,
+                                          username: username,
                                         ),
                                       ),
                                     );
                                   },
                                   child: CardDonations(
-                                    myimage: controller.choosecategories(
-                                            controller.donationtitle,
-                                          )[index].donationimage,
-                                    mytitle: controller.choosecategories(
-                                            controller.donationtitle,
-                                          )[index].title,
-                                    myamount: controller.choosecategories(
-                                            controller.donationtitle,
-                                          )[index].currentamount,
-                                    mydays:
-                                        controller.choosecategories(
-                                            controller.donationtitle,
-                                          )[index].daysleft,
-                                    bywho:
-                                        controller.choosecategories(
-                                            controller.donationtitle,
-                                          )[index].orgonizedby,
-                                    estimateamount:
-                                        controller.choosecategories(
-                                            controller.donationtitle,
-                                          )[index].totalamount,
+                                    myimage: controller
+                                        .choosecategories(
+                                          controller.donationtitle,
+                                        )[index]
+                                        .donationimage,
+                                    mytitle: controller
+                                        .choosecategories(
+                                          controller.donationtitle,
+                                        )[index]
+                                        .title,
+                                    myamount: controller
+                                        .choosecategories(
+                                          controller.donationtitle,
+                                        )[index]
+                                        .currentamount,
+                                    mydays: controller
+                                        .choosecategories(
+                                          controller.donationtitle,
+                                        )[index]
+                                        .daysleft,
+                                    bywho: controller
+                                        .choosecategories(
+                                          controller.donationtitle,
+                                        )[index]
+                                        .orgonizedby,
+                                    estimateamount: controller
+                                        .choosecategories(
+                                          controller.donationtitle,
+                                        )[index]
+                                        .totalamount,
                                   ),
                                 ),
                               ),

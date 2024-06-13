@@ -24,7 +24,7 @@ class SettingsControllerImp extends SettingsController {
       AllBills(mycard: usercards, mybills: userbills,username: username),
       MobileBills(mycard: usercards, username: username),
       MoneyTransfer(mycardList: usercards, username: username),
-      const Donations(),
+       Donations(mycardList: usercards ,username : username),
     ];
   }
   List<String> categories = [

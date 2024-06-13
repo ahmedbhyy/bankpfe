@@ -85,6 +85,12 @@ class NotificationsControllerImp extends NotificationsController {
   @override
   deleteallnoti() async {
     try {
+      Get.back();
+      userData.clear();
+      Get.rawSnackbar(
+          title: "Success",
+          message: "You have deleted all the notifications",
+          backgroundColor: Colors.green);
       await FirebaseFirestore.instance
           .collection('users')
           .doc(_user.uid)
@@ -96,12 +102,6 @@ class NotificationsControllerImp extends NotificationsController {
         }
       });
 
-      Get.back();
-      userData.clear();
-      Get.rawSnackbar(
-          title: "Success",
-          message: "You have deleted all the notifications",
-          backgroundColor: Colors.green);
       update();
     } catch (e) {
       return Get.rawSnackbar(

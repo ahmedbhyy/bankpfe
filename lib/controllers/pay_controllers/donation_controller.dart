@@ -90,9 +90,14 @@ class DonationControllerImp extends DonationController {
 
       donations.clear();
       for (var doc in donationsSnapshot.docs) {
+        var donations1 =
+            DonationModel.fromJson(doc.data() as Map<String, dynamic>);
+        donations1.id = doc.id;
         donations
-            .add(DonationModel.fromJson(doc.data() as Map<String, dynamic>));
+            .add(donations1);
       }
+
+     
 
       isloading = false;
       update();

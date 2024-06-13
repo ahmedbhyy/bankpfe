@@ -48,7 +48,10 @@ class CardsScreenControllerImp extends CardsScreenController {
 
         usercards.clear();
         for (var doc in notificationsSnapshot.docs) {
-          usercards.add(CardModel.fromJson(doc.data() as Map<String, dynamic>));
+          var usercards1 =
+              CardModel.fromJson(doc.data() as Map<String, dynamic>);
+          usercards1.id = doc.id;
+          usercards.add(usercards1);
         }
       }
       isloading = false;
