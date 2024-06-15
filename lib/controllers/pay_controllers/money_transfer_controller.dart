@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 import '../../functions/auth_function.dart';
@@ -43,6 +44,7 @@ class MoneyTransferControllerImp extends MoneyTransferController {
   }
 
   String? userid;
+  String? username;
   TextEditingController cardnumber = TextEditingController();
 
   TextEditingController amount = TextEditingController();
@@ -50,6 +52,7 @@ class MoneyTransferControllerImp extends MoneyTransferController {
   TextEditingController content = TextEditingController();
   TextEditingController cardaddnumber = TextEditingController();
   TextEditingController cardaddholder = TextEditingController();
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   List choices = [];
 
@@ -125,6 +128,8 @@ class MoneyTransferControllerImp extends MoneyTransferController {
   @override
   void onInit() async {
     userid = await secureStorage.read(key: "userid");
+     username = await secureStorage.read(key: "username");
+      update();
     super.onInit();
   }
 }

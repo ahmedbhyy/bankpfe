@@ -15,16 +15,17 @@ import '../../functions/auth_function.dart';
 
 abstract class SettingsController extends GetxController {
   fetchusercard();
-  fetchUserData();
 }
 
 class SettingsControllerImp extends SettingsController {
   SettingsControllerImp() {
     pagespay = [
-      AllBills(mycard: usercards, mybills: userbills,username: username),
-      MobileBills(mycard: usercards, username: username),
-      MoneyTransfer(mycardList: usercards, username: username),
-       Donations(mycardList: usercards ,username : username),
+      AllBills(mycard: usercards, mybills: userbills),
+      MobileBills(mycard: usercards),
+      MoneyTransfer(
+        mycardList: usercards,
+      ),
+      Donations(mycardList: usercards),
     ];
   }
   List<String> categories = [
@@ -42,7 +43,7 @@ class SettingsControllerImp extends SettingsController {
   List<Widget> pagespay = [];
   List<CardModel> usercards = [];
   List<BillModel> userbills = [];
-  String username = "Member";
+  String? username = "Member";
   String? userid;
   bool isloading = false;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -50,6 +51,7 @@ class SettingsControllerImp extends SettingsController {
   @override
   void onInit() async {
     userid = await secureStorage.read(key: "userid");
+    username = await secureStorage.read(key: "username");
     update();
     fetchusercard();
     super.onInit();
@@ -64,6 +66,7 @@ class SettingsControllerImp extends SettingsController {
           await _firestore.collection('users').doc(userid).get();
 
       if (docSnapshot.exists) {
+       
         QuerySnapshot notificationsSnapshot =
             await docSnapshot.reference.collection('cards').get();
 
@@ -95,27 +98,6 @@ class SettingsControllerImp extends SettingsController {
       return Get.rawSnackbar(
           title: "Error",
           message: "Please try again",
-          backgroundColor: Colors.red);
-    }
-  }
-
-  @override
-  Future fetchUserData() async {
-    try {
-      DocumentSnapshot docSnapshot =
-          await _firestore.collection('users').doc(userid).get();
-      var userData = docSnapshot.data();
-
-      if (docSnapshot.exists) {
-        if (userData is Map<String, dynamic>) {
-          username = userData['name'];
-          update();
-        }
-      }
-    } catch (e) {
-      return Get.rawSnackbar(
-          title: "Error",
-          message: "Please Check your internet connection",
           backgroundColor: Colors.red);
     }
   }

@@ -19,9 +19,8 @@ import '../../cardscreens/card_details.dart';
 
 class PayBillwithNumber extends StatelessWidget {
   final List<CardModel> myCard;
-  final String username;
-  const PayBillwithNumber(
-      {super.key, required this.myCard, required this.username});
+
+  const PayBillwithNumber({super.key, required this.myCard});
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +62,10 @@ class PayBillwithNumber extends StatelessWidget {
                       return CardsHome(
                         mypage: CardDetails(
                           myCard: myCard[index],
-                          username: username,
+                          username: controller.username ?? "Member",
                         ),
                         cardtype: CardType.credit,
-                        cardholder: username,
+                        cardholder: controller.username ?? "Member",
                         cardnumber: myCard[index].cardNumber,
                         backgroundimage: myCard[index].background,
                       );

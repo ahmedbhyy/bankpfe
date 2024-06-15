@@ -16,9 +16,9 @@ import '../../../widgets/generalwidgets/common_row_appbar.dart';
 
 class Donations extends StatelessWidget {
   final List<CardModel> mycardList;
-  final String username;
+ 
 
-  const Donations({super.key, required this.mycardList, required this.username});
+  const Donations({super.key, required this.mycardList});
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +164,7 @@ class Donations extends StatelessWidget {
                                             controller.donationtitle,
                                           )[index],
                                           mycardList: mycardList,
-                                          username: username,
+                                         
                                         ),
                                       ),
                                     );

@@ -36,10 +36,10 @@ class CardScreen extends StatelessWidget {
                     CardsHome(
                       mypage: CardDetails(
                         myCard: controller.usercards[index],
-                        username: "Ahmed bhy",
+                        username: controller.username,
                       ),
                       cardtype: CardType.credit,
-                      cardholder: "Ahmed bhy",
+                      cardholder: controller.username,
                       cardnumber: controller.usercards[index].cardNumber,
                       backgroundimage: controller.usercards[index].background,
                     ),

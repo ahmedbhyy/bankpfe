@@ -16,13 +16,13 @@ import 'package:u_credit_card/u_credit_card.dart';
 
 class DonationPay extends StatelessWidget {
   final List<CardModel> mycardList;
-  final String username;
+
   final DonationModel mydonation;
 
   const DonationPay(
       {super.key,
       required this.mycardList,
-      required this.username,
+   
       required this.mydonation});
 
   @override
@@ -63,10 +63,10 @@ class DonationPay extends StatelessWidget {
                     return CardsHome(
                       mypage: CardDetails(
                         myCard: mycardList[index],
-                        username: username,
+                        username: controller.username??"Member",
                       ),
                       cardtype: CardType.credit,
-                      cardholder: username,
+                      cardholder:  controller.username ?? "Member",
                       cardnumber: mycardList[index].cardNumber,
                       backgroundimage: mycardList[index].background,
                     );

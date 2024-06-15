@@ -11,8 +11,8 @@ import '../../../widgets/generalwidgets/common_row_appbar.dart';
 
 class MobileBills extends StatelessWidget {
   final List<CardModel> mycard;
-  final String username;
-  const MobileBills({super.key, required this.mycard, required this.username});
+  
+  const MobileBills({super.key, required this.mycard, });
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,9 @@ class MobileBills extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             SlideRight(
-              page: PayMobileBill(myCard: mycard, username: username),
+              page: PayMobileBill(
+                myCard: mycard,
+              ),
             ),
           );
         },

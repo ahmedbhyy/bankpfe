@@ -1,5 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+
 import 'package:get/get.dart';
 
 import '../../functions/auth_function.dart';
@@ -9,18 +11,20 @@ enum SampleItem { itemone, itemTwo, itemThree, itemFour, itemFive }
 
 abstract class PayBillnumberController extends GetxController {
   updateindexz(int index);
-  paybill( String cardid, double amount, double currentbalance,
-      String billtype ,String billnumber);
+  paybill(String cardid, double amount, double currentbalance, String billtype,
+      String billnumber);
 }
 
 class PayBillnumberControllerImp extends PayBillnumberController {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
-
+FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   TextEditingController? billnumber;
   TextEditingController? billamount;
   TextEditingController? billtype;
 
   SampleItem? selectedItem;
+
+  String? username;
 
   List<SampleItem> sampleitemlisty = [
     SampleItem.itemone,
@@ -35,24 +39,24 @@ class PayBillnumberControllerImp extends PayBillnumberController {
     update();
   }
 
-  
-
   @override
-  void onInit() async{
+  void onInit() async {
     billamount = TextEditingController();
     billnumber = TextEditingController();
     billtype = TextEditingController();
     userid = await secureStorage.read(key: "userid");
+    username = await secureStorage.read(key: "username");
+    update();
     super.onInit();
   }
-  
+
   String? userid;
   @override
-  paybill( cardid, amount, currentbalance, billtype,billnumber) async {
+  paybill(cardid, amount, currentbalance, billtype, billnumber) async {
     if (await authenticate1("Verification") == true &&
         currentbalance > amount) {
       Get.back();
-    
+
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userid)
@@ -67,7 +71,7 @@ class PayBillnumberControllerImp extends PayBillnumberController {
           .collection('transactions')
           .add({
         'amount': amount,
-        'cardid':cardid,
+        'cardid': cardid,
         'category': "Billed transaction",
         'date': Timestamp.now(),
         'debit': "Debit",
@@ -90,6 +94,4 @@ class PayBillnumberControllerImp extends PayBillnumberController {
           message: "Not recognized");
     }
   }
-
-  
 }

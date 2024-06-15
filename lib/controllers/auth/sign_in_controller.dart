@@ -75,6 +75,7 @@ class SignInControllerImp extends SignInController {
         key: "email",
         value: email,
       );
+       
       await secureStorage.write(
         key: "userid",
         value: credential.user!.uid,
@@ -89,6 +90,10 @@ class SignInControllerImp extends SignInController {
       if (credential.user!.emailVerified) {
         if (docSnapshot.exists) {
           if (userData is Map<String, dynamic>) {
+            await secureStorage.write(
+              key: "username",
+              value: userData['name'],
+            );
             if (userData['isadmin'] == true) {
               Get.offAllNamed("/adminscreen");
               await secureStorage.write(

@@ -16,12 +16,13 @@ import '../../../widgets/generalwidgets/common_row_appbar.dart';
 class AllBills extends StatelessWidget {
   final List<CardModel> mycard;
   final List<BillModel> mybills;
-  final String username;
+ 
 
   const AllBills({
     super.key,
     required this.mycard,
-    required this.mybills, required this.username,
+    required this.mybills,
+   
   });
 
   @override
@@ -32,7 +33,9 @@ class AllBills extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             SlideRight(
-              page: PayBillwithNumber(myCard: mycard, username: username),
+              page: PayBillwithNumber(
+                myCard: mycard,
+              ),
             ),
           );
         },

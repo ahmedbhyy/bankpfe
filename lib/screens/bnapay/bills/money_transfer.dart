@@ -15,11 +15,11 @@ import '../../cardscreens/card_details.dart';
 
 class MoneyTransfer extends StatelessWidget {
   final List<CardModel> mycardList;
-  final String username;
+ 
   const MoneyTransfer({
     super.key,
     required this.mycardList,
-    required this.username,
+   
   });
 
   @override
@@ -62,10 +62,10 @@ class MoneyTransfer extends StatelessWidget {
                       return CardsHome(
                         mypage: CardDetails(
                           myCard: mycardList[index],
-                          username: username,
+                          username: controller.username??"Member",
                         ),
                         cardtype: CardType.credit,
-                        cardholder: username,
+                        cardholder: controller.username ?? "Member",
                         cardnumber: mycardList[index].cardNumber,
                         backgroundimage: mycardList[index].background,
                       );

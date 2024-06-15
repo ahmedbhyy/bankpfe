@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 import '../../functions/auth_function.dart';
@@ -19,11 +20,13 @@ abstract class PayMobileController extends GetxController {
 class PayMobileControllerImp extends PayMobileController {
   TextEditingController phonenumber = TextEditingController();
   GlobalKey<FormState> formState = GlobalKey<FormState>();
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   int i = 0;
   int j = 0;
   int z = 0;
 
   String? userid;
+  String? username;
 
   List<String> amounts = [
     "10",
@@ -128,6 +131,8 @@ class PayMobileControllerImp extends PayMobileController {
   @override
   void onInit() async {
     userid = await secureStorage.read(key: "userid");
+    username = await secureStorage.read(key: "username");
+     update();
     super.onInit();
   }
 

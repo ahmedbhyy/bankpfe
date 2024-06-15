@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get/get.dart';
 
 import '../../functions/auth_function.dart';
@@ -24,13 +25,17 @@ class DonationsPayControllerImp extends DonationsPayController {
   TextEditingController? amount;
   TextEditingController? desc;
   GlobalKey<FormState> formStatedonation = GlobalKey<FormState>();
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   String? userid;
+  String? username;
 
   @override
   void onInit() async {
     amount = TextEditingController();
     desc = TextEditingController();
     userid = await secureStorage.read(key: "userid");
+    username = await secureStorage.read(key: "username");
+    update();
     super.onInit();
   }
 

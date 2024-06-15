@@ -16,13 +16,13 @@ import '../../../widgets/generalwidgets/common_row_appbar.dart';
 class DonationDetails extends StatelessWidget {
   final DonationModel donationmodel;
   final List<CardModel> mycardList;
-  final String username;
+
 
   const DonationDetails({
     super.key,
     required this.donationmodel,
     required this.mycardList,
-    required this.username,
+   
   });
 
   @override
@@ -35,8 +35,7 @@ class DonationDetails extends StatelessWidget {
             Get.to(
               () => DonationPay(
                 mycardList: mycardList,
-                username: username,
-                  mydonation: donationmodel,
+                mydonation: donationmodel,
               ),
             );
           },
