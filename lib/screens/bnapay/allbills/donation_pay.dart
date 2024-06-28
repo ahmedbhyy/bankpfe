@@ -1,5 +1,6 @@
 import 'package:bankpfe/controllers/pay_controllers/donation_pay_controller.dart';
-import 'package:bankpfe/data/Model/card_model.dart';
+import 'package:bankpfe/data/Model/account_model.dart';
+
 import 'package:bankpfe/data/Model/donation_model.dart';
 import 'package:bankpfe/screens/cardscreens/card_details.dart';
 import 'package:bankpfe/widgets/authwidgets/button_auth.dart';
@@ -15,15 +16,12 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:u_credit_card/u_credit_card.dart';
 
 class DonationPay extends StatelessWidget {
-  final List<CardModel> mycardList;
+  final List<AccountModel> myaccounts;
 
   final DonationModel mydonation;
 
   const DonationPay(
-      {super.key,
-      required this.mycardList,
-   
-      required this.mydonation});
+      {super.key, required this.myaccounts, required this.mydonation});
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +47,7 @@ class DonationPay extends StatelessWidget {
                 ),
                 const SizedBox(height: 10.0),
                 Swiper(
-                  itemCount: mycardList.length,
+                  itemCount: myaccounts.length,
                   loop: true,
                   duration: 1200,
                   itemHeight: 200,
@@ -62,19 +60,20 @@ class DonationPay extends StatelessWidget {
                   itemBuilder: (context, index) {
                     return CardsHome(
                       mypage: CardDetails(
-                        myCard: mycardList[index],
-                        username: controller.username??"Member",
+                        myCard: myaccounts[index].accountcard,
+                        username: controller.username ?? "Member",
+                        datecreation: myaccounts[index].creationdate,
                       ),
                       cardtype: CardType.credit,
-                      cardholder:  controller.username ?? "Member",
-                      cardnumber: mycardList[index].cardNumber,
-                      backgroundimage: mycardList[index].background,
+                      cardholder: controller.username ?? "Member",
+                      cardnumber: myaccounts[index].accountcard.cardNumber,
+                      backgroundimage: myaccounts[index].accountcard.background,
                     );
                   },
                 ),
                 const SizedBox(height: 10.0),
                 Text(
-                  "Available balance :  ${mycardList[controller.z].balance.toString().length >= 5 ? mycardList[controller.z].balance.toString().substring(0, 5) : mycardList[controller.z].balance.toString()} TND",
+                  "Available balance :  ${myaccounts[controller.z].accountcard.balance.toString().length >= 5 ? myaccounts[controller.z].accountcard.balance.toString().substring(0, 5) : myaccounts[controller.z].accountcard.balance.toString()} TND",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.mulish(
                     fontSize: 15.0,
@@ -116,13 +115,13 @@ class DonationPay extends StatelessWidget {
                   myfunction: () {
                     if (controller.formStatedonation.currentState!.validate() &&
                         double.parse(controller.amount!.text) <
-                            mycardList[controller.z].balance) {
+                            myaccounts[controller.z].accountcard.balance) {
                       controller.donateverify(
                         mydonation.title,
                         controller.desc!.text,
                         double.parse(controller.amount!.text),
-                        mycardList[controller.z].id,
-                        mycardList[controller.z].balance,
+                        myaccounts[controller.z].id,
+                        myaccounts[controller.z].accountcard.balance,
                         mydonation.id,
                         mydonation.currentamount,
                         mydonation.givers,

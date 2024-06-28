@@ -49,7 +49,7 @@ class AdminReports extends StatelessWidget {
                                   title: Text(
                                       controller.myreports[index].useremail),
                                   subtitle: Text(
-                                      "Description: ${controller.myreports[index].repport}\ndate: ${controller.myreports[index].reportdate.toDate()}"),
+                                      "Description: ${controller.myreports[index].repport}\ndate: ${controller.myreports[index].reportdate.toDate().toString().substring(0, 16)}"),
                                   leading: const Icon(
                                     Icons.person_2_outlined,
                                     color: Color.fromARGB(255, 109, 163, 111),

@@ -1,5 +1,6 @@
 import 'package:bankpfe/controllers/pay_controllers/donation_details_controller.dart';
-import 'package:bankpfe/data/Model/card_model.dart';
+import 'package:bankpfe/data/Model/account_model.dart';
+
 import 'package:bankpfe/screens/bnapay/allbills/donation_pay.dart';
 import 'package:bankpfe/data/Model/donation_model.dart';
 
@@ -15,14 +16,12 @@ import '../../../widgets/generalwidgets/common_row_appbar.dart';
 
 class DonationDetails extends StatelessWidget {
   final DonationModel donationmodel;
-  final List<CardModel> mycardList;
-
+  final List<AccountModel> myaccount;
 
   const DonationDetails({
     super.key,
     required this.donationmodel,
-    required this.mycardList,
-   
+    required this.myaccount,
   });
 
   @override
@@ -34,7 +33,7 @@ class DonationDetails extends StatelessWidget {
           onPressed: () {
             Get.to(
               () => DonationPay(
-                mycardList: mycardList,
+                myaccounts: myaccount,
                 mydonation: donationmodel,
               ),
             );

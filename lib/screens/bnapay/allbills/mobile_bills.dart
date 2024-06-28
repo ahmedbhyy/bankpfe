@@ -1,4 +1,5 @@
-import 'package:bankpfe/data/Model/card_model.dart';
+import 'package:bankpfe/data/Model/account_model.dart';
+
 import 'package:bankpfe/screens/bnapay/bills/mobile_bill.dart';
 import 'package:bankpfe/screens/bnapay/bills/pay_mobile_bill.dart';
 import 'package:bankpfe/slides/slide_right.dart';
@@ -10,9 +11,12 @@ import '../../../widgets/generalwidgets/common_container_listtile.dart';
 import '../../../widgets/generalwidgets/common_row_appbar.dart';
 
 class MobileBills extends StatelessWidget {
-  final List<CardModel> mycard;
-  
-  const MobileBills({super.key, required this.mycard, });
+  final List<AccountModel> myaccounts;
+
+  const MobileBills({
+    super.key,
+    required this.myaccounts,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +26,7 @@ class MobileBills extends StatelessWidget {
           Navigator.of(context).push(
             SlideRight(
               page: PayMobileBill(
-                myCard: mycard,
+                myCard: myaccounts,
               ),
             ),
           );

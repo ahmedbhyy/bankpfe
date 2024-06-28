@@ -11,7 +11,7 @@ abstract class DonationsPayController extends GetxController {
     String title,
     String description,
     double amount,
-    String cardid,
+    String accountid,
     double currentbalance,
     String donationid,
     double currentamountdonation,
@@ -47,7 +47,7 @@ class DonationsPayControllerImp extends DonationsPayController {
   }
 
   @override
-  donateverify(title, description, amount, cardid, currentbalance, donationid,
+  donateverify(title, description, amount, accountid, currentbalance, donationid,
       currentamountdonation, givers, totalamountdonation) async {
     if (await authenticate1("Verification") == true &&
         (currentamountdonation + amount) <= totalamountdonation &&
@@ -56,10 +56,10 @@ class DonationsPayControllerImp extends DonationsPayController {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userid)
-          .collection('cards')
-          .doc(cardid)
+          .collection('accounts')
+          .doc(accountid)
           .update({
-        'balance': currentbalance - amount,
+        'accountcard.balance': currentbalance - amount,
       });
 
       await FirebaseFirestore.instance
@@ -75,7 +75,7 @@ class DonationsPayControllerImp extends DonationsPayController {
           .collection('transactions')
           .add({
         'amount': amount,
-        'cardid': cardid,
+        'cardid': accountid,
         'category': "Donations transaction",
         'date': Timestamp.now(),
         'debit': "Debit",

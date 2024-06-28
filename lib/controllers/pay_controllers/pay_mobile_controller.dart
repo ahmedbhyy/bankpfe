@@ -11,7 +11,7 @@ abstract class PayMobileController extends GetxController {
   updateimage(String text);
   updateindexz(int index);
   paymobilebill(
-    String cardid,
+    String accountid,
     double amount,
     double currentbalance,
   );
@@ -85,7 +85,7 @@ class PayMobileControllerImp extends PayMobileController {
   }
 
   @override
-  paymobilebill(cardid, amount, currentbalance) async {
+  paymobilebill(accountid, amount, currentbalance) async {
     if (await authenticate1("Verification") == true &&
         currentbalance > amount) {
       Get.back();
@@ -93,10 +93,12 @@ class PayMobileControllerImp extends PayMobileController {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userid)
-          .collection('cards')
-          .doc(cardid)
+          .collection('accounts')
+          .doc(accountid)
           .update({
-        'balance': currentbalance - amount,
+     
+         'accountcard.balance': currentbalance - amount,
+       
       });
       await FirebaseFirestore.instance
           .collection('users')
@@ -104,7 +106,7 @@ class PayMobileControllerImp extends PayMobileController {
           .collection('transactions')
           .add({
         'amount': amount,
-        'cardid': cardid,
+        'cardid': accountid,
         'category': "Billed transaction",
         'date': Timestamp.now(),
         'debit': "Debit",
@@ -139,7 +141,6 @@ class PayMobileControllerImp extends PayMobileController {
   @override
   void dispose() async {
     phonenumber.dispose();
-
     super.dispose();
   }
 }

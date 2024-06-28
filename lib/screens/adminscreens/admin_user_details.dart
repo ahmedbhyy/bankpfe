@@ -155,12 +155,12 @@ class AdminUserDetails extends StatelessWidget {
                         ),
                       ],
                     )
-                  : controller.categoriesname == "Cards"
+                  : controller.categoriesname == "Accounts"
                       ? controller.usercards.isEmpty
                           ? Column(children: [
                               Lottie.asset("images/lotties/lottie_empty.json"),
                               ButtonAuth(
-                                mytitle: "Add a Card",
+                                mytitle: "Add an account",
                                 myfunction: () {
                                   Get.to(
                                     () => AddaCardForUser(
@@ -180,119 +180,279 @@ class AdminUserDetails extends StatelessWidget {
                                   children: [
                                     ...List.generate(
                                       controller.usercards.length,
-                                      (index) => CommonContainerBills(
-                                        mywidget: Column(
-                                          children: [
-                                            Text(
-                                              "Card ${index + 1}",
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 16.0,
-                                                decoration:
-                                                    TextDecoration.underline,
-                                              ),
-                                            ),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
+                                      (index) => Stack(
+                                        clipBehavior: Clip.none,
+                                        children: [
+                                          CommonContainerBills(
+                                            mywidget: Column(
                                               children: [
-                                                const Text(
-                                                  "Card Type",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17.0,
-                                                      color: Color.fromARGB(
-                                                          255, 80, 103, 81)),
-                                                ),
-                                                Text(controller
-                                                    .usercards[index].cardtype)
-                                              ],
-                                            ),
-                                            const SizedBox(height: 10.0),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                const Text(
-                                                  "Card Number",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17.0,
-                                                      color: Color.fromARGB(
-                                                          255, 80, 103, 81)),
-                                                ),
-                                                Text(controller.usercards[index]
-                                                    .cardNumber)
-                                              ],
-                                            ),
-                                            const SizedBox(height: 10.0),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                const Text(
-                                                  "Related Account",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17.0,
-                                                      color: Color.fromARGB(
-                                                          255, 80, 103, 81)),
-                                                ),
-                                                Text(controller.usercards[index]
-                                                    .relatedaccount)
-                                              ],
-                                            ),
-                                            const SizedBox(height: 10.0),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                const Text(
-                                                  "RIB",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17.0,
-                                                      color: Color.fromARGB(
-                                                          255, 80, 103, 81)),
-                                                ),
-                                                Text(controller
-                                                    .usercards[index].rib)
-                                              ],
-                                            ),
-                                            const SizedBox(height: 10.0),
-                                            Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                const Text(
-                                                  "Balance",
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                      fontSize: 17.0,
-                                                      color: Color.fromARGB(
-                                                          255, 80, 103, 81)),
-                                                ),
                                                 Text(
-                                                    "${controller.usercards[index].balance.toString()} TND"),
+                                                  "Account ${index + 1}",
+                                                  style: const TextStyle(
+                                                    fontWeight: FontWeight.bold,
+                                                    fontSize: 16.0,
+                                                    decoration: TextDecoration
+                                                        .underline,
+                                                  ),
+                                                ),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text(
+                                                      "Account N°",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 17.0,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              80,
+                                                              103,
+                                                              81)),
+                                                    ),
+                                                    Text(controller
+                                                        .usercards[index]
+                                                        .accountnumber)
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10.0),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text(
+                                                      "Creation Date",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 17.0,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              80,
+                                                              103,
+                                                              81)),
+                                                    ),
+                                                    Text(controller
+                                                        .usercards[index]
+                                                        .creationdate
+                                                        .toDate()
+                                                        .toString()
+                                                        .substring(0, 10))
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10.0),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text(
+                                                      "Card Type",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 17.0,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              80,
+                                                              103,
+                                                              81)),
+                                                    ),
+                                                    Text(controller
+                                                        .usercards[index]
+                                                        .accountcard
+                                                        .cardtype)
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10.0),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text(
+                                                      "Card Number",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 17.0,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              80,
+                                                              103,
+                                                              81)),
+                                                    ),
+                                                    Text(controller
+                                                        .usercards[index]
+                                                        .accountcard
+                                                        .cardNumber)
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10.0),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text(
+                                                      "Related Account",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 17.0,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              80,
+                                                              103,
+                                                              81)),
+                                                    ),
+                                                    Text(controller
+                                                        .usercards[index]
+                                                        .accountcard
+                                                        .relatedaccount)
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10.0),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text(
+                                                      "RIB",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 17.0,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              80,
+                                                              103,
+                                                              81)),
+                                                    ),
+                                                    Text(controller
+                                                        .usercards[index]
+                                                        .accountcard
+                                                        .rib)
+                                                  ],
+                                                ),
+                                                const SizedBox(height: 10.0),
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    const Text(
+                                                      "Balance",
+                                                      style: TextStyle(
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          fontSize: 17.0,
+                                                          color: Color.fromARGB(
+                                                              255,
+                                                              80,
+                                                              103,
+                                                              81)),
+                                                    ),
+                                                    Text(
+                                                        "${controller.usercards[index].accountcard.balance.toString()} TND"),
+                                                  ],
+                                                ),
                                               ],
                                             ),
-                                          ],
-                                        ),
+                                          ),
+                                          Positioned(
+                                            right: 2.0,
+                                            top: -8.0,
+                                            child: IconButton(
+                                              onPressed: () {
+                                                Get.dialog(
+                                                  Dialog(
+                                                    backgroundColor:
+                                                        Colors.white,
+                                                    child: Container(
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              10),
+                                                      decoration: BoxDecoration(
+                                                          color: Colors.white,
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(
+                                                                      20)),
+                                                      child: Column(
+                                                        mainAxisSize:
+                                                            MainAxisSize.min,
+                                                        crossAxisAlignment:
+                                                            CrossAxisAlignment
+                                                                .start,
+                                                        children: [
+                                                          const Text(
+                                                            "Are u sure to delete this Account ?",
+                                                            textAlign: TextAlign
+                                                                .center,
+                                                            style: TextStyle(
+                                                                fontSize: 20.0),
+                                                          ),
+                                                          Row(
+                                                            mainAxisAlignment:
+                                                                MainAxisAlignment
+                                                                    .center,
+                                                            children: [
+                                                              TextButton.icon(
+                                                                onPressed: () {
+                                                                  Get.back();
+                                                                },
+                                                                icon: const Icon(
+                                                                    Icons
+                                                                        .cancel),
+                                                                label: const Text(
+                                                                    "Cancel"),
+                                                              ),
+                                                              TextButton.icon(
+                                                                onPressed: () {
+                                                                  controller.deleteaccount(
+                                                                      controller
+                                                                          .usercards[
+                                                                              index]
+                                                                          .id,
+                                                                      myuser
+                                                                          .userid);
+                                                                },
+                                                                icon:
+                                                                    const Icon(
+                                                                  Icons.delete,
+                                                                  color: Colors
+                                                                      .red,
+                                                                ),
+                                                                label: const Text(
+                                                                    "Delete"),
+                                                              ),
+                                                            ],
+                                                          )
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                );
+                                              },
+                                              icon: const Icon(
+                                                Icons.delete,
+                                                color: Color.fromARGB(
+                                                    255, 238, 99, 89),
+                                              ),
+                                              iconSize: 30.0,
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                     const SizedBox(height: 8.0),
                                     ButtonAuth(
-                                      mytitle: "Add a Card",
+                                      mytitle: "Add an Account",
                                       myfunction: () {
                                         Get.to(
                                           () => AddaCardForUser(

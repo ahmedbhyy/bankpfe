@@ -1,5 +1,6 @@
 import 'package:bankpfe/controllers/pay_controllers/donation_controller.dart';
-import 'package:bankpfe/data/Model/card_model.dart';
+import 'package:bankpfe/data/Model/account_model.dart';
+
 import 'package:bankpfe/screens/bnapay/allbills/donation_details.dart';
 import 'package:bankpfe/slides/slide_right.dart';
 import 'package:bankpfe/widgets/donations/card_donations.dart';
@@ -15,10 +16,9 @@ import '../../../widgets/generalwidgets/common_container_background.dart';
 import '../../../widgets/generalwidgets/common_row_appbar.dart';
 
 class Donations extends StatelessWidget {
-  final List<CardModel> mycardList;
- 
+  final List<AccountModel> myaccounts;
 
-  const Donations({super.key, required this.mycardList});
+  const Donations({super.key, required this.myaccounts});
 
   @override
   Widget build(BuildContext context) {
@@ -163,8 +163,7 @@ class Donations extends StatelessWidget {
                                               controller.choosecategories(
                                             controller.donationtitle,
                                           )[index],
-                                          mycardList: mycardList,
-                                         
+                                          myaccount: myaccounts,
                                         ),
                                       ),
                                     );

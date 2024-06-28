@@ -171,15 +171,17 @@ class HomeScreen extends StatelessWidget {
                             layout: SwiperLayout.STACK,
                             itemBuilder: (context, index) => CardsHome(
                               mypage: CardDetails(
-                                myCard: controller.usercards[index],
+                                myCard: controller.usercards[index].accountcard,
                                 username: controller.username,
+                                datecreation:
+                                    controller.usercards[index].creationdate,
                               ),
                               cardtype: CardType.credit,
                               cardholder: controller.username,
-                              cardnumber:
-                                  controller.usercards[index].cardNumber,
-                              backgroundimage:
-                                  controller.usercards[index].background,
+                              cardnumber: controller
+                                  .usercards[index].accountcard.cardNumber,
+                              backgroundimage: controller
+                                  .usercards[index].accountcard.background,
                             ),
                           ),
                           const SizedBox(height: 10.0),
@@ -195,7 +197,7 @@ class HomeScreen extends StatelessWidget {
                                         const Color.fromARGB(255, 2, 108, 62)),
                               ),
                               Text(
-                                "${controller.usercards[controller.i].balance.toString().length >= 5 ? controller.usercards[controller.i].balance.toString().substring(0, 5) : controller.usercards[controller.i].balance.toString()} TND",
+                                "${controller.usercards[controller.i].accountcard.balance.toString().length > 5 ? controller.usercards[controller.i].accountcard.balance.toString().substring(0, 6) : controller.usercards[controller.i].accountcard.balance.toString()} TND",
                                 textAlign: TextAlign.center,
                                 style: GoogleFonts.mulish(
                                   fontSize: 16.0,
@@ -226,7 +228,7 @@ class HomeScreen extends StatelessWidget {
                       Navigator.of(context).push(
                         SlideRight(
                           page: AllTransactions(
-                              mytranscation: controller.usertranscation ),
+                              mytranscation: controller.usertranscation),
                         ),
                       );
                     },

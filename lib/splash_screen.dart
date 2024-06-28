@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:bankpfe/screens/homescreens/admin_page.dart';
-import 'package:bankpfe/screens/splashscreens/choose_lang.dart';
+import 'package:bankpfe/screens/splashscreens/onboarding.dart';
 import 'package:bankpfe/start.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   FirebaseAuth.instance.currentUser!.emailVerified &&
                   isadmin == "1")
               ? Get.offAll(() => const AdminPage())
-              : Get.offAll(() => const ChooseLang());
+              : Get.offAll(() => const OnBoarding());
     });
     super.initState();
   }

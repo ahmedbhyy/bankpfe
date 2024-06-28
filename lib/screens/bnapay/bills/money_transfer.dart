@@ -1,25 +1,24 @@
 import 'package:bankpfe/controllers/pay_controllers/money_transfer_controller.dart';
-import 'package:bankpfe/data/Model/card_model.dart';
+import 'package:bankpfe/data/Model/account_model.dart';
 import 'package:bankpfe/widgets/authwidgets/button_auth.dart';
 import 'package:bankpfe/widgets/authwidgets/textfield_auth.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_container_background.dart';
+import 'package:bankpfe/widgets/generalwidgets/common_loading_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swiper_view/flutter_swiper_view.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:u_credit_card/u_credit_card.dart';
-
 import '../../../widgets/generalwidgets/common_row_appbar.dart';
 import '../../../widgets/homewidget/cards_home.dart';
 import '../../cardscreens/card_details.dart';
 
 class MoneyTransfer extends StatelessWidget {
-  final List<CardModel> mycardList;
- 
+  final List<AccountModel> mycardList;
+
   const MoneyTransfer({
     super.key,
     required this.mycardList,
-   
   });
 
   @override
@@ -61,19 +60,21 @@ class MoneyTransfer extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CardsHome(
                         mypage: CardDetails(
-                          myCard: mycardList[index],
-                          username: controller.username??"Member",
+                          myCard: mycardList[index].accountcard,
+                          username: controller.username ?? "Member",
+                          datecreation: mycardList[index].creationdate,
                         ),
                         cardtype: CardType.credit,
                         cardholder: controller.username ?? "Member",
-                        cardnumber: mycardList[index].cardNumber,
-                        backgroundimage: mycardList[index].background,
+                        cardnumber: mycardList[index].accountcard.cardNumber,
+                        backgroundimage:
+                            mycardList[index].accountcard.background,
                       );
                     },
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Available balance :  ${mycardList[controller.i].balance.toString().length >= 5 ? mycardList[controller.i].balance.toString().substring(0, 5) : mycardList[controller.i].balance.toString()} TND",
+                    "Available balance :  ${mycardList[controller.i].accountcard.balance.toString().length >= 5 ? mycardList[controller.i].accountcard.balance.toString().substring(0, 5) : mycardList[controller.i].accountcard.balance.toString()} TND",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       fontSize: 15.0,
@@ -133,7 +134,7 @@ class MoneyTransfer extends StatelessWidget {
                           children: [
                             Expanded(
                               child: TextFieldAuth(
-                                hint: "Card number",
+                                hint: "RIB",
                                 readonly: false,
                                 mysuffixicon: GestureDetector(
                                   child:
@@ -175,7 +176,7 @@ class MoneyTransfer extends StatelessWidget {
                                                       .symmetric(
                                                       horizontal: 10.0),
                                                   child: TextFieldAuth(
-                                                    hint: "Card Number",
+                                                    hint: "RIB",
                                                     readonly: false,
                                                     mysuffix: "",
                                                     mycontroller: controller
@@ -189,6 +190,9 @@ class MoneyTransfer extends StatelessWidget {
                                                       if (val == null ||
                                                           val.isEmpty) {
                                                         return "Can't to be empty ";
+                                                      } else if (val.length !=
+                                                          23) {
+                                                        return "can't be higher or lower than 23";
                                                       }
                                                       return null;
                                                     },
@@ -243,19 +247,10 @@ class MoneyTransfer extends StatelessWidget {
                                                             controller
                                                                 .cardaddholder
                                                                 .text);
-                                                        controller
-                                                                .sampleitemlisty
-                                                                .contains(
-                                                                    SampleItem
-                                                                        .itemFour)
-                                                            ? controller
-                                                                .sampleitemlisty
-                                                                .add(SampleItem
-                                                                    .itemFive)
-                                                            : controller
-                                                                .sampleitemlisty
-                                                                .add(SampleItem
-                                                                    .itemFour);
+                                                        controller.numbers.add(
+                                                            controller
+                                                                .cardaddnumber
+                                                                .text);
                                                       }
                                                     },
                                                   ),
@@ -276,54 +271,36 @@ class MoneyTransfer extends StatelessWidget {
                                 validator: (val) {
                                   if (val == null || val.isEmpty) {
                                     return "Can't to be empty ";
-                                  } else if (val.length != 16) {
-                                    return "Can't to be higher than 16 caracter";
+                                  } else if (val.length != 23) {
+                                    return "Can't to be higher than 23 caracter";
                                   }
                                   return null;
                                 },
                               ),
                             ),
-                            PopupMenuButton<SampleItem>(
+                            PopupMenuButton<String>(
                               initialValue: controller.selectedItem,
-                              onSelected: (SampleItem item) {
-                                String cardNumber;
-                                switch (item) {
-                                  case SampleItem.itemone:
-                                    cardNumber = "1234567890123456";
-                                    break;
-                                  case SampleItem.itemTwo:
-                                    cardNumber = "9876543210987654";
-                                    break;
-                                  case SampleItem.itemThree:
-                                    cardNumber = "2468135780246913";
-                                    break;
-                                  case SampleItem.itemFour:
-                                    cardNumber = controller.cardaddnumber.text;
-                                    break;
-                                  default:
-                                    cardNumber = "2468135780246913";
-                                    break;
-                                }
-                                controller.cardnumber.text = cardNumber;
+                              onSelected: (String item) {
+                                controller.updatevalue(item);
                               },
-                              itemBuilder: (BuildContext context) =>
-                                  <PopupMenuEntry<SampleItem>>[
-                                ...List.generate(
-                                  controller.sampleitemlisty.length,
-                                  (index) => PopupMenuItem<SampleItem>(
-                                    value: controller.sampleitemlisty[index],
+                              itemBuilder: (BuildContext context) {
+                                return controller.names.map((String item) {
+                                  return PopupMenuItem<String>(
+                                    value: item,
                                     child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
                                       children: [
                                         const Icon(
-                                          Icons.person_2_outlined,
-                                          color: Color(0xff00aa86),
+                                          Icons.category_outlined,
+                                          color: Colors.grey,
                                         ),
-                                        Text(controller.names[index]),
+                                        Text(item),
                                       ],
                                     ),
-                                  ),
-                                ),
-                              ],
+                                  );
+                                }).toList();
+                              },
                             ),
                           ],
                         ),
@@ -357,22 +334,30 @@ class MoneyTransfer extends StatelessWidget {
                           },
                         ),
                         const SizedBox(height: 30.0),
-                        ButtonAuth(
-                          mytitle: "Send",
-                          myfunction: () {
-                            if (controller.formStatemoneytransfer.currentState!
-                                    .validate() &&
-                                double.parse(controller.amount.text) <
-                                    mycardList[0].balance) {
-                              controller.verifyuser(
-                                double.parse(controller.amount.text),
-                                controller.cardnumber.text,
-                                mycardList[controller.i].id,
-                                mycardList[controller.i].balance,
-                              );
-                            }
-                          },
-                        ),
+                        controller.isloading
+                            ? const CommonLoading()
+                            : ButtonAuth(
+                                mytitle: "Send",
+                                myfunction: () {
+                                  if (controller
+                                          .formStatemoneytransfer.currentState!
+                                          .validate() &&
+                                      double.parse(controller.amount.text) <
+                                          mycardList[controller.i]
+                                              .accountcard
+                                              .balance) {
+                                    controller.verifyuser(
+                                      double.parse(controller.amount.text),
+                                      controller.cardnumber.text,
+                                      mycardList[controller.i].id,
+                                      mycardList[controller.i]
+                                          .accountcard
+                                          .balance,
+                                      mycardList[controller.i].accountcard.rib,
+                                    );
+                                  }
+                                },
+                              ),
                       ],
                     ),
                   ),

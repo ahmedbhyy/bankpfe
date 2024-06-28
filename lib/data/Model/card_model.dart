@@ -4,7 +4,7 @@ class CardModel {
   final String cardNumber;
   final String rib;
   final double balance;
-  final String relatedaccount;
+   String relatedaccount;
   final String cardtype;
    String id;
 
@@ -24,7 +24,7 @@ class CardModel {
       background: json['background'] ?? '',
       rib: json['rib'] ?? '',
       id: json['id'] ?? '',
-      balance : json['balance'] ?? 0.0,
+      balance : json['balance']+0.0 ?? 0.0,
       relatedaccount :json['relatedaccount'] ?? '',
       name: json['name'] ?? '',
       cardNumber: json['cardnumber'] ?? '',

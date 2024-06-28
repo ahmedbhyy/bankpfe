@@ -1,11 +1,10 @@
+import 'package:bankpfe/data/Model/account_model.dart';
 import 'package:bankpfe/data/Model/transaction_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../data/Model/card_model.dart';
 
 abstract class HomeController extends GetxController {
   void updateColor(int index);
@@ -43,7 +42,7 @@ class HomeControllerImp extends HomeController {
 
   List<bool> isSelectedList = [];
 
-  List<CardModel> usercards = [];
+  List<AccountModel> usercards = [];
   List<TransactionModel> usertranscation = [];
 
   List<Color> colorizeColors = [
@@ -122,13 +121,16 @@ class HomeControllerImp extends HomeController {
 
       if (docSnapshot.exists) {
         QuerySnapshot notificationsSnapshot =
-            await docSnapshot.reference.collection('cards').get();
+            await docSnapshot.reference.collection('accounts').get();
 
         usercards.clear();
         for (var doc in notificationsSnapshot.docs) {
-          var card = CardModel.fromJson(doc.data() as Map<String, dynamic>);
-          card.id = doc.id;
-          usercards.add(card);
+          var account =
+              AccountModel.fromJson(doc.data() as Map<String, dynamic>);
+          account.id = doc.id;
+          account.accountcard.id = doc.id;
+          account.accountcard.relatedaccount = doc.id;
+          usercards.add(account);
         }
 
         QuerySnapshot transactionsnapchot =

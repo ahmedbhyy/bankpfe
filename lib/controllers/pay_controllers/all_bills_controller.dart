@@ -6,14 +6,14 @@ import 'package:get/get.dart';
 import '../../functions/auth_function.dart';
 
 abstract class AllBillsController extends GetxController {
-  paybill(String billid, String cardid, double amount, double currentbalance,
+  paybill(String billid, String accountid, double amount, double currentbalance,
       String billtype);
 }
 
 class AllBillsControllerImp extends AllBillsController {
   String? userid;
   @override
-  paybill(billid, cardid, amount, currentbalance, billtype) async {
+  paybill(billid, accountid, amount, currentbalance, billtype) async {
     if (await authenticate1("Verification") == true &&
         currentbalance > amount) {
       Get.back();
@@ -28,10 +28,10 @@ class AllBillsControllerImp extends AllBillsController {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userid)
-          .collection('cards')
-          .doc(cardid)
-          .update({
-        'balance': currentbalance - amount,
+          .collection('accounts')
+          .doc(accountid)
+         .update({
+        'accountcard.balance': currentbalance - amount,
       });
       await FirebaseFirestore.instance
           .collection('users')
@@ -39,7 +39,7 @@ class AllBillsControllerImp extends AllBillsController {
           .collection('transactions')
           .add({
         'amount': amount,
-        'cardid':cardid,
+        'cardid': accountid,
         'category': "Billed transaction",
         'date': Timestamp.now(),
         'debit': "Debit",

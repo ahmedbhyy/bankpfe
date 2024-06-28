@@ -1,4 +1,5 @@
 import 'package:bankpfe/controllers/pay_controllers/all_bills_controller.dart';
+import 'package:bankpfe/data/Model/account_model.dart';
 import 'package:bankpfe/data/Model/bill_model.dart';
 import 'package:bankpfe/screens/bnapay/allbills/paybillwithnumber.dart';
 import 'package:bankpfe/screens/bnapay/bills/all_bills_details.dart';
@@ -8,19 +9,19 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
-import '../../../data/Model/card_model.dart';
+
 import '../../../slides/slide_right.dart';
 import '../../../widgets/generalwidgets/common_container_background.dart';
 import '../../../widgets/generalwidgets/common_row_appbar.dart';
 
 class AllBills extends StatelessWidget {
-  final List<CardModel> mycard;
+  final List<AccountModel> myaccounts;
   final List<BillModel> mybills;
  
 
   const AllBills({
     super.key,
-    required this.mycard,
+    required this.myaccounts,
     required this.mybills,
    
   });
@@ -34,7 +35,7 @@ class AllBills extends StatelessWidget {
           Navigator.of(context).push(
             SlideRight(
               page: PayBillwithNumber(
-                myCard: mycard,
+                myaccounts: myaccounts,
               ),
             ),
           );
@@ -62,14 +63,14 @@ class AllBills extends StatelessWidget {
                 const AppBarCommon(title: "All Bills"),
                 const SizedBox(height: 15.0),
                 ...List.generate(
-                  2,
+                  myaccounts.length,
                   (index) => Padding(
                     padding: const EdgeInsets.all(4.0),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "balance for ${mycard[index].cardNumber}",
+                          "balance for ${myaccounts[index].accountcard.cardNumber}",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 14.0,
@@ -77,7 +78,7 @@ class AllBills extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          "${mycard[index].balance.toString().length >= 5 ? mycard[index].balance.toString().substring(0, 5) : mycard[index].balance.toString()} TND",
+                          "${myaccounts[index].accountcard.balance.toString().length >= 5 ? myaccounts[index].accountcard.balance.toString().substring(0, 5) : myaccounts[index].accountcard.balance.toString()} TND",
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
@@ -105,9 +106,9 @@ class AllBills extends StatelessWidget {
                           myfunction: () {
                             controller.paybill(
                               mybills[index].id,
-                              mycard[0].id,
+                              myaccounts[0].id,
                               mybills[index].amount,
-                              mycard[0].balance,
+                              myaccounts[0].accountcard.balance,
                               mybills[index].type,
                             );
                           },

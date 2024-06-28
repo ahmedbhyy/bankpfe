@@ -1,14 +1,14 @@
+import 'package:bankpfe/data/Model/account_model.dart';
 import 'package:bankpfe/data/Model/bill_model.dart';
 import 'package:bankpfe/data/Model/transaction_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../data/Model/card_model.dart';
-
 abstract class AdminUserDetailsController extends GetxController {
   void updateColor(int index);
   fetchusercard(String userid);
+  deleteaccount(String accountid, String userid);
 }
 
 class AdminUserDetailsControllerImp extends AdminUserDetailsController {
@@ -20,7 +20,7 @@ class AdminUserDetailsControllerImp extends AdminUserDetailsController {
   AdminUserDetailsControllerImp() {
     categories = [
       "Information",
-      "Cards",
+      "Accounts",
       "Bills",
       "Transactions",
     ];
@@ -34,7 +34,7 @@ class AdminUserDetailsControllerImp extends AdminUserDetailsController {
     const Icon(Icons.arrow_outward_sharp),
   ];
 
-  List<CardModel> usercards = [];
+  List<AccountModel> usercards = [];
   List<TransactionModel> usertransaction = [];
   List<BillModel> userbills = [];
 
@@ -58,7 +58,7 @@ class AdminUserDetailsControllerImp extends AdminUserDetailsController {
 
       if (docSnapshot.exists) {
         QuerySnapshot cardsSnapshot =
-            await docSnapshot.reference.collection('cards').get();
+            await docSnapshot.reference.collection('accounts').get();
 
         QuerySnapshot billsSnapshot =
             await docSnapshot.reference.collection('bills').get();
@@ -67,7 +67,12 @@ class AdminUserDetailsControllerImp extends AdminUserDetailsController {
 
         usercards.clear();
         for (var doc in cardsSnapshot.docs) {
-          usercards.add(CardModel.fromJson(doc.data() as Map<String, dynamic>));
+          var account =
+              AccountModel.fromJson(doc.data() as Map<String, dynamic>);
+          account.id = doc.id;
+          account.accountcard.id = doc.id;
+          account.accountcard.relatedaccount = doc.id;
+          usercards.add(account);
         }
         userbills.clear();
         for (var doc in billsSnapshot.docs) {
@@ -81,6 +86,30 @@ class AdminUserDetailsControllerImp extends AdminUserDetailsController {
       }
       isloading = false;
 
+      update();
+    } catch (e) {
+      return Get.rawSnackbar(
+          title: "Error",
+          message: "Please try again",
+          backgroundColor: Colors.red);
+    }
+  }
+
+  @override
+  deleteaccount(String accountid, userid) async {
+    try {
+      Get.back();
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid)
+          .collection('accounts')
+          .doc(accountid)
+          .delete();
+      usercards.removeWhere((element) => element.id == accountid);
+      Get.rawSnackbar(
+          title: "Success",
+          message: "You have deleted  this user",
+          backgroundColor: Colors.green);
       update();
     } catch (e) {
       return Get.rawSnackbar(

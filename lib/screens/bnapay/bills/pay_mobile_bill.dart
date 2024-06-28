@@ -1,5 +1,6 @@
 import 'package:bankpfe/controllers/pay_controllers/pay_mobile_controller.dart';
-import 'package:bankpfe/data/Model/card_model.dart';
+import 'package:bankpfe/data/Model/account_model.dart';
+
 import 'package:bankpfe/widgets/authwidgets/button_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -16,7 +17,7 @@ import '../../../widgets/homewidget/cards_home.dart';
 import '../../cardscreens/card_details.dart';
 
 class PayMobileBill extends StatelessWidget {
-  final List<CardModel> myCard;
+  final List<AccountModel> myCard;
 
   const PayMobileBill(
       {super.key, required this.myCard});
@@ -60,19 +61,20 @@ class PayMobileBill extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CardsHome(
                         mypage: CardDetails(
-                          myCard: myCard[index],
+                          myCard: myCard[index].accountcard,
                           username: controller.username??"Member",
+                          datecreation:  myCard[index].creationdate,
                         ),
                         cardtype: CardType.credit,
                         cardholder: controller.username ?? "Member",
-                        cardnumber: myCard[index].cardNumber,
-                        backgroundimage: myCard[index].background,
+                        cardnumber: myCard[index].accountcard.cardNumber,
+                        backgroundimage: myCard[index].accountcard.background,
                       );
                     },
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Available balance :  ${myCard[controller.z].balance.toString().length >= 5 ? myCard[controller.z].balance.toString().substring(0, 5) : myCard[controller.z].balance.toString()} TND",
+                    "Available balance :  ${myCard[controller.z].accountcard.balance.toString().length >= 5 ? myCard[controller.z].accountcard.balance.toString().substring(0, 5) : myCard[controller.z].accountcard.balance.toString()} TND",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       fontSize: 15.0,
@@ -178,7 +180,7 @@ class PayMobileBill extends StatelessWidget {
                         controller.paymobilebill(
                           myCard[controller.z].id,
                           double.parse(controller.amounts[controller.i]),
-                          myCard[controller.z].balance,
+                          myCard[controller.z].accountcard.balance,
                         );
                       }
                     },

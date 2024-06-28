@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 import '../../functions/auth_function.dart';
 import '../../functions/sendnotification.dart';
 
-enum SampleItem { itemone, itemTwo, itemThree, itemFour ,itemFive }
-
 abstract class MoneyTransferController extends GetxController {
   updateindex(int index);
   updateColor(int index);
-  verifyuser(double amount, String to, String cardid, double balance);
+  updatevalue(String value);
+  verifyuser(double amount, String to, String accountid, double balance,
+      String senderRibAccount);
 }
 
 class MoneyTransferControllerImp extends MoneyTransferController {
@@ -55,18 +55,15 @@ class MoneyTransferControllerImp extends MoneyTransferController {
   FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   List choices = [];
+  bool isloading = false;
 
-  SampleItem? selectedItem;
+  String? selectedItem;
   List<bool> isSelectedList = [];
 
-  List<String> names = ["Slim Gharbi","Karim Gharbi","Mounir Gharbi"];
+  List<String> names = ["Slim Gharbi", "Karim Gharbi", "Mounir Gharbi"];
+  List<String> numbers = ["5606", "6540454", "9078708"];
 
   int i = 0;
-  List<SampleItem> sampleitemlisty = [
-    SampleItem.itemone,
-    SampleItem.itemTwo,
-    SampleItem.itemThree,
-  ];
 
   GlobalKey<FormState> formStatemoneytransfer = GlobalKey<FormState>();
   GlobalKey<FormState> formStateaddcard = GlobalKey<FormState>();
@@ -85,39 +82,80 @@ class MoneyTransferControllerImp extends MoneyTransferController {
   }
 
   @override
-  verifyuser(amount, to, cardid, balance) async {
+  verifyuser(amount, to, accountid, balance, senderRibAccount) async {
     if (await authenticate1("Verification") == true) {
-      Get.back();
-      sendNotification("BNA Send Money", "You have send $amount TND to $to");
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userid)
-          .collection('cards')
-          .doc(cardid)
-          .update({
-        'balance': balance - amount,
-      });
-      await FirebaseFirestore.instance
-          .collection('users')
-          .doc(userid)
-          .collection('transactions')
-          .add({
-        'amount': amount,
-        'cardid':cardid,
-        'category': "Transaction",
-        'date': Timestamp.now(),
-        'debit': "Debit",
-        'internal': "FT245056540845646",
-        'lottie': "images/lotties/lottie_minus.json",
-        'title': "Send Money ($amount TND)",
-        'transcationtype': "Opération monétiques",
-        'type': "Transfer",
-      });
-      return Get.rawSnackbar(
-          backgroundColor: const Color(0xff00aa86),
-          title: "Success",
-          message: "Transfer successfuly");
+      try {
+        isloading = true;
+        update();
+        QuerySnapshot receiverQuerySnapshot = await FirebaseFirestore.instance
+            .collectionGroup('accounts')
+            .where('accountcard.rib', isEqualTo: cardnumber.text)
+            .get();
+
+        if (cardnumber.text == senderRibAccount) {
+          return Get.rawSnackbar(
+              backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+              title: "Error",
+              message: "you can't send money to your bank account!");
+        }
+        if (receiverQuerySnapshot.docs.isEmpty) {
+          return Get.rawSnackbar(
+              backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+              title: "Error",
+              message: "Reciever not found!");
+        } else {
+          sendNotification(
+              "BNA Send Money", "You have send $amount TND to $to");
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userid)
+              .collection('accounts')
+              .doc(accountid)
+              .update({
+            'accountcard.balance': balance - amount,
+          });
+
+          DocumentSnapshot receiverDoc = receiverQuerySnapshot.docs.first;
+          DocumentReference receiverRef = receiverDoc.reference;
+          double receiverBalance = receiverDoc.get('accountcard.balance');
+          receiverRef.update({
+            'accountcard.balance': receiverBalance + amount,
+          });
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(userid)
+              .collection('transactions')
+              .add({
+            'amount': amount,
+            'cardid': accountid,
+            'category': "Transaction",
+            'date': Timestamp.now(),
+            'debit': "Debit",
+            'internal': "FT245056540845646",
+            'lottie': "images/lotties/lottie_minus.json",
+            'title': "Send Money ($amount TND)",
+            'transcationtype': "Opération monétiques",
+            'type': "Transfer",
+          });
+             isloading = false;
+          update();
+          Get.back();
+          return Get.rawSnackbar(
+              backgroundColor: const Color(0xff00aa86),
+              title: "Success",
+              message: "Transfer successfuly");
+        }
+      } catch (e) {
+          isloading = false;
+        update();
+        Get.rawSnackbar(
+            backgroundColor: const Color.fromARGB(255, 255, 0, 0),
+            title: "Error",
+            message: "Please try again!");
+      }
     } else {
+        isloading = false;
+      update();
       Get.rawSnackbar(
           backgroundColor: const Color.fromARGB(255, 255, 0, 0),
           title: "Error",
@@ -128,8 +166,16 @@ class MoneyTransferControllerImp extends MoneyTransferController {
   @override
   void onInit() async {
     userid = await secureStorage.read(key: "userid");
-     username = await secureStorage.read(key: "username");
-      update();
+    username = await secureStorage.read(key: "username");
+    update();
     super.onInit();
+  }
+
+  @override
+  updatevalue(String value) {
+    selectedItem = value;
+    int z = names.indexOf(value);
+    cardnumber.text = numbers[z];
+    update();
   }
 }

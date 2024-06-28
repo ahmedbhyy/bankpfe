@@ -1,3 +1,4 @@
+import 'package:bankpfe/data/Model/account_model.dart';
 import 'package:bankpfe/data/Model/bill_model.dart';
 import 'package:bankpfe/screens/bnapay/allbills/donations.dart';
 import 'package:bankpfe/screens/bnapay/allbills/all_bills.dart';
@@ -10,7 +11,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 
-import '../../data/Model/card_model.dart';
+
 import '../../functions/auth_function.dart';
 
 abstract class SettingsController extends GetxController {
@@ -20,12 +21,12 @@ abstract class SettingsController extends GetxController {
 class SettingsControllerImp extends SettingsController {
   SettingsControllerImp() {
     pagespay = [
-      AllBills(mycard: usercards, mybills: userbills),
-      MobileBills(mycard: usercards),
+      AllBills(myaccounts: usercards, mybills: userbills),
+      MobileBills(myaccounts: usercards),
       MoneyTransfer(
         mycardList: usercards,
       ),
-      Donations(mycardList: usercards),
+      Donations(myaccounts: usercards),
     ];
   }
   List<String> categories = [
@@ -41,7 +42,7 @@ class SettingsControllerImp extends SettingsController {
     "donate",
   ];
   List<Widget> pagespay = [];
-  List<CardModel> usercards = [];
+  List<AccountModel> usercards = [];
   List<BillModel> userbills = [];
   String? username = "Member";
   String? userid;
@@ -66,16 +67,17 @@ class SettingsControllerImp extends SettingsController {
           await _firestore.collection('users').doc(userid).get();
 
       if (docSnapshot.exists) {
-       
         QuerySnapshot notificationsSnapshot =
-            await docSnapshot.reference.collection('cards').get();
+            await docSnapshot.reference.collection('accounts').get();
 
         usercards.clear();
         for (var doc in notificationsSnapshot.docs) {
-          var carddata = doc.data() as Map<String, dynamic>;
-          carddata['id'] = doc.id;
-
-          usercards.add(CardModel.fromJson(carddata));
+          var account =
+              AccountModel.fromJson(doc.data() as Map<String, dynamic>);
+          account.id = doc.id;
+          account.accountcard.id = doc.id;
+          account.accountcard.relatedaccount = doc.id;
+          usercards.add(account);
         }
 
         QuerySnapshot billsSnapshot =

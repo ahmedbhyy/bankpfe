@@ -121,38 +121,124 @@ class AdminPage extends StatelessWidget {
                                 controller
                                     .searchclient(controller.search)
                                     .length,
-                                (index) => CommonContainerBills(
-                                  mywidget: ListTile(
-                                    title: Text(
-                                      controller
-                                          .searchclient(
-                                              controller.search)[index]
-                                          .username,
-                                      style: const TextStyle(fontSize: 20.0),
-                                    ),
-                                    onTap: () {
-                                      Get.to(
-                                        AdminUserDetails(
-                                          myuser: controller.searchclient(
-                                              controller.search)[index],
+                                (index) => Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    CommonContainerBills(
+                                      mywidget: ListTile(
+                                        title: Text(
+                                          controller
+                                              .searchclient(
+                                                  controller.search)[index]
+                                              .username,
+                                          style:
+                                              const TextStyle(fontSize: 20.0),
                                         ),
-                                      );
-                                      myusercontroller.fetchusercard(controller
-                                          .searchclient(
-                                              controller.search)[index]
-                                          .userid);
-                                    },
-                                    subtitle: Text(controller
-                                        .searchclient(controller.search)[index]
-                                        .email),
-                                    leading: const Icon(
-                                      Icons.person_2_outlined,
-                                      color: Color.fromARGB(255, 107, 149, 108),
+                                        onTap: () {
+                                          Get.to(
+                                            AdminUserDetails(
+                                              myuser: controller.searchclient(
+                                                  controller.search)[index],
+                                            ),
+                                          );
+                                          myusercontroller.fetchusercard(
+                                              controller
+                                                  .searchclient(
+                                                      controller.search)[index]
+                                                  .userid);
+                                        },
+                                        subtitle: Text(controller
+                                            .searchclient(
+                                                controller.search)[index]
+                                            .email),
+                                        leading: const Icon(
+                                          Icons.person_2_outlined,
+                                          color: Color.fromARGB(
+                                              255, 107, 149, 108),
+                                        ),
+                                        trailing: Lottie.asset(
+                                            "images/lotties/lottie_arrow.json",
+                                            height: 40.0),
+                                      ),
                                     ),
-                                    trailing: Lottie.asset(
-                                        "images/lotties/lottie_arrow.json",
-                                        height: 40.0),
-                                  ),
+                                    Positioned(
+                                      right: 2.0,
+                                      top: -8.0,
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Get.dialog(
+                                            Dialog(
+                                              backgroundColor: Colors.white,
+                                              child: Container(
+                                                padding:
+                                                    const EdgeInsets.all(10),
+                                                decoration: BoxDecoration(
+                                                    color: Colors.white,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20)),
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  crossAxisAlignment:
+                                                      CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      "Are u sure to delete this user ?",
+                                                      textAlign:
+                                                          TextAlign.center,
+                                                      style: TextStyle(
+                                                          fontSize: 20.0),
+                                                    ),
+                                                    Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .center,
+                                                      children: [
+                                                        TextButton.icon(
+                                                          onPressed: () {
+                                                            Get.back();
+                                                          },
+                                                          icon: const Icon(
+                                                              Icons.cancel),
+                                                          label: const Text(
+                                                              "Cancel"),
+                                                        ),
+                                                        TextButton.icon(
+                                                          onPressed: () {
+                                                            controller.deleteuser(
+                                                                controller
+                                                                    .searchclient(
+                                                                        controller
+                                                                            .search)[
+                                                                        index]
+                                                                    .userid,
+                                                                index);
+                                                          },
+                                                          icon: const Icon(
+                                                            Icons.delete,
+                                                            color: Colors.red,
+                                                          ),
+                                                          label: const Text(
+                                                              "Delete"),
+                                                        ),
+                                                      ],
+                                                    )
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color:
+                                              Color.fromARGB(255, 238, 99, 89),
+                                        ),
+                                        iconSize: 27.0,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],

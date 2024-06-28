@@ -1,5 +1,6 @@
 import 'package:bankpfe/controllers/admin_controller/admin_addcard_controller.dart';
 import 'package:bankpfe/widgets/authwidgets/button_auth.dart';
+import 'package:bankpfe/widgets/generalwidgets/common_loading_progress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
@@ -33,13 +34,29 @@ class AddaCardForUser extends StatelessWidget {
                   const EdgeInsets.symmetric(horizontal: 11.0, vertical: 10.0),
               children: [
                 const CommonAppBar(
-                  title: "Add a Card",
+                  title: "Add an Account",
                   lottie: "images/lotties/lottie_onlinepayment.json",
                 ),
                 Lottie.asset(
                   "images/lotties/lottie_onboadring3.json",
                   height: 100.0,
                   repeat: false,
+                ),
+                TextFieldAuth(
+                  hint: "Account Number",
+                  mycontroller: controller.accountnumber!,
+                  myicon: const Icon(Icons.numbers),
+                  ispass: false,
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return "Can't to be empty ";
+                    } else if (val.length != 13) {
+                      return "can't be higher or lower than 13!";
+                    }
+                    return null;
+                  },
+                  mytype: TextInputType.text,
+                  readonly: false,
                 ),
                 TextFieldAuth(
                   hint: "Card Number",
@@ -52,7 +69,7 @@ class AddaCardForUser extends StatelessWidget {
                     }
                     return null;
                   },
-                  mytype: TextInputType.text,
+                  mytype: TextInputType.number,
                   readonly: false,
                 ),
                 Row(
@@ -87,7 +104,7 @@ class AddaCardForUser extends StatelessWidget {
                             break;
 
                           default:
-                            cardtype = "2468135780246913";
+                            cardtype = "INFINITE";
                             break;
                         }
                         controller.cardtype!.text = cardtype;
@@ -114,20 +131,6 @@ class AddaCardForUser extends StatelessWidget {
                   ],
                 ),
                 TextFieldAuth(
-                  hint: "Related Account",
-                  mycontroller: controller.relatedaccount!,
-                  myicon: const Icon(Icons.account_balance),
-                  ispass: false,
-                  validator: (val) {
-                    if (val == null || val.isEmpty) {
-                      return "Can't to be empty ";
-                    }
-                    return null;
-                  },
-                  mytype: TextInputType.text,
-                  readonly: false,
-                ),
-                TextFieldAuth(
                   hint: "RIB",
                   mycontroller: controller.rib!,
                   myicon: const Icon(Icons.numbers),
@@ -135,6 +138,8 @@ class AddaCardForUser extends StatelessWidget {
                   validator: (val) {
                     if (val == null || val.isEmpty) {
                       return "Can't to be empty ";
+                    } else if (val.length != 23) {
+                      return "can't be less or higher than 23!";
                     }
                     return null;
                   },
@@ -159,14 +164,17 @@ class AddaCardForUser extends StatelessWidget {
                   readonly: false,
                 ),
                 const SizedBox(height: 20.0),
-                ButtonAuth(
-                  mytitle: "Add card",
-                  myfunction: () {
-                    if (controller.formStatecard.currentState!.validate()) {
-                      controller.addacard(userid, usertoken);
-                    }
-                  },
-                ),
+                controller.isloading
+                    ? const CommonLoading()
+                    : ButtonAuth(
+                        mytitle: "Add Account",
+                        myfunction: () {
+                          if (controller.formStatecard.currentState!
+                              .validate()) {
+                            controller.addacard(userid, usertoken);
+                          }
+                        },
+                      ),
               ],
             ),
           ),

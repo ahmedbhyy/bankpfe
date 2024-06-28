@@ -6,6 +6,7 @@ import 'package:bankpfe/slides/slide_right.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_appbar.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_container_background.dart';
 import 'package:bankpfe/widgets/generalwidgets/common_container_bills.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -15,11 +16,13 @@ import 'package:u_credit_card/u_credit_card.dart';
 
 class CardDetails extends StatelessWidget {
   final CardModel myCard;
+  final Timestamp datecreation;
   final String username;
   const CardDetails({
     super.key,
     required this.myCard,
     required this.username,
+    required this.datecreation,
   });
 
   @override
@@ -115,7 +118,7 @@ class CardDetails extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       const Text(
-                        "Relayted account number",
+                        "Relayted account id",
                         style: TextStyle(
                           fontSize: 14.0,
                           fontWeight: FontWeight.bold,
@@ -124,6 +127,32 @@ class CardDetails extends StatelessWidget {
                       ),
                       Text(
                         myCard.relatedaccount,
+                        style: const TextStyle(
+                          fontSize: 13.0,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 7.0),
+                  const Divider(
+                    thickness: 1.0,
+                    color: Colors.grey,
+                    endIndent: 1.0,
+                    indent: 1.0,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        "creation date",
+                        style: TextStyle(
+                          fontSize: 14.0,
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromARGB(255, 72, 67, 67),
+                        ),
+                      ),
+                      Text(
+                        datecreation.toDate().toString().substring(0, 16),
                         style: const TextStyle(
                           fontSize: 13.0,
                         ),

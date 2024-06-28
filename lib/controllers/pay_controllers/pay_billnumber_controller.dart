@@ -11,7 +11,7 @@ enum SampleItem { itemone, itemTwo, itemThree, itemFour, itemFive }
 
 abstract class PayBillnumberController extends GetxController {
   updateindexz(int index);
-  paybill(String cardid, double amount, double currentbalance, String billtype,
+  paybill(String accountid, double amount, double currentbalance, String billtype,
       String billnumber);
 }
 
@@ -52,7 +52,7 @@ FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   String? userid;
   @override
-  paybill(cardid, amount, currentbalance, billtype, billnumber) async {
+  paybill(accountid, amount, currentbalance, billtype, billnumber) async {
     if (await authenticate1("Verification") == true &&
         currentbalance > amount) {
       Get.back();
@@ -60,10 +60,10 @@ FlutterSecureStorage secureStorage = const FlutterSecureStorage();
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userid)
-          .collection('cards')
-          .doc(cardid)
+          .collection('accounts')
+          .doc(accountid)
           .update({
-        'balance': currentbalance - amount,
+       'accountcard.balance': currentbalance - amount,
       });
       await FirebaseFirestore.instance
           .collection('users')
@@ -71,7 +71,7 @@ FlutterSecureStorage secureStorage = const FlutterSecureStorage();
           .collection('transactions')
           .add({
         'amount': amount,
-        'cardid': cardid,
+        'cardid': accountid,
         'category': "Billed transaction",
         'date': Timestamp.now(),
         'debit': "Debit",

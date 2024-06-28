@@ -45,15 +45,6 @@ class _BnaAppState extends State<BnaApp> {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
       home: const SplashScreen(),
-      // home: (FirebaseAuth.instance.currentUser != null &&
-      //         FirebaseAuth.instance.currentUser!.emailVerified &&
-      //         isadmin == "0")
-      //     ? const StartScreen()
-      //     : (FirebaseAuth.instance.currentUser != null &&
-      //             FirebaseAuth.instance.currentUser!.emailVerified &&
-      //             isadmin == "1")
-      //         ? const AdminPage()
-      //         : const ChooseLang(),
       getPages: [
         GetPage(name: "/signin", page: () => const SignIn()),
         GetPage(name: "/signup", page: () => const SignUp()),

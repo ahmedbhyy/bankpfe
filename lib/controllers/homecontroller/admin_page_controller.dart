@@ -8,6 +8,7 @@ abstract class AdminPageController extends GetxController {
   fetchdata();
   searchclient(String name);
   logout();
+  deleteuser(String userid, int index);
 }
 
 class AdminPageControllerImp extends AdminPageController {
@@ -70,6 +71,25 @@ class AdminPageControllerImp extends AdminPageController {
       Get.offAllNamed("/signin");
     } catch (e) {
       return;
+    }
+  }
+
+  @override
+  deleteuser(String userid, index) async {
+    try {
+      Get.back();
+      await FirebaseFirestore.instance.collection('users').doc(userid).delete();
+      searchclient(search).removeAt(index);
+      Get.rawSnackbar(
+          title: "Success",
+          message: "You have deleted  this user",
+          backgroundColor: Colors.green);
+      update();
+    } catch (e) {
+      return Get.rawSnackbar(
+          title: "Error",
+          message: "Please try again",
+          backgroundColor: Colors.red);
     }
   }
 }

@@ -1,6 +1,7 @@
 import 'package:bankpfe/controllers/pay_controllers/pay_billnumber_controller.dart';
+import 'package:bankpfe/data/Model/account_model.dart';
 
-import 'package:bankpfe/data/Model/card_model.dart';
+
 import 'package:bankpfe/widgets/authwidgets/button_auth.dart';
 
 import 'package:flutter/material.dart';
@@ -18,9 +19,9 @@ import '../../../widgets/homewidget/cards_home.dart';
 import '../../cardscreens/card_details.dart';
 
 class PayBillwithNumber extends StatelessWidget {
-  final List<CardModel> myCard;
+  final List<AccountModel> myaccounts;
 
-  const PayBillwithNumber({super.key, required this.myCard});
+  const PayBillwithNumber({super.key, required this.myaccounts});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +49,7 @@ class PayBillwithNumber extends StatelessWidget {
                   ),
                   const SizedBox(height: 20.0),
                   Swiper(
-                    itemCount: myCard.length,
+                    itemCount: myaccounts.length,
                     loop: true,
                     duration: 1200,
                     itemHeight: 200,
@@ -61,19 +62,20 @@ class PayBillwithNumber extends StatelessWidget {
                     itemBuilder: (context, index) {
                       return CardsHome(
                         mypage: CardDetails(
-                          myCard: myCard[index],
+                          myCard: myaccounts[index].accountcard,
                           username: controller.username ?? "Member",
+                          datecreation: myaccounts[index].creationdate,
                         ),
                         cardtype: CardType.credit,
                         cardholder: controller.username ?? "Member",
-                        cardnumber: myCard[index].cardNumber,
-                        backgroundimage: myCard[index].background,
+                        cardnumber: myaccounts[index].accountcard.cardNumber,
+                        backgroundimage: myaccounts[index].accountcard.background,
                       );
                     },
                   ),
                   const SizedBox(height: 10.0),
                   Text(
-                    "Available balance :  ${myCard[controller.z].balance.toString().length >= 5 ? myCard[controller.z].balance.toString().substring(0, 5) : myCard[controller.z].balance.toString()} TND",
+                    "Available balance :  ${myaccounts[controller.z].accountcard.balance.toString().length >= 5 ? myaccounts[controller.z].accountcard.balance.toString().substring(0, 5) : myaccounts[controller.z].accountcard.balance.toString()} TND",
                     textAlign: TextAlign.center,
                     style: GoogleFonts.mulish(
                       fontSize: 15.0,
@@ -180,9 +182,9 @@ class PayBillwithNumber extends StatelessWidget {
                           myfunction: () {
                             if (controller.formState.currentState!.validate()) {
                               controller.paybill(
-                                myCard[controller.z].id,
+                                myaccounts[controller.z].id,
                                 double.parse(controller.billamount!.text),
-                                myCard[controller.z].balance,
+                                myaccounts[controller.z].accountcard.balance,
                                 controller.billtype!.text,
                                 controller.billnumber!.text,
                               );

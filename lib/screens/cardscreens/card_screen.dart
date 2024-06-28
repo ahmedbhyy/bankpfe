@@ -24,60 +24,72 @@ class CardScreen extends StatelessWidget {
           children: [
             const AppBarCommon(title: "Cards"),
             const SizedBox(height: 20.0),
-            ...List.generate(
-              controller.usercards.length,
-              (index) => Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 40.0,
-                  vertical: 20.0,
-                ),
-                child: Column(
-                  children: [
-                    CardsHome(
-                      mypage: CardDetails(
-                        myCard: controller.usercards[index],
-                        username: controller.username,
-                      ),
-                      cardtype: CardType.credit,
-                      cardholder: controller.username,
-                      cardnumber: controller.usercards[index].cardNumber,
-                      backgroundimage: controller.usercards[index].background,
-                    ),
-                    const SizedBox(
-                      height: 10.0,
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          "Available balance : ",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.mulish(
-                            fontSize: 15.0,
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                        Text(
-                          "${controller.usercards[index].balance.toString().length >= 5 ? controller.usercards[index].balance.toString().substring(0, 5) : controller.usercards[index].balance.toString()} TND",
-                          textAlign: TextAlign.center,
-                          style: GoogleFonts.mulish(
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
-                            color: const Color.fromARGB(255, 0, 0, 0),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
             controller.isloading
                 ? const CommonLoading()
                 : controller.usercards.isEmpty
-                    ? Lottie.asset("images/lotties/lottie_empty.json",
-                        height: 300.0)
-                    : const SizedBox(),
+                    ? Lottie.asset(
+                        "images/lotties/lottie_empty.json",
+                        height: 250.0,
+                      )
+                    : Column(
+                        children: [
+                          ...List.generate(
+                            controller.usercards.length,
+                            (index) => Padding(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 40.0,
+                                vertical: 20.0,
+                              ),
+                              child: Column(
+                                children: [
+                                  CardsHome(
+                                    mypage: CardDetails(
+                                      myCard: controller
+                                          .usercards[index].accountcard,
+                                      username: controller.username,
+                                      datecreation:  controller
+                                          .usercards[index].creationdate,
+                                    ),
+                                    cardtype: CardType.credit,
+                                    cardholder: controller.username,
+                                    cardnumber: controller.usercards[index]
+                                        .accountcard.cardNumber,
+                                    backgroundimage: controller.usercards[index]
+                                        .accountcard.background,
+                                  ),
+                                  const SizedBox(
+                                    height: 10.0,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        "Available balance : ",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.mulish(
+                                          fontSize: 15.0,
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0),
+                                        ),
+                                      ),
+                                      Text(
+                                        "${controller.usercards[index].accountcard.balance.toString().length >= 5 ? controller.usercards[index].accountcard.balance.toString().substring(0, 5) : controller.usercards[index].accountcard.balance.toString()} TND",
+                                        textAlign: TextAlign.center,
+                                        style: GoogleFonts.mulish(
+                                          fontSize: 16.0,
+                                          fontWeight: FontWeight.bold,
+                                          color: const Color.fromARGB(
+                                              255, 0, 0, 0),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
           ],
         ),
       ),

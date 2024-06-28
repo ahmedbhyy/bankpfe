@@ -1,9 +1,8 @@
+import 'package:bankpfe/data/Model/account_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
-import '../../data/Model/card_model.dart';
 
 abstract class CardsScreenController extends GetxController {
   fetchusercard();
@@ -16,14 +15,13 @@ class CardsScreenControllerImp extends CardsScreenController {
   String username = "Member";
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  List<CardModel> usercards = [];
+  List<AccountModel> usercards = [];
 
   bool isloading = false;
 
   @override
   void onInit() {
     _user = _auth.currentUser!;
-
     fetchusercard();
     super.onInit();
   }
@@ -44,14 +42,16 @@ class CardsScreenControllerImp extends CardsScreenController {
           update();
         }
         QuerySnapshot notificationsSnapshot =
-            await docSnapshot.reference.collection('cards').get();
+            await docSnapshot.reference.collection('accounts').get();
 
         usercards.clear();
         for (var doc in notificationsSnapshot.docs) {
-          var usercards1 =
-              CardModel.fromJson(doc.data() as Map<String, dynamic>);
-          usercards1.id = doc.id;
-          usercards.add(usercards1);
+          var account =
+              AccountModel.fromJson(doc.data() as Map<String, dynamic>);
+          account.id = doc.id;
+          account.accountcard.id = doc.id;
+          account.accountcard.relatedaccount = doc.id;
+          usercards.add(account);
         }
       }
       isloading = false;
