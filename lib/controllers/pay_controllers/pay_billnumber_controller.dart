@@ -11,13 +11,13 @@ enum SampleItem { itemone, itemTwo, itemThree, itemFour, itemFive }
 
 abstract class PayBillnumberController extends GetxController {
   updateindexz(int index);
-  paybill(String accountid, double amount, double currentbalance, String billtype,
-      String billnumber);
+  paybill(String accountid, double amount, double currentbalance,
+      String billtype, String billnumber);
 }
 
 class PayBillnumberControllerImp extends PayBillnumberController {
   GlobalKey<FormState> formState = GlobalKey<FormState>();
-FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+  FlutterSecureStorage secureStorage = const FlutterSecureStorage();
   TextEditingController? billnumber;
   TextEditingController? billamount;
   TextEditingController? billtype;
@@ -63,7 +63,7 @@ FlutterSecureStorage secureStorage = const FlutterSecureStorage();
           .collection('accounts')
           .doc(accountid)
           .update({
-       'accountcard.balance': currentbalance - amount,
+        'accountcard.balance': currentbalance - amount,
       });
       await FirebaseFirestore.instance
           .collection('users')
@@ -79,6 +79,25 @@ FlutterSecureStorage secureStorage = const FlutterSecureStorage();
         'lottie': "images/lotties/lottie_minus.json",
         'title': "Pay $billtype",
         'transcationtype': "Opération monétiques",
+        'type': "Transfer",
+      });
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid)
+          .collection('bills')
+          .add({
+        'adresse': "Tunis",
+        'card': accountid,
+        'amount': amount,
+        'date': Timestamp.now(),
+        'code': billnumber,
+        'ispayed': true,
+        'image': billtype == "Water bill"
+            ? "water1"
+            : billtype == "Electric bill"
+                ? "electricity"
+                : "internet1",
+        'title': billtype,
         'type': "Transfer",
       });
       sendNotification("Pay Bills with BNA",

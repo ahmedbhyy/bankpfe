@@ -118,6 +118,7 @@ class MoneyTransferControllerImp extends MoneyTransferController {
           DocumentSnapshot receiverDoc = receiverQuerySnapshot.docs.first;
           DocumentReference receiverRef = receiverDoc.reference;
           double receiverBalance = receiverDoc.get('accountcard.balance');
+          String receiverUserId = receiverDoc.reference.parent.parent!.id;
           receiverRef.update({
             'accountcard.balance': receiverBalance + amount,
           });
@@ -136,6 +137,22 @@ class MoneyTransferControllerImp extends MoneyTransferController {
             'title': "Send Money ($amount TND)",
             'transcationtype': "Opération monétiques",
             'type': "Transfer",
+          });
+           await FirebaseFirestore.instance
+              .collection('users')
+              .doc(receiverUserId)
+              .collection('transactions')
+              .add({
+            'amount': amount,
+            'cardid': receiverQuerySnapshot.docs.first.id,
+            'category': "Transaction",
+            'date': Timestamp.now(),
+            'debit': "Credit",
+            'internal': "FT245056540845646",
+            'lottie': "images/lotties/lottie_added.json",
+            'title': "Received Money ($amount TND)",
+            'transactiontype': "Opération monétiques",
+            'type': "Added",
           });
              isloading = false;
           update();

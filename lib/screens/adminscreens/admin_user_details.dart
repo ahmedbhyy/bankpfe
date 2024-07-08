@@ -166,6 +166,9 @@ class AdminUserDetails extends StatelessWidget {
                                     () => AddaCardForUser(
                                       userid: myuser.userid,
                                       usertoken: myuser.token,
+                                      myrib: controller.ribs,
+                                      cardnumbers: controller.cardnumbers,
+                                      relatedaccounts: controller.relatedaccountsnumbers,
                                     ),
                                   );
                                 },
@@ -458,6 +461,11 @@ class AdminUserDetails extends StatelessWidget {
                                           () => AddaCardForUser(
                                             userid: myuser.userid,
                                             usertoken: myuser.token,
+                                            myrib: controller.ribs,
+                                             cardnumbers: controller.cardnumbers,
+                                      relatedaccounts: controller
+                                                .relatedaccountsnumbers,
+
                                           ),
                                         );
                                       },

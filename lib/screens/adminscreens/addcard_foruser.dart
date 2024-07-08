@@ -11,8 +11,14 @@ import '../../widgets/generalwidgets/common_appbar.dart';
 class AddaCardForUser extends StatelessWidget {
   final String userid;
   final String usertoken;
+  final List<String> myrib;
+  final List<String> cardnumbers;
+  final List<String> relatedaccounts;
   const AddaCardForUser(
-      {super.key, required this.userid, required this.usertoken});
+      {super.key,
+      required this.userid,
+      required this.usertoken,
+      required this.myrib, required this.cardnumbers, required this.relatedaccounts});
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +53,14 @@ class AddaCardForUser extends StatelessWidget {
                   mycontroller: controller.accountnumber!,
                   myicon: const Icon(Icons.numbers),
                   ispass: false,
+                   mysuffixicon: GestureDetector(
+                    child: IconButton(
+                        onPressed: () {
+                          controller.accountnumber!.text =
+                              controller.generateUniqueRelatedAccount(relatedaccounts);
+                        },
+                        icon: const Icon(Icons.edit)),
+                  ),
                   validator: (val) {
                     if (val == null || val.isEmpty) {
                       return "Can't to be empty ";
@@ -56,13 +70,21 @@ class AddaCardForUser extends StatelessWidget {
                     return null;
                   },
                   mytype: TextInputType.text,
-                  readonly: false,
+                  readonly: true,
                 ),
                 TextFieldAuth(
                   hint: "Card Number",
                   mycontroller: controller.cardnumber!,
                   myicon: const Icon(Icons.numbers),
                   ispass: false,
+                   mysuffixicon: GestureDetector(
+                    child: IconButton(
+                        onPressed: () {
+                          controller.cardnumber!.text =
+                              controller.generateUniqueCardNumber(cardnumbers);
+                        },
+                        icon: const Icon(Icons.edit)),
+                  ),
                   validator: (val) {
                     if (val == null || val.isEmpty) {
                       return "Can't to be empty ";
@@ -70,7 +92,7 @@ class AddaCardForUser extends StatelessWidget {
                     return null;
                   },
                   mytype: TextInputType.number,
-                  readonly: false,
+                  readonly: true,
                 ),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.end,
@@ -135,16 +157,27 @@ class AddaCardForUser extends StatelessWidget {
                   mycontroller: controller.rib!,
                   myicon: const Icon(Icons.numbers),
                   ispass: false,
+                  mysuffixicon: GestureDetector(
+                    child: IconButton(
+                        onPressed: () {
+                          controller.rib!.text =
+                              controller.generateUniqueRIB(myrib);
+                        
+                        },
+                        icon: const Icon(Icons.edit)),
+                  ),
                   validator: (val) {
                     if (val == null || val.isEmpty) {
                       return "Can't to be empty ";
                     } else if (val.length != 23) {
                       return "can't be less or higher than 23!";
+                    } else if (myrib.contains(val)) {
+                      return "This rib is used, please try again.";
                     }
                     return null;
                   },
                   mytype: TextInputType.text,
-                  readonly: false,
+                  readonly: true,
                 ),
                 TextFieldAuth(
                   hint: "Balance",

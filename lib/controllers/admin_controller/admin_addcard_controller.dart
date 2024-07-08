@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:bankpfe/functions/sendnotification_token.dart';
 import 'package:bankpfe/screens/homescreens/admin_page.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -34,6 +36,74 @@ class AdminAddcardControllerImp extends AdminAddcardController {
     rib = TextEditingController();
     balance = TextEditingController();
     super.onInit();
+  }
+
+  String generateRIB() {
+    Random random = Random();
+
+    String part1 = random.nextInt(100).toString().padLeft(2, '0');
+
+    String part2 = random.nextInt(1000).toString().padLeft(3, '0');
+
+    String part3 = '';
+    for (int i = 0; i < 13; i++) {
+      part3 += random.nextInt(10).toString();
+    }
+
+    String part4 = random.nextInt(100).toString().padLeft(2, '0');
+
+    return '$part1-$part2-$part3-$part4';
+  }
+
+  String generateUniqueRIB(List<String> existingRIBs) {
+    String newRIB;
+
+    do {
+      newRIB = generateRIB();
+    } while (existingRIBs.contains(newRIB));
+
+    return newRIB;
+  }
+
+  String generateCardNumber() {
+    Random random = Random();
+
+    String part1 = random.nextInt(10000).toString().padLeft(4, '0');
+    String part2 = random.nextInt(10000).toString().padLeft(4, '0');
+    String part3 = random.nextInt(10000).toString().padLeft(4, '0');
+    String part4 = random.nextInt(10000).toString().padLeft(4, '0');
+
+    return '$part1 $part2 $part3 $part4';
+  }
+
+  String generateUniqueCardNumber(List<String> existingCardNumbers) {
+    String newCardNumber;
+
+    do {
+      newCardNumber = generateCardNumber();
+    } while (existingCardNumbers.contains(newCardNumber));
+
+    return newCardNumber;
+  }
+  String generateRelatedAccount() {
+    Random random = Random();
+
+    String part1 = "M3";
+    String part2 = random.nextInt(100).toString().padLeft(2, '0');
+    String part3 = random.nextInt(100000).toString().padLeft(5, '0');
+    String part4 = random.nextInt(10).toString();
+
+    return '$part1-$part2-$part3-$part4';
+  }
+
+  String generateUniqueRelatedAccount(List<String> existingRelatedAccounts) {
+    String newRelatedAccount;
+
+    do {
+      newRelatedAccount = generateRelatedAccount();
+    } while (existingRelatedAccounts.contains(newRelatedAccount));
+
+    return newRelatedAccount;
   }
 
   @override

@@ -37,6 +37,9 @@ class AdminUserDetailsControllerImp extends AdminUserDetailsController {
   List<AccountModel> usercards = [];
   List<TransactionModel> usertransaction = [];
   List<BillModel> userbills = [];
+  List<String> ribs = [];
+  List<String> cardnumbers = [];
+  List<String> relatedaccountsnumbers = [];
 
   @override
   void updateColor(index) {
@@ -51,6 +54,25 @@ class AdminUserDetailsControllerImp extends AdminUserDetailsController {
     try {
       isloading = true;
       update();
+      QuerySnapshot accountribsquery =
+          await FirebaseFirestore.instance.collectionGroup('accounts').get();
+
+      ribs = accountribsquery.docs
+          .map((doc) => doc.get('accountcard.rib') as String)
+          .toList();
+          QuerySnapshot relatedaccountquery =
+          await FirebaseFirestore.instance.collectionGroup('accounts').get();
+
+      relatedaccountsnumbers = relatedaccountquery.docs
+          .map((doc) => doc.get('accountcard.relatedaccount') as String)
+          .toList();
+
+           QuerySnapshot cardnumbersquery =
+          await FirebaseFirestore.instance.collectionGroup('accounts').get();
+
+      cardnumbers = cardnumbersquery.docs
+          .map((doc) => doc.get('accountcard.cardnumber') as String)
+          .toList();
       DocumentSnapshot docSnapshot = await FirebaseFirestore.instance
           .collection('users')
           .doc(userid)

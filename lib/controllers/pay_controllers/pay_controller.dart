@@ -2,9 +2,10 @@ import 'package:bankpfe/data/Model/account_model.dart';
 import 'package:bankpfe/data/Model/bill_model.dart';
 import 'package:bankpfe/screens/bnapay/allbills/donations.dart';
 import 'package:bankpfe/screens/bnapay/allbills/all_bills.dart';
-import 'package:bankpfe/screens/bnapay/allbills/mobile_bills.dart';
+
 
 import 'package:bankpfe/screens/bnapay/bills/money_transfer.dart';
+import 'package:bankpfe/screens/bnapay/bills/pay_mobile_bill.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
@@ -22,7 +23,7 @@ class SettingsControllerImp extends SettingsController {
   SettingsControllerImp() {
     pagespay = [
       AllBills(myaccounts: usercards, mybills: userbills),
-      MobileBills(myaccounts: usercards),
+      PayMobileBill(myCard: usercards),
       MoneyTransfer(
         mycardList: usercards,
       ),
