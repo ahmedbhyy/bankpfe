@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 
 abstract class AdminDonationsDetailsController extends GetxController {
   deletedontaion(String donationid);
+  editdonation(String donationid, String fielddonation, dynamic newvalue);
 }
 
 class AdminDonationsDetailsControllerImp
@@ -23,6 +24,33 @@ class AdminDonationsDetailsControllerImp
         backgroundColor: Colors.green,
       );
       update();
+    } catch (e) {
+      return Get.rawSnackbar(
+        title: "Error",
+        message: "Please try again",
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+  TextEditingController? editcontroller;
+  @override
+  void onInit() {
+    editcontroller = TextEditingController();
+    super.onInit();
+  }
+
+  @override
+  editdonation(String donationid, String fielddonation, newvalue) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('Donations')
+          .doc(donationid)
+          .update(
+        {fielddonation: newvalue},
+      );
+      SetOptions(merge: true);
+      Get.offAll(const AdminPage());
     } catch (e) {
       return Get.rawSnackbar(
         title: "Error",

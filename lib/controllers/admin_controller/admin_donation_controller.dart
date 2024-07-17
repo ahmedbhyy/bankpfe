@@ -22,7 +22,7 @@ class AdminDonationsControllerImp extends AdminDonationsController {
       mydonations.clear();
       for (var doc in donationsSnapshot.docs) {
         var donationdata = doc.data() as Map<String, dynamic>;
-        donationdata['donation_id'] = doc.id;
+        donationdata['id'] = doc.id;
         mydonations.add(DonationModel.fromJson(donationdata));
       }
 
