@@ -165,24 +165,23 @@ class HomeControllerImp extends HomeController {
 
   @override
   List<TransactionModel> choosecategories(categorie) {
+    List<TransactionModel> filteredTransactions = [];
     if (categorie == "All") {
-      List<TransactionModel> transactioncategories1 = [];
       for (TransactionModel transaction in usertranscation) {
         if (transaction.cardid == usercards[i].id) {
-          transactioncategories1.add(transaction);
+          filteredTransactions.add(transaction);
         }
       }
-      return transactioncategories1;
     } else {
-      List<TransactionModel> transactioncategories = [];
       for (TransactionModel transaction in usertranscation) {
         if (transaction.type == categorie &&
             transaction.cardid == usercards[i].id) {
-          transactioncategories.add(transaction);
+          filteredTransactions.add(transaction);
         }
       }
-
-      return transactioncategories;
     }
+    filteredTransactions.sort((a, b) => b.date.compareTo(a.date));
+
+    return filteredTransactions;
   }
 }

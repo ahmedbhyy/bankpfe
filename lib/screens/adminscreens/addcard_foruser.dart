@@ -18,7 +18,9 @@ class AddaCardForUser extends StatelessWidget {
       {super.key,
       required this.userid,
       required this.usertoken,
-      required this.myrib, required this.cardnumbers, required this.relatedaccounts});
+      required this.myrib,
+      required this.cardnumbers,
+      required this.relatedaccounts});
 
   @override
   Widget build(BuildContext context) {
@@ -53,11 +55,11 @@ class AddaCardForUser extends StatelessWidget {
                   mycontroller: controller.accountnumber!,
                   myicon: const Icon(Icons.numbers),
                   ispass: false,
-                   mysuffixicon: GestureDetector(
+                  mysuffixicon: GestureDetector(
                     child: IconButton(
                         onPressed: () {
-                          controller.accountnumber!.text =
-                              controller.generateUniqueRelatedAccount(relatedaccounts);
+                          controller.accountnumber!.text = controller
+                              .generateUniqueRelatedAccount(relatedaccounts);
                         },
                         icon: const Icon(Icons.edit)),
                   ),
@@ -73,11 +75,27 @@ class AddaCardForUser extends StatelessWidget {
                   readonly: true,
                 ),
                 TextFieldAuth(
+                  hint: "CIN",
+                  mycontroller: controller.cin!,
+                  myicon: const Icon(Icons.numbers),
+                  ispass: false,
+                  validator: (val) {
+                    if (val == null || val.isEmpty) {
+                      return "Can't to be empty ";
+                    } else if (val.length != 8) {
+                      return "can't be higher or lower than 8";
+                    }
+                    return null;
+                  },
+                  mytype: TextInputType.number,
+                  readonly: false,
+                ),
+                TextFieldAuth(
                   hint: "Card Number",
                   mycontroller: controller.cardnumber!,
                   myicon: const Icon(Icons.numbers),
                   ispass: false,
-                   mysuffixicon: GestureDetector(
+                  mysuffixicon: GestureDetector(
                     child: IconButton(
                         onPressed: () {
                           controller.cardnumber!.text =
@@ -162,7 +180,6 @@ class AddaCardForUser extends StatelessWidget {
                         onPressed: () {
                           controller.rib!.text =
                               controller.generateUniqueRIB(myrib);
-                        
                         },
                         icon: const Icon(Icons.edit)),
                   ),

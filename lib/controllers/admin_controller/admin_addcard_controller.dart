@@ -15,6 +15,7 @@ abstract class AdminAddcardController extends GetxController {
 class AdminAddcardControllerImp extends AdminAddcardController {
   TextEditingController? accountnumber;
   TextEditingController? cardtype;
+  TextEditingController? cin;
   bool isloading = false;
   TextEditingController? cardnumber;
   TextEditingController? rib;
@@ -33,6 +34,7 @@ class AdminAddcardControllerImp extends AdminAddcardController {
     cardtype = TextEditingController();
     accountnumber = TextEditingController();
     cardnumber = TextEditingController();
+    cin = TextEditingController();
     rib = TextEditingController();
     balance = TextEditingController();
     super.onInit();
@@ -85,6 +87,7 @@ class AdminAddcardControllerImp extends AdminAddcardController {
 
     return newCardNumber;
   }
+
   String generateRelatedAccount() {
     Random random = Random();
 
@@ -115,6 +118,11 @@ class AdminAddcardControllerImp extends AdminAddcardController {
       await FirebaseFirestore.instance
           .collection('users')
           .doc(userid)
+          .set({'cin': cin!.text}, SetOptions(merge: true));
+
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid)
           .collection('accounts')
           .add({
         'accountnumber': accountnumber!.text,
@@ -131,7 +139,7 @@ class AdminAddcardControllerImp extends AdminAddcardController {
           'rib': rib!.text,
         }
       });
-        isloading = false;
+      isloading = false;
 
       update();
       Get.offAll(const AdminPage());
@@ -142,8 +150,7 @@ class AdminAddcardControllerImp extends AdminAddcardController {
           title: "Success",
           message: "We have added a card to $userid");
     } catch (e) {
-         isloading = false;
-
+      isloading = false;
       update();
       Get.rawSnackbar(
           backgroundColor: const Color.fromARGB(255, 255, 0, 0),

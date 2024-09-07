@@ -184,7 +184,7 @@ class AdminPage extends StatelessWidget {
                                                       CrossAxisAlignment.start,
                                                   children: [
                                                     const Text(
-                                                      "Are u sure to delete this user ?",
+                                                      "Are u sure to delete this client ?",
                                                       textAlign:
                                                           TextAlign.center,
                                                       style: TextStyle(

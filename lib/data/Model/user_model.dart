@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class UserModel {
   final String email;
   final String token;
+  final String cin;
   final bool isadmin;
   final Timestamp birthdaydate;
   final String username;
@@ -12,6 +13,7 @@ class UserModel {
   UserModel({
     required this.email,
     required this.token,
+    required this.cin,
     required this.isadmin,
     required this.birthdaydate,
     required this.phone,
@@ -22,6 +24,7 @@ class UserModel {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
       email: json['user_email'] ?? '',
+      cin: json['cin']??'',
       token: json['token'] ?? '',
       isadmin: json['isadmin'] ?? false,
       birthdaydate: json['birthdaydate'] ?? Timestamp.now(),
@@ -34,6 +37,7 @@ class UserModel {
   Map<String, dynamic> toJson() {
     return {
       'isadmin': isadmin,
+      'cin':cin,
       'token': token,
       'user_email': email,
       'name': username,

@@ -109,6 +109,22 @@ class AdminUserDetails extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
+                                    "CIN",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 17.0,
+                                        color:
+                                            Color.fromARGB(255, 80, 103, 81)),
+                                  ),
+                                  Text(myuser.cin)
+                                ],
+                              ),
+                              const SizedBox(height: 10.0),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  const Text(
                                     "Phone",
                                     style: TextStyle(
                                         fontWeight: FontWeight.bold,
@@ -168,7 +184,8 @@ class AdminUserDetails extends StatelessWidget {
                                       usertoken: myuser.token,
                                       myrib: controller.ribs,
                                       cardnumbers: controller.cardnumbers,
-                                      relatedaccounts: controller.relatedaccountsnumbers,
+                                      relatedaccounts:
+                                          controller.relatedaccountsnumbers,
                                     ),
                                   );
                                 },
@@ -417,13 +434,32 @@ class AdminUserDetails extends StatelessWidget {
                                                               ),
                                                               TextButton.icon(
                                                                 onPressed: () {
-                                                                  controller.deleteaccount(
-                                                                      controller
+                                                                  if (controller
                                                                           .usercards[
                                                                               index]
-                                                                          .id,
-                                                                      myuser
-                                                                          .userid);
+                                                                          .accountcard
+                                                                          .balance <=
+                                                                      0.0) {
+                                                                    controller.deleteaccount(
+                                                                        controller
+                                                                            .usercards[
+                                                                                index]
+                                                                            .id,
+                                                                        myuser
+                                                                            .userid);
+                                                                  } else {
+                                                                    Get.rawSnackbar(
+                                                                        backgroundColor: const Color
+                                                                            .fromARGB(
+                                                                            255,
+                                                                            255,
+                                                                            0,
+                                                                            0),
+                                                                        title:
+                                                                            "Error",
+                                                                        message:
+                                                                            "can't be removed because the balance is not egale 0 !");
+                                                                  }
                                                                 },
                                                                 icon:
                                                                     const Icon(
@@ -462,10 +498,9 @@ class AdminUserDetails extends StatelessWidget {
                                             userid: myuser.userid,
                                             usertoken: myuser.token,
                                             myrib: controller.ribs,
-                                             cardnumbers: controller.cardnumbers,
-                                      relatedaccounts: controller
+                                            cardnumbers: controller.cardnumbers,
+                                            relatedaccounts: controller
                                                 .relatedaccountsnumbers,
-
                                           ),
                                         );
                                       },

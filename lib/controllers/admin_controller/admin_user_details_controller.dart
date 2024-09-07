@@ -130,7 +130,7 @@ class AdminUserDetailsControllerImp extends AdminUserDetailsController {
       usercards.removeWhere((element) => element.id == accountid);
       Get.rawSnackbar(
           title: "Success",
-          message: "You have deleted  this user",
+          message: "You have deleted  this account",
           backgroundColor: Colors.green);
       update();
     } catch (e) {
